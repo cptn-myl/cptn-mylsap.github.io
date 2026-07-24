@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -47,7 +46,7 @@
 
         .hero {
             background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), 
-                        url('https://picsum.photos/id/1015/2000/1200') center/cover no-repeat;
+                        <img src="img_0572" center/cover no-repeat;
             min-height: 70vh;
             display: flex;
             align-items: center;
