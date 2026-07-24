@@ -46,7 +46,7 @@
 
         .hero {
             background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), 
-                        <img src="img_0572" center/cover no-repeat;
+                        <img src="IMG_0572.jpg" center/cover no-repeat;
             min-height: 70vh;
             display: flex;
             align-items: center;
@@ -165,7 +165,7 @@
         
         <div class="posts">
             <div class="post-card">
-                <img src="IMG_0572.HEIC" alt="Captain lounging" class="post-img">
+                <img src="IMG_0572.jpg" alt="Captain lounging" class="post-img">
                 <div class="post-content">
                     <div class="meta">July 2026 • Lounge Life</div>
                     <h2>Chair Kings</h2>
@@ -174,7 +174,7 @@
             </div>
 
             <div class="post-card">
-                <img src="/attachments/IMG_0593.HEIC" alt="Captain on lap" class="post-img">
+                <img src="/attachments/IMG_0593.jpg" alt="Captain on lap" class="post-img">
                 <div class="post-content">
                     <div class="meta">July 2026 • Night Vibes</div>
                     <h2>Pink LED Supervisor</h2>
@@ -183,7 +183,7 @@
             </div>
 
             <div class="post-card">
-                <img src="/attachments/IMG_0600.HEIC" alt="Captain sleeping" class="post-img">
+                <img src="/attachments/IMG_0600.jpg" alt="Captain sleeping" class="post-img">
                 <div class="post-content">
                     <div class="meta">July 2026 • Recovery Mode</div>
                     <h2>Professional Napper</h2>
@@ -192,7 +192,7 @@
             </div>
 
             <div class="post-card">
-                <img src="/attachments/IMG_3262.heic" alt="Captain in box" class="post-img">
+                <img src="/attachments/IMG_3262.jpg" alt="Captain in box" class="post-img">
                 <div class="post-content">
                     <div class="meta">July 2026 • Architecture</div>
                     <h2>Cardboard Box Connoisseur</h2>
