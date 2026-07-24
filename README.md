@@ -1,9 +1,9 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slommy &amp; Cappy Cat Life</title>
+    <title>Slommy &amp; Cappy — Cat Life</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500&display=swap');
 
@@ -28,38 +28,41 @@
         header {
             background: var(--dark);
             color: white;
-            padding: 2rem 5%;
+            padding: 1.5rem 5%;
             text-align: center;
             position: sticky;
             top: 0;
             z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
         }
 
         .logo {
             font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
+            font-size: 2.8rem;
             color: var(--mustard);
-            margin-bottom: 0.5rem;
         }
 
         .tagline {
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             opacity: 0.9;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
-        nav a {
-            color: white;
+        .github-link {
+            color: var(--mustard);
             text-decoration: none;
-            margin: 0 1.5rem;
             font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-
-        nav a:hover { color: var(--mustard); }
 
         .hero {
             background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('https://picsum.photos/id/1015/2000/800') center/cover no-repeat;
-            height: 70vh;
+            height: 65vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -69,20 +72,19 @@
 
         .hero-content h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 4.2rem;
-            margin-bottom: 1rem;
+            font-size: 3.8rem;
         }
 
         .container {
             max-width: 1100px;
-            margin: 4rem auto;
+            margin: 3rem auto;
             padding: 0 5%;
         }
 
         .posts {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
         .post-card {
@@ -93,33 +95,22 @@
             transition: transform 0.3s;
         }
 
-        .post-card:hover { transform: translateY(-12px); }
+        .post-card:hover { transform: translateY(-10px); }
 
         .post-img {
+            width: 100%;
             height: 260px;
-            background-size: cover;
-            background-position: center;
+            object-fit: cover;
         }
 
-        .post-content { padding: 1.8rem; }
+        .post-content { padding: 1.6rem; }
 
         .post-content h2 {
             font-family: 'Playfair Display', serif;
             color: var(--terracotta);
-            margin-bottom: 0.8rem;
         }
 
-        .meta { 
-            color: var(--olive); 
-            font-size: 0.95rem; 
-            margin-bottom: 1rem; 
-        }
-
-        .read-more { 
-            color: var(--teal); 
-            text-decoration: none; 
-            font-weight: 500; 
-        }
+        .meta { color: var(--olive); font-size: 0.95rem; margin: 0.8rem 0; }
 
         .about {
             background: var(--dark);
@@ -135,16 +126,25 @@
             text-align: center;
             padding: 3rem 5%;
         }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .hero { height: 50vh; }
+            .hero-content h1 { font-size: 2.8rem; }
+            .logo { font-size: 2.2rem; }
+            header { flex-direction: column; gap: 1rem; }
+        }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo">Cardboard &amp; Trash</div>
-        <p class="tagline">Piece of shit Cat Life • EST. 2020</p>
-        <nav>
-            <a href="#">Home</a>
-            
-        </nav>
+        <div>
+            <div class="logo">Slommy &amp; Cappy</div>
+            <p class="tagline">Piece of Shit Cat Life • EST. 2020</p>
+        </div>
+        <a href="https://github.com/YOUR-USERNAME/YOUR-REPO" target="_blank" class="github-link">
+            ★ GitHub
+        </a>
     </header>
 
     <section class="hero">
@@ -155,36 +155,42 @@
     </section>
 
     <div class="container">
-        <h2 style="text-align:center; font-family:'Playfair Display',serif; font-size:2.8rem; margin-bottom:3rem; color:var(--terracotta);">Latest Purr-spectives</h2>
+        <h2 style="text-align:center; font-family:'Playfair Display',serif; font-size:2.6rem; margin-bottom:3rem; color:var(--terracotta);">Latest Purr-spectives</h2>
         
         <div class="posts">
             <div class="post-card">
-                <div class="post-img" style="background-image:url('https://picsum.photos/id/1015/800/600')"></div>
+                <img src="/attachments/IMG_0572.HEIC" alt="Captain &amp; friend" class="post-img">
                 <div class="post-content">
-                    <div class="meta">July 20, 2026 • Lifestyle</div>
-                    <h2>Sunbeams &amp; Eames Chairs</h2>
-                    <p>The perfect afternoon involves golden hour sunbeams, a vintage Eames lounge chair, and strategic napping.</p>
-                    <a href="#" class="read-more">Read more →</a>
+                    <div class="meta">July 2026 • Lounge Life</div>
+                    <h2>Chair Kings</h2>
+                    <p>Nothing beats claiming the best seat in the house.</p>
                 </div>
             </div>
 
             <div class="post-card">
-                <div class="post-img" style="background-image:url('https://picsum.photos/id/201/800/600')"></div>
+                <img src="/attachments/IMG_0593.HEIC" alt="Captain on lap" class="post-img">
                 <div class="post-content">
-                    <div class="meta">July 18, 2026 • Adventures</div>
-                    <h2>Exploring the Atomic Age</h2>
-                    <p>Today I discovered a mysterious cardboard box. It had excellent proportions. 10/10 would sit in again.</p>
-                    <a href="#" class="read-more">Read more →</a>
+                    <div class="meta">July 2026 • Night Vibes</div>
+                    <h2>Pink LED Supervisor</h2>
+                    <p>Overseeing all late-night activities from the lap throne.</p>
                 </div>
             </div>
 
             <div class="post-card">
-                <div class="post-img" style="background-image:url('https://picsum.photos/id/237/800/600')"></div>
+                <img src="/attachments/IMG_0600.HEIC" alt="Captain sleeping" class="post-img">
                 <div class="post-content">
-                    <div class="meta">July 15, 2026 • Food &amp; Drink</div>
-                    <h2>Whisker-Approved Treats</h2>
-                    <p>A review of the finest salmon pâté served in a vintage Pyrex dish. The presentation was impeccable.</p>
-                    <a href="#" class="read-more">Read more →</a>
+                    <div class="meta">July 2026 • Recovery Mode</div>
+                    <h2>Professional Napper</h2>
+                    <p>Expert level sleeping achieved.</p>
+                </div>
+            </div>
+
+            <div class="post-card">
+                <img src="/attachments/IMG_3262.heic" alt="Captain in box" class="post-img">
+                <div class="post-content">
+                    <div class="meta">July 2026 • Architecture</div>
+                    <h2>Cardboard Box Connoisseur</h2>
+                    <p>Only the finest Amazon packaging will do.</p>
                 </div>
             </div>
         </div>
