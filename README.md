@@ -191,7 +191,7 @@
     </div>
 
     <div class="about">
-        <h2 style="font-family:'Playfair Display',serif; font-size:2.8rem; margin-bottom:1rem;">Meet Milo</h2>
+        <h2 style="font-family:'Playfair Display',serif; font-size:2.8rem; margin-bottom:1rem;">Meet Captain</h2>
         <p style="max-width:700px; margin:0 auto; font-size:1.25rem;">
             A sophisticated floofy gentleman with impeccable taste in furniture, sunlight, and cardboard architecture. 
             Living his best life on the South Side.
@@ -199,7 +199,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 Whiskers &amp; Walnut • Cat Blog</p>
+        <p>&copy; 2026 Cute &amp; Floofy</p>
         <p style="margin-top:1rem; opacity:0.7;">Made with piss n' love (and cat puke)</p>
     </footer>
 </body>
