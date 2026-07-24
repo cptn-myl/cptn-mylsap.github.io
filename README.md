@@ -166,7 +166,7 @@
         
         <div class="posts">
             <div class="post-card">
-                <img src="/attachments/IMG_0572.HEIC" alt="Captain lounging" class="post-img">
+                <img src="/IMG_0572.HEIC" alt="Captain lounging" class="post-img">
                 <div class="post-content">
                     <div class="meta">July 2026 • Lounge Life</div>
                     <h2>Chair Kings</h2>
