@@ -139,20 +139,18 @@
 </head>
 <body>
     <header>
-        <div class="logo">WHISKERS &amp; WALNUT</div>
-        <p class="tagline">MID-CENTURY CAT LIFE • EST. 2026</p>
+        <div class="logo">Cardboard &amp; Trash</div>
+        <p class="tagline">Piece of shit Cat Life • EST. 2020</p>
         <nav>
             <a href="#">Home</a>
-            <a href="#">Journal</a>
-            <a href="#">Gallery</a>
-            <a href="#">About Milo</a>
+            
         </nav>
     </header>
 
     <section class="hero">
         <div class="hero-content">
-            <h1>Milo the Cat</h1>
-            <p>Living his best mid-century modern life</p>
+            <h1>Captain</h1>
+            <p>Living his best cat life</p>
         </div>
     </section>
 
@@ -165,7 +163,7 @@
                 <div class="post-content">
                     <div class="meta">July 20, 2026 • Lifestyle</div>
                     <h2>Sunbeams &amp; Eames Chairs</h2>
-                    <p>The perfect mid-century afternoon involves golden hour sunbeams, a vintage Eames lounge chair, and strategic napping.</p>
+                    <p>The perfect afternoon involves golden hour sunbeams, a vintage Eames lounge chair, and strategic napping.</p>
                     <a href="#" class="read-more">Read more →</a>
                 </div>
             </div>
@@ -175,7 +173,7 @@
                 <div class="post-content">
                     <div class="meta">July 18, 2026 • Adventures</div>
                     <h2>Exploring the Atomic Age</h2>
-                    <p>Today I discovered a mysterious cardboard box. It had excellent mid-century modern proportions. 10/10 would sit in again.</p>
+                    <p>Today I discovered a mysterious cardboard box. It had excellent proportions. 10/10 would sit in again.</p>
                     <a href="#" class="read-more">Read more →</a>
                 </div>
             </div>
@@ -195,14 +193,14 @@
     <div class="about">
         <h2 style="font-family:'Playfair Display',serif; font-size:2.8rem; margin-bottom:1rem;">Meet Milo</h2>
         <p style="max-width:700px; margin:0 auto; font-size:1.25rem;">
-            A sophisticated tabby gentleman with impeccable taste in furniture, sunlight, and cardboard architecture. 
-            Living his best life in a mid-century modern home.
+            A sophisticated floofy gentleman with impeccable taste in furniture, sunlight, and cardboard architecture. 
+            Living his best life on the South Side.
         </p>
     </div>
 
     <footer>
-        <p>&copy; 2026 Whiskers &amp; Walnut • A Mid-Century Cat Blog</p>
-        <p style="margin-top:1rem; opacity:0.7;">Made with love (and cat hair)</p>
+        <p>&copy; 2026 Whiskers &amp; Walnut • Cat Blog</p>
+        <p style="margin-top:1rem; opacity:0.7;">Made with piss n' love (and cat puke)</p>
     </footer>
 </body>
 </html>
