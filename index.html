@@ -2,21 +2,57 @@
 <html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Starz & Cappy — Captain and Starz living their best cat life on the South Side">
     <meta name="theme-color" content="#0a0a12">
     <meta name="color-scheme" content="dark">
     <meta name="robots" content="index, follow">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://api.qrserver.com; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
+    <!--
+      Security posture aligned with common recommendations from the
+      web-security / cybersecurity community (OWASP, Mozilla Observatory style):
+      - Strict CSP
+      - Anti-clickjacking
+      - MIME sniffing protection
+      - Referrer control
+      - Feature / permission policy lockdown
+      - No third-party scripts except fonts
+      - No tracking, no analytics
+    -->
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'none';
+        base-uri 'self';
+        form-action 'self';
+        frame-ancestors 'none';
+        img-src 'self' data: https://api.qrserver.com;
+        font-src 'self' https://fonts.gstatic.com;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        script-src 'self' 'unsafe-inline';
+        connect-src 'self';
+        media-src 'none';
+        object-src 'none';
+        worker-src 'none';
+        manifest-src 'self';
+        upgrade-insecure-requests;
+    ">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta name="referrer" content="strict-origin-when-cross-origin">
-    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), interest-cohort=()">
+    <meta http-equiv="Permissions-Policy" content="
+        accelerometer=(),
+        camera=(),
+        geolocation=(),
+        gyroscope=(),
+        magnetometer=(),
+        microphone=(),
+        payment=(),
+        usb=(),
+        interest-cohort=()
+    ">
 
     <title>Starz &amp; Cappy — Cat Life</title>
 
+    <!-- Performance: preconnect only what we actually use -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
@@ -293,9 +329,7 @@
         #qrCanvas {
             display: block; margin-inline: auto; border-radius: 12px; background: #fff; padding: 12px;
             box-shadow: 0 8px 24px rgb(0 0 0 / 0.4);
-            /* Canvas optimization: keep pixels crisp */
-            image-rendering: pixelated;
-            image-rendering: crisp-edges;
+            image-rendering: pixelated; image-rendering: crisp-edges;
         }
 
         .qr-card p { margin-block-start: 1rem; font-size: 0.9rem; color: var(--text-muted); }
@@ -423,12 +457,12 @@
                 <h2>Buy me a Treat!</h2>
                 <p>Help keep the boys in premium cardboard and late-night snacks.</p>
                 <div class="treat-buttons">
-                    <button type="button" class="treat-btn cashapp" data-qr="cashapp" data-url="https://cash.app/$MYLSAP" data-label="Cash App — $MYLSAP">
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.59 3.46a5.1 5.1 0 0 0-3.72-3.05c-1.61-.34-2.82.17-4.32 1.31-.12.09-.46.35-1.03.84l-.1-.09c-.4-.37-.76-.68-.88-.77C11.4.47 10.05-.17 8.37.04A5.1 5.1 0 0 0 4.6 3.1c-.4 1.1-.24 2.2.5 3.4.09.15 1.54 2.18 1.54 2.18s-1.28 1.56-1.92 2.42c-.64.86-1.4 1.96-1.33 3.26a4.57 4.57 0 0 0 4.4 4.44c1.49.05 2.64-.62 3.86-1.74.1-.1.75-.72 1.21-1.18.46.47 1.11 1.08 1.21 1.18 1.22 1.12 2.37 1.8 3.86 1.74a4.57 4.57 0 0 0 4.4-4.44c.07-1.3-.69-2.4-1.33-3.26-.64-.86-1.92-2.42-1.92-2.42s1.45-2.03 1.54-2.18c.74-1.2.9-2.3.5-3.4z"/></svg>
+                    <button type="button" class="treat-btn cashapp" data-qr="cashapp" data-url="https://cash.app/$MYLSAP" data-label="Cash App — $MYLSAP" aria-label="Show Cash App QR code for $MYLSAP">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M23.59 3.46a5.1 5.1 0 0 0-3.72-3.05c-1.61-.34-2.82.17-4.32 1.31-.12.09-.46.35-1.03.84l-.1-.09c-.4-.37-.76-.68-.88-.77C11.4.47 10.05-.17 8.37.04A5.1 5.1 0 0 0 4.6 3.1c-.4 1.1-.24 2.2.5 3.4.09.15 1.54 2.18 1.54 2.18s-1.28 1.56-1.92 2.42c-.64.86-1.4 1.96-1.33 3.26a4.57 4.57 0 0 0 4.4 4.44c1.49.05 2.64-.62 3.86-1.74.1-.1.75-.72 1.21-1.18.46.47 1.11 1.08 1.21 1.18 1.22 1.12 2.37 1.8 3.86 1.74a4.57 4.57 0 0 0 4.4-4.44c.07-1.3-.69-2.4-1.33-3.26-.64-.86-1.92-2.42-1.92-2.42s1.45-2.03 1.54-2.18c.74-1.2.9-2.3.5-3.4z"/></svg>
                         Cash App
                     </button>
-                    <button type="button" class="treat-btn paypal" data-qr="paypal" data-url="https://paypal.me/MYLsap" data-label="PayPal — @MYLsap">
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.606 1.304 4.435 0 .37-.02.74-.06 1.1-.56 4.37-3.53 6.95-8.02 6.95H9.59a.9.9 0 0 0-.89.76l-1.02 6.48a.64.64 0 0 1-.63.54l-.004.002z"/></svg>
+                    <button type="button" class="treat-btn paypal" data-qr="paypal" data-url="https://paypal.me/MYLsap" data-label="PayPal — @MYLsap" aria-label="Show PayPal QR code for @MYLsap">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.606 1.304 4.435 0 .37-.02.74-.06 1.1-.56 4.37-3.53 6.95-8.02 6.95H9.59a.9.9 0 0 0-.89.76l-1.02 6.48a.64.64 0 0 1-.63.54l-.004.002z"/></svg>
                         PayPal
                     </button>
                 </div>
@@ -452,7 +486,7 @@
     <div class="qr-modal" id="qrModal" role="dialog" aria-modal="true" aria-labelledby="qrTitle" hidden>
         <div class="qr-card">
             <h3 id="qrTitle">Scan to send a treat</h3>
-            <canvas id="qrCanvas" width="220" height="220" aria-label="QR Code"></canvas>
+            <canvas id="qrCanvas" width="220" height="220" role="img" aria-label="QR Code"></canvas>
             <p id="qrLabel"></p>
             <p><a id="qrLink" href="#" target="_blank" rel="noopener noreferrer"></a></p>
             <button type="button" class="qr-close" id="qrClose">Close</button>
@@ -463,44 +497,44 @@
     (function () {
         "use strict";
 
-        // ========== Canvas optimization techniques used ==========
-        // 1. High-DPI / devicePixelRatio handling (sharp on retina)
-        // 2. Result caching (Map) so repeated opens are instant
-        // 3. alpha: false context for slightly better performance
-        // 4. image-rendering: pixelated for crisp modules
-        // 5. Clear only when needed
+        // ===== Security-conscious client script =====
+        // - No eval / new Function
+        // - No innerHTML with untrusted data
+        // - Strict mode
+        // - Minimal attack surface
 
         const QR_SIZE = 220;
-        const cache = new Map(); // url → ImageBitmap or HTMLImageElement
+        const cache = new Map();
 
         function setupHiDPICanvas(canvas, cssSize) {
-            const dpr = Math.min(window.devicePixelRatio || 1, 2); // cap at 2 for memory
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
             canvas.width = cssSize * dpr;
             canvas.height = cssSize * dpr;
             canvas.style.width = cssSize + "px";
             canvas.style.height = cssSize + "px";
             const ctx = canvas.getContext("2d", { alpha: false });
+            if (!ctx) return null;
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
             return ctx;
         }
 
         function generateQR(text, canvas) {
             const ctx = setupHiDPICanvas(canvas, QR_SIZE);
+            if (!ctx) return;
 
-            // Serve from cache if available
             if (cache.has(text)) {
                 const cached = cache.get(text);
                 ctx.fillStyle = "#ffffff";
                 ctx.fillRect(0, 0, QR_SIZE, QR_SIZE);
+                ctx.imageSmoothingEnabled = false;
                 ctx.drawImage(cached, 0, 0, QR_SIZE, QR_SIZE);
                 return;
             }
 
-            // Show loading state
             ctx.fillStyle = "#ffffff";
             ctx.fillRect(0, 0, QR_SIZE, QR_SIZE);
             ctx.fillStyle = "#888";
-            ctx.font = "13px Inter, sans-serif";
+            ctx.font = "13px Inter, system-ui, sans-serif";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
             ctx.fillText("Generating…", QR_SIZE / 2, QR_SIZE / 2);
@@ -508,32 +542,33 @@
             const img = new Image();
             img.crossOrigin = "anonymous";
             img.onload = function () {
-                // Cache the loaded image
                 cache.set(text, img);
-
-                // Draw crisply
                 ctx.fillStyle = "#ffffff";
                 ctx.fillRect(0, 0, QR_SIZE, QR_SIZE);
-                ctx.imageSmoothingEnabled = false; // keep modules sharp
+                ctx.imageSmoothingEnabled = false;
                 ctx.drawImage(img, 0, 0, QR_SIZE, QR_SIZE);
             };
             img.onerror = function () {
                 ctx.fillStyle = "#ffffff";
                 ctx.fillRect(0, 0, QR_SIZE, QR_SIZE);
                 ctx.fillStyle = "#c00";
-                ctx.font = "13px Inter, sans-serif";
+                ctx.font = "13px Inter, system-ui, sans-serif";
                 ctx.textAlign = "center";
                 ctx.textBaseline = "middle";
                 ctx.fillText("QR unavailable", QR_SIZE / 2, QR_SIZE / 2);
             };
 
-            // Dynamic generation – built at click time
-            const size = QR_SIZE * Math.min(window.devicePixelRatio || 1, 2);
-            img.src = "https://api.qrserver.com/v1/create-qr-code/?size=" + Math.round(size) + "x" + Math.round(size) +
+            const size = Math.round(QR_SIZE * Math.min(window.devicePixelRatio || 1, 2));
+            // Only allow known-good payment URLs (extra safety)
+            if (!/^https:\/\/(cash\.app\/|paypal\.me\/)/i.test(text)) {
+                img.onerror();
+                return;
+            }
+            img.src = "https://api.qrserver.com/v1/create-qr-code/?size=" + size + "x" + size +
                       "&margin=12&ecc=M&data=" + encodeURIComponent(text);
         }
 
-        // ===== Sort posts =====
+        // Sort posts newest first
         const container = document.getElementById("posts");
         if (container) {
             const cards = Array.from(container.querySelectorAll(".post-card[data-date]"));
@@ -545,7 +580,7 @@
             }
         }
 
-        // ===== QR Modal =====
+        // QR Modal
         const modal = document.getElementById("qrModal");
         const canvas = document.getElementById("qrCanvas");
         const qrTitle = document.getElementById("qrTitle");
@@ -554,7 +589,12 @@
         const qrClose = document.getElementById("qrClose");
 
         function openQR(url, label) {
-            qrTitle.textContent = label.includes("Cash") ? "Cash App QR" : "PayPal QR";
+            // Defense-in-depth: only allow the two known payment hosts
+            if (!/^https:\/\/(cash\.app\/\$MYLSAP|paypal\.me\/MYLsap)$/i.test(url)) {
+                return;
+            }
+
+            qrTitle.textContent = label.indexOf("Cash") !== -1 ? "Cash App QR" : "PayPal QR";
             qrLabel.textContent = label;
             qrLink.href = url;
             qrLink.textContent = url.replace(/^https?:\/\//, "");
@@ -568,9 +608,7 @@
 
         function closeQR() {
             modal.classList.remove("open");
-            setTimeout(function () {
-                modal.hidden = true;
-            }, 300);
+            setTimeout(function () { modal.hidden = true; }, 300);
         }
 
         document.querySelectorAll("[data-qr]").forEach(function (btn) {
