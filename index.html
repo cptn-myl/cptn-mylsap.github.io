@@ -8,17 +8,6 @@
     <meta name="color-scheme" content="dark">
     <meta name="robots" content="index, follow">
 
-    <!--
-      Security posture aligned with common recommendations from the
-      web-security / cybersecurity community (OWASP, Mozilla Observatory style):
-      - Strict CSP
-      - Anti-clickjacking
-      - MIME sniffing protection
-      - Referrer control
-      - Feature / permission policy lockdown
-      - No third-party scripts except fonts
-      - No tracking, no analytics
-    -->
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'none';
         base-uri 'self';
@@ -52,7 +41,6 @@
 
     <title>Starz &amp; Cappy — Cat Life</title>
 
-    <!-- Performance: preconnect only what we actually use -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
@@ -138,6 +126,97 @@
             .led-border { animation: none; background: none; border: 3px solid var(--neon-cyan); padding: 0; box-shadow: 0 0 18px var(--neon-cyan); }
             .post-card, .post-card:hover { transform: none !important; transition: none; }
         }
+
+        /* ===== Thin top treat bar ===== */
+        .treat-bar {
+            position: relative;
+            z-index: 15;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.75rem 1.25rem;
+            padding: 0.55rem 5%;
+            background: color-mix(in oklab, #12121f 65%, transparent);
+            backdrop-filter: blur(18px) saturate(1.4);
+            -webkit-backdrop-filter: blur(18px) saturate(1.4);
+            border-bottom: 1px solid color-mix(in oklab, var(--neon-pink) 25%, transparent);
+            box-shadow:
+                0 4px 20px rgb(0 0 0 / 0.35),
+                inset 0 1px 0 color-mix(in oklab, white 8%, transparent);
+        }
+
+        .treat-bar-label {
+            font-family: Orbitron, system-ui, sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            background: linear-gradient(105deg, var(--neon-pink), var(--neon-yellow));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            white-space: nowrap;
+        }
+
+        .treat-bar .treat-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .treat-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.95rem;
+            border-radius: 999px;
+            font-family: Inter, system-ui, sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: #fff;
+            border: 1px solid transparent;
+            transition: transform 0.25s var(--ease-out-expo), box-shadow 0.25s ease, border-color 0.25s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            background: none;
+            font: inherit;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .treat-btn::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgb(255 255 255 / 0.15), transparent 50%);
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .treat-btn:hover { transform: translateY(-2px) scale(1.03); }
+
+        .treat-btn.cashapp {
+            background: linear-gradient(135deg, #00d632, #00b82c);
+            box-shadow: 0 3px 12px rgb(0 214 50 / 0.3);
+        }
+        .treat-btn.cashapp:hover {
+            box-shadow: 0 5px 16px rgb(0 214 50 / 0.45);
+            border-color: color-mix(in oklab, white 25%, transparent);
+        }
+
+        .treat-btn.paypal {
+            background: linear-gradient(135deg, #003087, #009cde);
+            box-shadow: 0 3px 12px rgb(0 48 135 / 0.35);
+        }
+        .treat-btn.paypal:hover {
+            box-shadow: 0 5px 16px rgb(0 156 222 / 0.4);
+            border-color: color-mix(in oklab, white 25%, transparent);
+        }
+
+        .treat-btn svg { width: 1rem; height: 1rem; fill: currentColor; }
 
         header {
             background: color-mix(in oklab, var(--bg) 70%, transparent);
@@ -259,49 +338,6 @@
         .meta { font-size: 0.85rem; color: var(--neon-purple); margin-block-end: 0.65rem; letter-spacing: 0.04em; }
         .post-content p { color: var(--text-muted); font-size: 0.95rem; }
 
-        .treat {
-            max-width: 640px; margin: 0 auto var(--space-xl); padding: var(--space-l) var(--space-m);
-            text-align: center; position: relative; z-index: 5;
-            background: color-mix(in oklab, #12121f 55%, transparent);
-            backdrop-filter: blur(24px) saturate(1.6); -webkit-backdrop-filter: blur(24px) saturate(1.6);
-            border: 1px solid color-mix(in oklab, white 12%, transparent); border-radius: 24px;
-            box-shadow: 0 8px 32px rgb(0 0 0 / 0.4), 0 0 0 1px color-mix(in oklab, var(--neon-cyan) 15%, transparent),
-                        inset 0 1px 0 color-mix(in oklab, white 14%, transparent), 0 0 60px color-mix(in oklab, var(--neon-purple) 8%, transparent);
-        }
-
-        .treat h2 {
-            font-family: Orbitron, system-ui, sans-serif; font-size: var(--step-2); margin-block-end: var(--space-s);
-            background: linear-gradient(105deg, var(--neon-pink), var(--neon-yellow));
-            -webkit-background-clip: text; background-clip: text; color: transparent;
-            filter: drop-shadow(0 2px 10px rgb(0 0 0 / 0.5)) drop-shadow(0 0 24px color-mix(in oklab, var(--neon-pink) 30%, transparent));
-        }
-
-        .treat p { color: var(--text-muted); margin-block-end: var(--space-m); font-size: var(--step-0); }
-
-        .treat-buttons { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
-
-        .treat-btn {
-            display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.85rem 1.6rem; border-radius: 999px;
-            font-family: Inter, system-ui, sans-serif; font-size: 1rem; font-weight: 500; text-decoration: none; color: #fff;
-            border: 1px solid transparent; transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s ease, border-color 0.3s ease;
-            position: relative; overflow: hidden; cursor: pointer; background: none; font: inherit;
-        }
-
-        .treat-btn::before {
-            content: ""; position: absolute; inset: 0;
-            background: linear-gradient(135deg, rgb(255 255 255 / 0.15), transparent 50%); opacity: 0.6; pointer-events: none;
-        }
-
-        .treat-btn:hover { transform: translateY(-4px) scale(1.03); }
-
-        .treat-btn.cashapp { background: linear-gradient(135deg, #00d632, #00b82c); box-shadow: 0 6px 20px rgb(0 214 50 / 0.35); }
-        .treat-btn.cashapp:hover { box-shadow: 0 10px 28px rgb(0 214 50 / 0.5); border-color: color-mix(in oklab, white 25%, transparent); }
-
-        .treat-btn.paypal { background: linear-gradient(135deg, #003087, #009cde); box-shadow: 0 6px 20px rgb(0 48 135 / 0.4); }
-        .treat-btn.paypal:hover { box-shadow: 0 10px 28px rgb(0 156 222 / 0.45); border-color: color-mix(in oklab, white 25%, transparent); }
-
-        .treat-btn svg { width: 1.25rem; height: 1.25rem; fill: currentColor; }
-
         .qr-modal {
             position: fixed; inset: 0; z-index: 10001; display: flex; align-items: center; justify-content: center;
             background: rgb(0 0 0 / 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -383,12 +419,28 @@
             .post-img { height: 220px; }
             .container { padding-inline: 6%; }
             .post-card:hover, .post-card:focus-within { transform: translateY(-12px) scale(1.015); }
-            .treat { margin-inline: 6%; }
+            .treat-bar { padding: 0.5rem 4%; gap: 0.5rem; }
+            .treat-bar-label { font-size: 0.8rem; }
         }
     </style>
 </head>
 <body>
     <div class="led-border" aria-hidden="true"></div>
+
+    <!-- Thin top treat bar -->
+    <div class="treat-bar" role="region" aria-label="Support">
+        <span class="treat-bar-label">Buy me a Treat!</span>
+        <div class="treat-buttons">
+            <button type="button" class="treat-btn cashapp" data-qr="cashapp" data-url="https://cash.app/$MYLSAP" data-label="Cash App — $MYLSAP" aria-label="Show Cash App QR code for $MYLSAP">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M23.59 3.46a5.1 5.1 0 0 0-3.72-3.05c-1.61-.34-2.82.17-4.32 1.31-.12.09-.46.35-1.03.84l-.1-.09c-.4-.37-.76-.68-.88-.77C11.4.47 10.05-.17 8.37.04A5.1 5.1 0 0 0 4.6 3.1c-.4 1.1-.24 2.2.5 3.4.09.15 1.54 2.18 1.54 2.18s-1.28 1.56-1.92 2.42c-.64.86-1.4 1.96-1.33 3.26a4.57 4.57 0 0 0 4.4 4.44c1.49.05 2.64-.62 3.86-1.74.1-.1.75-.72 1.21-1.18.46.47 1.11 1.08 1.21 1.18 1.22 1.12 2.37 1.8 3.86 1.74a4.57 4.57 0 0 0 4.4-4.44c.07-1.3-.69-2.4-1.33-3.26-.64-.86-1.92-2.42-1.92-2.42s1.45-2.03 1.54-2.18c.74-1.2.9-2.3.5-3.4z"/></svg>
+                Cash App
+            </button>
+            <button type="button" class="treat-btn paypal" data-qr="paypal" data-url="https://paypal.me/MYLsap" data-label="PayPal — @MYLsap" aria-label="Show PayPal QR code for @MYLsap">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.606 1.304 4.435 0 .37-.02.74-.06 1.1-.56 4.37-3.53 6.95-8.02 6.95H9.59a.9.9 0 0 0-.89.76l-1.02 6.48a.64.64 0 0 1-.63.54l-.004.002z"/></svg>
+                PayPal
+            </button>
+        </div>
+    </div>
 
     <header>
         <div class="logo">Starz &amp; Cappy</div>
@@ -452,21 +504,6 @@
                     </div>
                 </article>
             </div>
-
-            <div class="treat">
-                <h2>Buy me a Treat!</h2>
-                <p>Help keep the boys in premium cardboard and late-night snacks.</p>
-                <div class="treat-buttons">
-                    <button type="button" class="treat-btn cashapp" data-qr="cashapp" data-url="https://cash.app/$MYLSAP" data-label="Cash App — $MYLSAP" aria-label="Show Cash App QR code for $MYLSAP">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M23.59 3.46a5.1 5.1 0 0 0-3.72-3.05c-1.61-.34-2.82.17-4.32 1.31-.12.09-.46.35-1.03.84l-.1-.09c-.4-.37-.76-.68-.88-.77C11.4.47 10.05-.17 8.37.04A5.1 5.1 0 0 0 4.6 3.1c-.4 1.1-.24 2.2.5 3.4.09.15 1.54 2.18 1.54 2.18s-1.28 1.56-1.92 2.42c-.64.86-1.4 1.96-1.33 3.26a4.57 4.57 0 0 0 4.4 4.44c1.49.05 2.64-.62 3.86-1.74.1-.1.75-.72 1.21-1.18.46.47 1.11 1.08 1.21 1.18 1.22 1.12 2.37 1.8 3.86 1.74a4.57 4.57 0 0 0 4.4-4.44c.07-1.3-.69-2.4-1.33-3.26-.64-.86-1.92-2.42-1.92-2.42s1.45-2.03 1.54-2.18c.74-1.2.9-2.3.5-3.4z"/></svg>
-                        Cash App
-                    </button>
-                    <button type="button" class="treat-btn paypal" data-qr="paypal" data-url="https://paypal.me/MYLsap" data-label="PayPal — @MYLsap" aria-label="Show PayPal QR code for @MYLsap">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.606 1.304 4.435 0 .37-.02.74-.06 1.1-.56 4.37-3.53 6.95-8.02 6.95H9.59a.9.9 0 0 0-.89.76l-1.02 6.48a.64.64 0 0 1-.63.54l-.004.002z"/></svg>
-                        PayPal
-                    </button>
-                </div>
-            </div>
         </div>
 
         <section class="about" aria-labelledby="about-heading">
@@ -496,12 +533,6 @@
     <script>
     (function () {
         "use strict";
-
-        // ===== Security-conscious client script =====
-        // - No eval / new Function
-        // - No innerHTML with untrusted data
-        // - Strict mode
-        // - Minimal attack surface
 
         const QR_SIZE = 220;
         const cache = new Map();
@@ -559,7 +590,6 @@
             };
 
             const size = Math.round(QR_SIZE * Math.min(window.devicePixelRatio || 1, 2));
-            // Only allow known-good payment URLs (extra safety)
             if (!/^https:\/\/(cash\.app\/|paypal\.me\/)/i.test(text)) {
                 img.onerror();
                 return;
@@ -568,7 +598,6 @@
                       "&margin=12&ecc=M&data=" + encodeURIComponent(text);
         }
 
-        // Sort posts newest first
         const container = document.getElementById("posts");
         if (container) {
             const cards = Array.from(container.querySelectorAll(".post-card[data-date]"));
@@ -580,7 +609,6 @@
             }
         }
 
-        // QR Modal
         const modal = document.getElementById("qrModal");
         const canvas = document.getElementById("qrCanvas");
         const qrTitle = document.getElementById("qrTitle");
@@ -589,10 +617,7 @@
         const qrClose = document.getElementById("qrClose");
 
         function openQR(url, label) {
-            // Defense-in-depth: only allow the two known payment hosts
-            if (!/^https:\/\/(cash\.app\/\$MYLSAP|paypal\.me\/MYLsap)$/i.test(url)) {
-                return;
-            }
+            if (!/^https:\/\/(cash\.app\/\$MYLSAP|paypal\.me\/MYLsap)$/i.test(url)) return;
 
             qrTitle.textContent = label.indexOf("Cash") !== -1 ? "Cash App QR" : "PayPal QR";
             qrLabel.textContent = label;
