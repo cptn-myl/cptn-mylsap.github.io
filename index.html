@@ -10,7 +10,7 @@
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
     <!-- Security headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -47,7 +47,6 @@
             --space-l: clamp(1.8rem, 1.4rem + 1.8vw, 2.8rem);
             --space-xl: clamp(2.8rem, 2.2rem + 2.8vw, 4.5rem);
 
-            /* Photorealistic shadow system */
             --shadow-ambient: 0 1px 2px rgb(0 0 0 / 0.15);
             --shadow-key: 0 8px 24px rgb(0 0 0 / 0.45);
             --shadow-contact: 0 20px 40px -8px rgb(0 0 0 / 0.55);
@@ -83,7 +82,6 @@
             text-rendering: optimizeLegibility;
             -webkit-font-smoothing: antialiased;
 
-            /* Photorealistic atmospheric base + subtle surreal haze */
             background-image:
                 radial-gradient(ellipse 100% 80% at 50% -30%, color-mix(in oklab, var(--neon-purple) 22%, transparent), transparent 70%),
                 radial-gradient(ellipse 70% 50% at 85% 110%, color-mix(in oklab, var(--neon-cyan) 12%, transparent), transparent 60%),
@@ -91,7 +89,6 @@
                 linear-gradient(to bottom, #07070d, #0c0c16 40%, #090912);
         }
 
-        /* Very subtle film grain for photorealism */
         body::before {
             content: "";
             position: fixed;
@@ -109,7 +106,6 @@
             display: block;
         }
 
-        /* ========== LED BORDER (kept, slightly softened) ========== */
         .led-border {
             position: fixed;
             inset: 0;
@@ -173,7 +169,6 @@
             }
         }
 
-        /* ========== HEADER ========== */
         header {
             background: color-mix(in oklab, var(--bg) 70%, transparent);
             padding: var(--space-m) 5%;
@@ -211,7 +206,6 @@
             text-shadow: 0 2px 10px rgb(0 0 0 / 0.6);
         }
 
-        /* ========== HERO ========== */
         .hero {
             min-height: 72vh;
             min-height: 72dvh;
@@ -230,7 +224,6 @@
             isolation: isolate;
         }
 
-        /* Soft volumetric light + surreal bloom */
         .hero::before {
             content: "";
             position: absolute;
@@ -277,7 +270,6 @@
             text-shadow: 0 3px 14px rgb(0 0 0 / 0.7);
         }
 
-        /* ========== MAIN ========== */
         main {
             position: relative;
             z-index: 5;
@@ -308,7 +300,6 @@
             perspective-origin: 50% 40%;
         }
 
-        /* Photorealistic cards with subtle surreal float */
         .post-card {
             background: linear-gradient(
                 155deg,
@@ -324,7 +315,6 @@
                         box-shadow 0.55s ease,
                         border-color 0.4s ease;
 
-            /* Realistic multi-layer shadow */
             box-shadow:
                 var(--shadow-ambient),
                 var(--shadow-key),
@@ -333,7 +323,6 @@
                 inset 0 1px 0 color-mix(in oklab, white 9%, transparent);
         }
 
-        /* Soft top light edge (photorealistic rim light) */
         .post-card::before {
             content: "";
             position: absolute;
@@ -356,7 +345,6 @@
             z-index: 3;
         }
 
-        /* Subtle surreal inner glow that shifts on hover */
         .post-card::after {
             content: "";
             position: absolute;
@@ -437,7 +425,6 @@
             font-size: 0.95rem;
         }
 
-        /* ========== ABOUT ========== */
         .about {
             background: linear-gradient(165deg, #0b0b14 0%, #140a18 45%, #0a1018 100%);
             padding-block: var(--space-xl);
@@ -480,7 +467,6 @@
             text-shadow: 0 2px 10px rgb(0 0 0 / 0.5);
         }
 
-        /* ========== FOOTER ========== */
         footer {
             background: #040408;
             color: #7a7a98;
@@ -535,9 +521,8 @@
         <div class="container">
             <h2 class="section-title">Latest Purr-spectives</h2>
 
-            <div class="posts">
-                <!-- Most recent first -->
-                <article class="post-card">
+            <div class="posts" id="posts">
+                <article class="post-card" data-date="2026-07-24">
                     <img src="IMG_2837.jpg" alt="Captain and Starz cuddling" class="post-img" loading="lazy" decoding="async" width="400" height="240">
                     <div class="post-content">
                         <p class="meta">July 2026 • Cuddle Puddle</p>
@@ -546,7 +531,7 @@
                     </div>
                 </article>
 
-                <article class="post-card">
+                <article class="post-card" data-date="2026-07-22">
                     <img src="IMG_3262.jpg" alt="Captain inside a cardboard box" class="post-img" loading="lazy" decoding="async" width="400" height="240">
                     <div class="post-content">
                         <p class="meta">July 2026 • Architecture</p>
@@ -555,7 +540,7 @@
                     </div>
                 </article>
 
-                <article class="post-card">
+                <article class="post-card" data-date="2026-07-20">
                     <img src="IMG_0600.jpg" alt="Captain sleeping deeply" class="post-img" loading="lazy" decoding="async" width="400" height="240">
                     <div class="post-content">
                         <p class="meta">July 2026 • Recovery Mode</p>
@@ -564,7 +549,7 @@
                     </div>
                 </article>
 
-                <article class="post-card">
+                <article class="post-card" data-date="2026-07-18">
                     <img src="IMG_0593.jpg" alt="Captain supervising from a lap under pink LED lights" class="post-img" loading="lazy" decoding="async" width="400" height="240">
                     <div class="post-content">
                         <p class="meta">July 2026 • Night Vibes</p>
@@ -573,7 +558,7 @@
                     </div>
                 </article>
 
-                <article class="post-card">
+                <article class="post-card" data-date="2026-07-15">
                     <img src="IMG_0572.jpg" alt="The Boiz lounging on a chair" class="post-img" loading="lazy" decoding="async" width="400" height="240">
                     <div class="post-content">
                         <p class="meta">July 2026 • Lounge Life</p>
@@ -597,5 +582,33 @@
         <p>&copy; 2020 Cute &amp; Floofy</p>
         <p>Made with piss n' love (and cat puke)</p>
     </footer>
+
+    <!-- Secure client-side sorting (newest first) -->
+    <script>
+    (function () {
+        "use strict";
+
+        // Only run if the container exists
+        const container = document.getElementById("posts");
+        if (!container) return;
+
+        // Collect cards that have a valid data-date
+        const cards = Array.from(container.querySelectorAll(".post-card[data-date]"));
+        if (cards.length < 2) return;
+
+        // Sort by date descending (newest first)
+        // Using localeCompare on ISO strings is safe and reliable
+        cards.sort(function (a, b) {
+            const dateA = a.getAttribute("data-date") || "";
+            const dateB = b.getAttribute("data-date") || "";
+            return dateB.localeCompare(dateA); // newest first
+        });
+
+        // Re-append in sorted order (safe DOM method, no innerHTML)
+        cards.forEach(function (card) {
+            container.appendChild(card);
+        });
+    })();
+    </script>
 </body>
 </html>
