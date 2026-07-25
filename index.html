@@ -136,7 +136,7 @@
             justify-content: center;
             flex-wrap: wrap;
             gap: 0.75rem 1.25rem;
-            padding: 0.55rem 5%;
+            padding: 0.55rem 2.5rem 0.55rem 5%;
             background: color-mix(in oklab, #12121f 65%, transparent);
             backdrop-filter: blur(18px) saturate(1.4);
             -webkit-backdrop-filter: blur(18px) saturate(1.4);
@@ -144,6 +144,18 @@
             box-shadow:
                 0 4px 20px rgb(0 0 0 / 0.35),
                 inset 0 1px 0 color-mix(in oklab, white 8%, transparent);
+            transition: opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease, padding 0.3s ease;
+            max-height: 80px;
+            overflow: hidden;
+        }
+
+        .treat-bar.is-hidden {
+            opacity: 0;
+            transform: translateY(-100%);
+            max-height: 0;
+            padding-block: 0;
+            border-bottom-width: 0;
+            pointer-events: none;
         }
 
         .treat-bar-label {
@@ -163,6 +175,31 @@
             flex-wrap: wrap;
             gap: 0.5rem;
             justify-content: center;
+        }
+
+        .treat-bar-close {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1.75rem;
+            height: 1.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            border-radius: 50%;
+            background: color-mix(in oklab, white 8%, transparent);
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            line-height: 1;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .treat-bar-close:hover {
+            background: color-mix(in oklab, white 16%, transparent);
+            color: var(--neon-pink);
         }
 
         .treat-btn {
@@ -419,8 +456,9 @@
             .post-img { height: 220px; }
             .container { padding-inline: 6%; }
             .post-card:hover, .post-card:focus-within { transform: translateY(-12px) scale(1.015); }
-            .treat-bar { padding: 0.5rem 4%; gap: 0.5rem; }
+            .treat-bar { padding: 0.5rem 2.5rem 0.5rem 4%; gap: 0.5rem; }
             .treat-bar-label { font-size: 0.8rem; }
+            .treat-bar-close { right: 0.5rem; }
         }
     </style>
 </head>
@@ -428,7 +466,7 @@
     <div class="led-border" aria-hidden="true"></div>
 
     <!-- Thin top treat bar -->
-    <div class="treat-bar" role="region" aria-label="Support">
+    <div class="treat-bar" id="treatBar" role="region" aria-label="Support">
         <span class="treat-bar-label">Buy me a Treat!</span>
         <div class="treat-buttons">
             <button type="button" class="treat-btn cashapp" data-qr="cashapp" data-url="https://cash.app/$MYLSAP" data-label="Cash App — $MYLSAP" aria-label="Show Cash App QR code for $MYLSAP">
@@ -440,6 +478,7 @@
                 PayPal
             </button>
         </div>
+        <button type="button" class="treat-bar-close" id="treatBarClose" aria-label="Dismiss support bar">&times;</button>
     </div>
 
     <header>
@@ -534,6 +573,27 @@
     (function () {
         "use strict";
 
+        // ===== Dismiss treat bar =====
+        const treatBar = document.getElementById("treatBar");
+        const treatBarClose = document.getElementById("treatBarClose");
+        const STORAGE_KEY = "treatBarDismissed";
+
+        if (treatBar && localStorage.getItem(STORAGE_KEY) === "1") {
+            treatBar.classList.add("is-hidden");
+            treatBar.setAttribute("aria-hidden", "true");
+        }
+
+        if (treatBarClose && treatBar) {
+            treatBarClose.addEventListener("click", function () {
+                treatBar.classList.add("is-hidden");
+                treatBar.setAttribute("aria-hidden", "true");
+                try {
+                    localStorage.setItem(STORAGE_KEY, "1");
+                } catch (e) { /* private mode etc. */ }
+            });
+        }
+
+        // ===== QR =====
         const QR_SIZE = 220;
         const cache = new Map();
 
