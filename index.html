@@ -10,7 +10,7 @@
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
     <!-- Security headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://api.qrserver.com; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -486,6 +486,9 @@
             transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s ease, border-color 0.3s ease;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
+            background: none;
+            font: inherit;
         }
 
         .treat-btn::before {
@@ -525,6 +528,100 @@
             width: 1.25rem;
             height: 1.25rem;
             fill: currentColor;
+        }
+
+        /* ========== QR MODAL ========== */
+        .qr-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 10001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgb(0 0 0 / 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            padding: 1.5rem;
+        }
+
+        .qr-modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .qr-card {
+            background: color-mix(in oklab, #12121f 70%, transparent);
+            backdrop-filter: blur(28px) saturate(1.5);
+            -webkit-backdrop-filter: blur(28px) saturate(1.5);
+            border: 1px solid color-mix(in oklab, white 14%, transparent);
+            border-radius: 24px;
+            padding: 2rem 1.75rem;
+            max-width: 340px;
+            width: 100%;
+            text-align: center;
+            box-shadow:
+                0 20px 60px rgb(0 0 0 / 0.55),
+                0 0 0 1px color-mix(in oklab, var(--neon-cyan) 20%, transparent),
+                inset 0 1px 0 color-mix(in oklab, white 12%, transparent);
+            transform: scale(0.92) translateY(20px);
+            transition: transform 0.35s var(--ease-out-expo);
+        }
+
+        .qr-modal.open .qr-card {
+            transform: scale(1) translateY(0);
+        }
+
+        .qr-card h3 {
+            font-family: Orbitron, system-ui, sans-serif;
+            font-size: 1.25rem;
+            margin-block-end: 0.75rem;
+            color: var(--neon-cyan);
+        }
+
+        .qr-card img {
+            width: 220px;
+            height: 220px;
+            margin-inline: auto;
+            border-radius: 12px;
+            background: #fff;
+            padding: 10px;
+            box-shadow: 0 8px 24px rgb(0 0 0 / 0.4);
+        }
+
+        .qr-card p {
+            margin-block-start: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .qr-card a {
+            color: var(--neon-pink);
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .qr-card a:hover {
+            text-decoration: underline;
+        }
+
+        .qr-close {
+            margin-block-start: 1.25rem;
+            padding: 0.6rem 1.4rem;
+            border-radius: 999px;
+            border: 1px solid color-mix(in oklab, white 20%, transparent);
+            background: color-mix(in oklab, white 8%, transparent);
+            color: var(--text);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.25s ease, border-color 0.25s ease;
+        }
+
+        .qr-close:hover {
+            background: color-mix(in oklab, white 15%, transparent);
+            border-color: var(--neon-cyan);
         }
 
         .about {
@@ -678,14 +775,14 @@
                 <h2>Buy me a Treat!</h2>
                 <p>Help keep the boys in premium cardboard and late-night snacks.</p>
                 <div class="treat-buttons">
-                    <a href="https://cash.app/$MYLSAP" class="treat-btn cashapp" target="_blank" rel="noopener noreferrer">
+                    <button type="button" class="treat-btn cashapp" data-qr="cashapp" data-url="https://cash.app/$MYLSAP" data-label="Cash App — $MYLSAP">
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.59 3.46a5.1 5.1 0 0 0-3.72-3.05c-1.61-.34-2.82.17-4.32 1.31-.12.09-.46.35-1.03.84l-.1-.09c-.4-.37-.76-.68-.88-.77C11.4.47 10.05-.17 8.37.04A5.1 5.1 0 0 0 4.6 3.1c-.4 1.1-.24 2.2.5 3.4.09.15 1.54 2.18 1.54 2.18s-1.28 1.56-1.92 2.42c-.64.86-1.4 1.96-1.33 3.26a4.57 4.57 0 0 0 4.4 4.44c1.49.05 2.64-.62 3.86-1.74.1-.1.75-.72 1.21-1.18.46.47 1.11 1.08 1.21 1.18 1.22 1.12 2.37 1.8 3.86 1.74a4.57 4.57 0 0 0 4.4-4.44c.07-1.3-.69-2.4-1.33-3.26-.64-.86-1.92-2.42-1.92-2.42s1.45-2.03 1.54-2.18c.74-1.2.9-2.3.5-3.4z"/></svg>
                         Cash App
-                    </a>
-                    <a href="https://paypal.me/MYLsap" class="treat-btn paypal" target="_blank" rel="noopener noreferrer">
+                    </button>
+                    <button type="button" class="treat-btn paypal" data-qr="paypal" data-url="https://paypal.me/MYLsap" data-label="PayPal — @MYLsap">
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.606 1.304 4.435 0 .37-.02.74-.06 1.1-.56 4.37-3.53 6.95-8.02 6.95H9.59a.9.9 0 0 0-.89.76l-1.02 6.48a.64.64 0 0 1-.63.54l-.004.002z"/></svg>
                         PayPal
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -704,25 +801,86 @@
         <p>Made with piss n' love (and cat puke)</p>
     </footer>
 
-    <!-- Secure client-side sorting (newest first) -->
+    <!-- QR Code Modal -->
+    <div class="qr-modal" id="qrModal" role="dialog" aria-modal="true" aria-labelledby="qrTitle" hidden>
+        <div class="qr-card">
+            <h3 id="qrTitle">Scan to send a treat</h3>
+            <img id="qrImage" src="" alt="QR Code" width="220" height="220">
+            <p id="qrLabel"></p>
+            <p><a id="qrLink" href="#" target="_blank" rel="noopener noreferrer"></a></p>
+            <button type="button" class="qr-close" id="qrClose">Close</button>
+        </div>
+    </div>
+
     <script>
     (function () {
         "use strict";
 
+        // --- Sort posts (newest first) ---
         const container = document.getElementById("posts");
-        if (!container) return;
+        if (container) {
+            const cards = Array.from(container.querySelectorAll(".post-card[data-date]"));
+            if (cards.length > 1) {
+                cards.sort(function (a, b) {
+                    const dateA = a.getAttribute("data-date") || "";
+                    const dateB = b.getAttribute("data-date") || "";
+                    return dateB.localeCompare(dateA);
+                });
+                cards.forEach(function (card) {
+                    container.appendChild(card);
+                });
+            }
+        }
 
-        const cards = Array.from(container.querySelectorAll(".post-card[data-date]"));
-        if (cards.length < 2) return;
+        // --- QR Modal ---
+        const modal = document.getElementById("qrModal");
+        const qrImage = document.getElementById("qrImage");
+        const qrTitle = document.getElementById("qrTitle");
+        const qrLabel = document.getElementById("qrLabel");
+        const qrLink = document.getElementById("qrLink");
+        const qrClose = document.getElementById("qrClose");
 
-        cards.sort(function (a, b) {
-            const dateA = a.getAttribute("data-date") || "";
-            const dateB = b.getAttribute("data-date") || "";
-            return dateB.localeCompare(dateA);
+        function openQR(url, label) {
+            const encoded = encodeURIComponent(url);
+            qrImage.src = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" + encoded;
+            qrTitle.textContent = label.includes("Cash") ? "Cash App QR" : "PayPal QR";
+            qrLabel.textContent = label;
+            qrLink.href = url;
+            qrLink.textContent = url.replace("https://", "");
+            modal.hidden = false;
+            // Force reflow then open
+            requestAnimationFrame(function () {
+                modal.classList.add("open");
+            });
+            qrClose.focus();
+        }
+
+        function closeQR() {
+            modal.classList.remove("open");
+            setTimeout(function () {
+                modal.hidden = true;
+                qrImage.src = "";
+            }, 300);
+        }
+
+        // Button clicks
+        document.querySelectorAll("[data-qr]").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                const url = btn.getAttribute("data-url");
+                const label = btn.getAttribute("data-label");
+                if (url && label) openQR(url, label);
+            });
         });
 
-        cards.forEach(function (card) {
-            container.appendChild(card);
+        // Close handlers
+        qrClose.addEventListener("click", closeQR);
+        modal.addEventListener("click", function (e) {
+            if (e.target === modal) closeQR();
+        });
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape" && modal.classList.contains("open")) {
+                closeQR();
+            }
         });
     })();
     </script>
