@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#07070d">
   <meta name="color-scheme" content="dark">
   <meta name="robots" content="index, follow">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; media-src 'none'; object-src 'none'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline'; connect-src 'self' https://api.exchangerate-api.com; media-src 'none'; object-src 'none'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests;">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta http-equiv="X-Frame-Options" content="DENY">
   <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -70,6 +70,34 @@
       text-rendering: optimizeLegibility;
       -webkit-font-smoothing: antialiased;
       position: relative;
+      padding-top: 28px;
+    }
+
+    /* ── USD Ticker (old-school) ───────────────────────────────────── */
+    #usd-ticker {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 28px;
+      background: #000;
+      color: #0f0;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 13px;
+      line-height: 28px;
+      overflow: hidden;
+      z-index: 10002;
+      border-bottom: 1px solid #0f0;
+      white-space: nowrap;
+    }
+    #ticker-text {
+      display: inline-block;
+      padding-left: 100%;
+      animation: ticker-scroll 25s linear infinite;
+    }
+    @keyframes ticker-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
     }
 
     /* ── Dynamic dimensional glassy black background ───────────────── */
@@ -245,6 +273,9 @@
         transition: none;
       }
       body {
+        animation: none;
+      }
+      #ticker-text {
         animation: none;
       }
     }
@@ -852,6 +883,10 @@
   </style>
 </head>
 <body>
+  <div id="usd-ticker" aria-live="polite">
+    <span id="ticker-text">USD: loading...</span>
+  </div>
+
   <!-- Moving fractal pattern (fBm / multi-octave noise — same family used in No Man's Sky) -->
   <canvas id="bgFractal" aria-hidden="true"></canvas>
 
@@ -1016,6 +1051,22 @@
   <script>
     (function () {
       "use strict";
+
+      /* ── USD Ticker ────────────────────────────────────────────────── */
+      async function updateUSD() {
+        const el = document.getElementById("ticker-text");
+        if (!el) return;
+        try {
+          const r = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
+          const d = await r.json();
+          const eur = d.rates && d.rates.EUR ? (1 / d.rates.EUR).toFixed(4) : "N/A";
+          el.textContent = `  ★ USD LIVE ★  1 USD ≈ ${eur} EUR  |  rates update every 60s  ★  `;
+        } catch (e) {
+          el.textContent = "  USD: offline  ";
+        }
+      }
+      updateUSD();
+      setInterval(updateUSD, 60000);
 
       /* ── Treat bar dismiss ─────────────────────────────────────────── */
       const STORAGE_KEY = "treatBarDismissed";
