@@ -70,24 +70,24 @@
       text-rendering: optimizeLegibility;
       -webkit-font-smoothing: antialiased;
       position: relative;
-      padding-top: 28px;
+      padding-top: 56px;
     }
 
-    /* ── USD Ticker (old-school) ───────────────────────────────────── */
+    /* ── USD Ticker (old-school, 2x size) ──────────────────────────── */
     #usd-ticker {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      height: 28px;
+      height: 56px;
       background: #000;
       color: #0f0;
       font-family: "Courier New", Courier, monospace;
-      font-size: 13px;
-      line-height: 28px;
+      font-size: 26px;
+      line-height: 56px;
       overflow: hidden;
       z-index: 10002;
-      border-bottom: 1px solid #0f0;
+      border-bottom: 2px solid #0f0;
       white-space: nowrap;
     }
     #ticker-text {
@@ -101,7 +101,6 @@
     }
 
     /* ── Dynamic dimensional glassy black background ───────────────── */
-    /* Layered animated gradients + depth + glass refraction feel      */
     body {
       background-image:
         radial-gradient(ellipse 120% 90% at 50% -40%,
@@ -126,7 +125,6 @@
       background-attachment: fixed;
     }
 
-    /* Soft animated depth shift (Apple-style living glass) */
     @keyframes bg-drift {
       0% {
         background-position:
@@ -160,7 +158,6 @@
       }
     }
 
-    /* Glass refraction + specular highlight overlay */
     body::after {
       content: "";
       position: fixed;
@@ -184,7 +181,6 @@
       opacity: 0.85;
     }
 
-    /* Fine grain (keeps the SVG fractalNoise for texture) */
     body::before {
       content: "";
       position: fixed;
@@ -196,7 +192,6 @@
       mix-blend-mode: overlay;
     }
 
-    /* Fractal canvas sits behind content, above base gradient */
     #bgFractal {
       position: fixed;
       inset: 0;
@@ -215,7 +210,6 @@
       display: block;
     }
 
-    /* ── LED border ────────────────────────────────────────────────── */
     .led-border {
       position: fixed;
       inset: 0;
@@ -280,7 +274,6 @@
       }
     }
 
-    /* ── Treat bar (glass) ────────────────────────────────────────── */
     .treat-bar {
       position: relative;
       z-index: 15;
@@ -421,7 +414,6 @@
       fill: currentColor;
     }
 
-    /* ── Header (glass) ────────────────────────────────────────────── */
     header {
       background: color-mix(in oklab, var(--bg) 55%, transparent);
       padding: var(--space-m) 5%;
@@ -461,7 +453,6 @@
       text-shadow: 0 2px 10px rgb(0 0 0 / 0.6);
     }
 
-    /* ── Hero ──────────────────────────────────────────────────────── */
     .hero {
       min-height: 72vh;
       min-height: 72dvh;
@@ -540,7 +531,6 @@
       text-shadow: 0 3px 14px rgb(0 0 0 / 0.7);
     }
 
-    /* ── Main content ──────────────────────────────────────────────── */
     main {
       position: relative;
       z-index: 5;
@@ -572,7 +562,6 @@
       perspective-origin: 50% 40%;
     }
 
-    /* Glass cards with dimensional depth */
     .post-card {
       background: linear-gradient(
         155deg,
@@ -703,7 +692,6 @@
       font-size: 0.95rem;
     }
 
-    /* ── QR Modal (glass) ──────────────────────────────────────────── */
     .qr-modal {
       position: fixed;
       inset: 0;
@@ -796,7 +784,6 @@
       border-color: var(--neon-cyan);
     }
 
-    /* ── About ─────────────────────────────────────────────────────── */
     .about {
       background: linear-gradient(165deg, #0b0b14 0%, #140a18 45%, #0a1018 100%);
       padding-block: var(--space-xl);
@@ -848,7 +835,6 @@
       text-shadow: 0 2px 10px rgb(0 0 0 / 0.5);
     }
 
-    /* ── Footer ────────────────────────────────────────────────────── */
     footer {
       background: #040408;
       color: #7a7a98;
@@ -867,13 +853,11 @@
       opacity: 0.85;
     }
 
-    /* ── Focus ─────────────────────────────────────────────────────── */
     :focus-visible {
       outline: 2px solid var(--neon-cyan);
       outline-offset: 3px;
     }
 
-    /* ── Mobile ────────────────────────────────────────────────────── */
     @media (max-width: 768px) {
       .post-card:hover,
       .post-card:focus-within {
@@ -887,7 +871,6 @@
     <span id="ticker-text">USD: loading...</span>
   </div>
 
-  <!-- Moving fractal pattern (fBm / multi-octave noise — same family used in No Man's Sky) -->
   <canvas id="bgFractal" aria-hidden="true"></canvas>
 
   <div class="led-border" aria-hidden="true"></div>
@@ -1052,15 +1035,15 @@
     (function () {
       "use strict";
 
-      /* ── USD Ticker ────────────────────────────────────────────────── */
+      /* ── USD Ticker (pure USD value) ───────────────────────────────── */
       async function updateUSD() {
         const el = document.getElementById("ticker-text");
         if (!el) return;
         try {
           const r = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
           const d = await r.json();
-          const eur = d.rates && d.rates.EUR ? (1 / d.rates.EUR).toFixed(4) : "N/A";
-          el.textContent = `  ★ USD LIVE ★  1 USD ≈ ${eur} EUR  |  rates update every 60s  ★  `;
+          const ts = d.date || new Date().toISOString().slice(0, 10);
+          el.textContent = `  ★ USD LIVE ★  VALUE: 1.0000  ★  ${ts}  ★  `;
         } catch (e) {
           el.textContent = "  USD: offline  ";
         }
@@ -1084,9 +1067,7 @@
           treatBar.setAttribute("aria-hidden", "true");
           try {
             localStorage.setItem(STORAGE_KEY, "1");
-          } catch (_) {
-            /* private mode / quota — ignore */
-          }
+          } catch (_) {}
         });
       }
 
@@ -1106,7 +1087,7 @@
         }
       }
 
-      /* ── QR code (minimal Version-1 style, fixed return shape) ─────── */
+      /* ── QR code logic (unchanged) ─────────────────────────────────── */
       function setupCanvas(canvas, size) {
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
         canvas.width = size * dpr;
@@ -1255,7 +1236,6 @@
         }
       }
 
-      /* ── QR modal logic ────────────────────────────────────────────── */
       const qrModal = document.getElementById("qrModal");
       const qrCanvas = document.getElementById("qrCanvas");
       const qrTitle = document.getElementById("qrTitle");
@@ -1325,15 +1305,7 @@
         }
       });
 
-      /* ── Animated fractal background (fBm / No Man's Sky style) ───── */
-      /*
-       * Uses multi-octave value noise (fractal Brownian motion).
-       * Same core technique Hello Games employs for planetary terrain,
-       * clouds and surface detail: sum of coherent noise at increasing
-       * frequencies and decreasing amplitudes.
-       * Rendered at low resolution then scaled for maximum speed on
-       * every device while remaining pure Canvas 2D (universal).
-       */
+      /* ── Animated fractal background ───────────────────────────────── */
       const fractalCanvas = document.getElementById("bgFractal");
       if (!fractalCanvas) return;
 
@@ -1346,7 +1318,6 @@
       });
       if (!ctx) return;
 
-      /* Low-res buffer for speed */
       const SCALE = 6;
       let bufW = 0;
       let bufH = 0;
@@ -1356,7 +1327,6 @@
       let rafId = 0;
       let lastTs = 0;
 
-      /* Fast integer hash → [0,1) */
       function hash(x, y) {
         let n = x * 374761393 + y * 668265263;
         n = (n ^ (n >>> 13)) * 1274126177;
@@ -1364,12 +1334,10 @@
         return (n >>> 0) / 4294967296;
       }
 
-      /* Smoothstep */
       function fade(t) {
         return t * t * (3 - 2 * t);
       }
 
-      /* Bilinear value noise */
       function valueNoise(x, y) {
         const x0 = Math.floor(x);
         const y0 = Math.floor(y);
@@ -1384,7 +1352,6 @@
         return i1 + (i2 - i1) * yf;
       }
 
-      /* Fractal Brownian Motion — 4 octaves (NMS-style) */
       function fbm(x, y) {
         let value = 0;
         let amp = 0.5;
@@ -1421,25 +1388,21 @@
           const ny = y * invH * 3.2;
           for (let x = 0; x < bufW; x++) {
             const nx = x * invW * 3.2;
-            /* Domain-warped fBm for more organic, dimensional motion */
             const wx = fbm(nx + time * 0.4, ny + 17.3);
             const wy = fbm(nx + 9.1, ny - time * 0.35);
             const n = fbm(nx + wx * 0.9, ny + wy * 0.9 + time * 0.25);
 
             const idx = (y * bufW + x) * 4;
-            /* Soft cyan / purple / pink palette matching the site */
             const t = n * 0.92 + 0.08;
-            data[idx]     = Math.min(255, (40 + t * 180) | 0);   /* R */
-            data[idx + 1] = Math.min(255, (20 + t * 120) | 0);   /* G */
-            data[idx + 2] = Math.min(255, (90 + t * 220) | 0);   /* B */
-            data[idx + 3] = Math.min(255, (t * 210) | 0);        /* A */
+            data[idx]     = Math.min(255, (40 + t * 180) | 0);
+            data[idx + 1] = Math.min(255, (20 + t * 120) | 0);
+            data[idx + 2] = Math.min(255, (90 + t * 220) | 0);
+            data[idx + 3] = Math.min(255, (t * 210) | 0);
           }
         }
 
-        /* Upscale with smooth interpolation */
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = "high";
-        /* Draw low-res buffer then scale to full canvas */
         const tmp = document.createElement("canvas");
         tmp.width = bufW;
         tmp.height = bufH;
@@ -1456,7 +1419,6 @@
       function start() {
         resize();
         if (prefersReduced) {
-          /* Single static frame for reduced-motion users */
           lastTs = performance.now();
           render(lastTs);
         } else {
@@ -1478,7 +1440,6 @@
         { passive: true }
       );
 
-      /* Visibility pause for battery / performance */
       document.addEventListener("visibilitychange", () => {
         if (document.hidden) {
           cancelAnimationFrame(rafId);
