@@ -17,7 +17,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" crossorigin="anonymous">
   <style>
-    /* ── Design tokens ─────────────────────────────────────────────── */
     :root {
       --neon-pink: #ff2d95;
       --neon-cyan: #00f7ff;
@@ -45,7 +44,6 @@
       --glass-strong: color-mix(in oklab, #12121f 70%, transparent);
     }
 
-    /* ── Reset & base ──────────────────────────────────────────────── */
     *,
     *::before,
     *::after {
@@ -73,7 +71,7 @@
       padding-top: 56px;
     }
 
-    /* ── USD Ticker (old-school, 2x size) ──────────────────────────── */
+    /* ── USD Ticker – seamless infinite ─────────────────────────────── */
     #usd-ticker {
       position: fixed;
       top: 0;
@@ -90,17 +88,20 @@
       border-bottom: 2px solid #0f0;
       white-space: nowrap;
     }
-    #ticker-text {
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: ticker-scroll 12s linear infinite;
+    }
+    .ticker-track span {
       display: inline-block;
-      padding-left: 100%;
-      animation: ticker-scroll 25s linear infinite;
+      padding-right: 4rem;
     }
     @keyframes ticker-scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
 
-    /* ── Dynamic dimensional glassy black background ───────────────── */
     body {
       background-image:
         radial-gradient(ellipse 120% 90% at 50% -40%,
@@ -269,7 +270,7 @@
       body {
         animation: none;
       }
-      #ticker-text {
+      .ticker-track {
         animation: none;
       }
     }
@@ -868,7 +869,10 @@
 </head>
 <body>
   <div id="usd-ticker" aria-live="polite">
-    <span id="ticker-text">USD: loading...</span>
+    <div class="ticker-track">
+      <span id="ticker-text">USD: loading...</span>
+      <span id="ticker-text-2" aria-hidden="true">USD: loading...</span>
+    </div>
   </div>
 
   <canvas id="bgFractal" aria-hidden="true"></canvas>
@@ -925,15 +929,7 @@
       <h2 class="section-title">Latest Purr-spectives</h2>
       <div class="posts" id="posts">
         <article class="post-card" data-date="2026-07-24">
-          <img
-            src="IMG_2837.jpg"
-            alt="Captain and Starz cuddling"
-            class="post-img"
-            loading="lazy"
-            decoding="async"
-            width="400"
-            height="240"
-          >
+          <img src="IMG_2837.jpg" alt="Captain and Starz cuddling" class="post-img" loading="lazy" decoding="async" width="400" height="240">
           <div class="post-content">
             <p class="meta">July 2026 Cuddle Puddle</p>
             <h2>*cuddle*</h2>
@@ -941,15 +937,7 @@
           </div>
         </article>
         <article class="post-card" data-date="2026-07-22">
-          <img
-            src="IMG_3262.jpg"
-            alt="Captain inside a cardboard box"
-            class="post-img"
-            loading="lazy"
-            decoding="async"
-            width="400"
-            height="240"
-          >
+          <img src="IMG_3262.jpg" alt="Captain inside a cardboard box" class="post-img" loading="lazy" decoding="async" width="400" height="240">
           <div class="post-content">
             <p class="meta">July 2026 Architecture</p>
             <h2>Cardboard Box Connoisseur</h2>
@@ -957,15 +945,7 @@
           </div>
         </article>
         <article class="post-card" data-date="2026-07-20">
-          <img
-            src="IMG_0600.jpg"
-            alt="Captain sleeping deeply"
-            class="post-img"
-            loading="lazy"
-            decoding="async"
-            width="400"
-            height="240"
-          >
+          <img src="IMG_0600.jpg" alt="Captain sleeping deeply" class="post-img" loading="lazy" decoding="async" width="400" height="240">
           <div class="post-content">
             <p class="meta">July 2026 Recovery Mode</p>
             <h2>Professional Napper</h2>
@@ -973,15 +953,7 @@
           </div>
         </article>
         <article class="post-card" data-date="2026-07-18">
-          <img
-            src="IMG_0593.jpg"
-            alt="Captain supervising from a lap under pink LED lights"
-            class="post-img"
-            loading="lazy"
-            decoding="async"
-            width="400"
-            height="240"
-          >
+          <img src="IMG_0593.jpg" alt="Captain supervising from a lap under pink LED lights" class="post-img" loading="lazy" decoding="async" width="400" height="240">
           <div class="post-content">
             <p class="meta">July 2026 Night Vibes</p>
             <h2>Pink LED Supervisor</h2>
@@ -989,15 +961,7 @@
           </div>
         </article>
         <article class="post-card" data-date="2026-07-15">
-          <img
-            src="IMG_0572.jpg"
-            alt="The Boiz lounging on a chair"
-            class="post-img"
-            loading="lazy"
-            decoding="async"
-            width="400"
-            height="240"
-          >
+          <img src="IMG_0572.jpg" alt="The Boiz lounging on a chair" class="post-img" loading="lazy" decoding="async" width="400" height="240">
           <div class="post-content">
             <p class="meta">July 2026 Lounge Life</p>
             <h2>Chair Kings</h2>
@@ -1035,17 +999,21 @@
     (function () {
       "use strict";
 
-      /* ── USD Ticker (pure USD value) ───────────────────────────────── */
+      /* ── USD Ticker – seamless ─────────────────────────────────────── */
       async function updateUSD() {
         const el = document.getElementById("ticker-text");
+        const el2 = document.getElementById("ticker-text-2");
         if (!el) return;
         try {
           const r = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
           const d = await r.json();
           const ts = d.date || new Date().toISOString().slice(0, 10);
-          el.textContent = `  ★ USD LIVE ★  VALUE: 1.0000  ★  ${ts}  ★  `;
+          const txt = `  ★ USD LIVE ★  VALUE: 1.0000  ★  ${ts}  ★  `;
+          el.textContent = txt;
+          if (el2) el2.textContent = txt;
         } catch (e) {
           el.textContent = "  USD: offline  ";
+          if (el2) el2.textContent = "  USD: offline  ";
         }
       }
       updateUSD();
@@ -1087,7 +1055,7 @@
         }
       }
 
-      /* ── QR code logic (unchanged) ─────────────────────────────────── */
+      /* ── QR code logic ─────────────────────────────────────────────── */
       function setupCanvas(canvas, size) {
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
         canvas.width = size * dpr;
