@@ -1,304 +1,272 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slommy & Cappy — Cat Life</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --terracotta: #c56d4a;
-            --olive: #5a6b4e;
-            --mustard: #d4a017;
-            --teal: #2a9d8f;
-            --cream: #f4e9d8;
-            --dark: #2f2f2f;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Starz & Cappy — Captain and Starz living their best cat life on the South Side">
+  <meta name="theme-color" content="#07070d">
+  <meta name="color-scheme" content="dark">
+  <title>Starz & Cappy — Cat Life</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" crossorigin="anonymous">
+  <style>
+    :root {
+      --neon-pink: #ff2d95;
+      --neon-cyan: #00f7ff;
+      --neon-purple: #b026ff;
+      --neon-green: #39ff14;
+      --neon-yellow: #ffe600;
+      --bg: #07070d;
+      --text: #e8e8f5;
+      --text-muted: #b8b8d0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { color-scheme: dark; scroll-behavior: smooth; }
+    body {
+      font-family: Inter, system-ui, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      position: relative;
+      padding-top: 110px;
+      background-image:
+        radial-gradient(ellipse 120% 90% at 50% -40%, color-mix(in oklab, var(--neon-purple) 28%, transparent), transparent 65%),
+        radial-gradient(ellipse 80% 60% at 90% 120%, color-mix(in oklab, var(--neon-cyan) 16%, transparent), transparent 55%),
+        linear-gradient(165deg, #05050a 0%, #0a0a14 35%, #080812 70%, #06060e 100%);
+      background-attachment: fixed;
+    }
+    .flame-banner {
+      background: linear-gradient(90deg, #ff4500, #ff8c00, #ffd700, #ff4500, #ff0000);
+      background-size: 300% 100%;
+      animation: fire-move 4s linear infinite;
+      text-align: center;
+      padding: 0.9rem 5%;
+      font-family: Orbitron, system-ui, sans-serif;
+      font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 10px #ff4500, 0 0 20px #ff8c00, 0 0 30px #ff0000, 2px 2px 4px #000;
+      letter-spacing: 2px;
+      position: relative;
+      overflow: hidden;
+      z-index: 10003;
+    }
+    .flame-banner::before {
+      content: "🔥 🔥 🔥";
+      position: absolute;
+      top: 50%; left: 0; width: 100%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      opacity: 0.25;
+      pointer-events: none;
+      animation: flicker 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes fire-move { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }
+    @keyframes flicker { 0% { opacity: 0.2; } 100% { opacity: 0.4; } }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    #usd-ticker {
+      position: fixed; top: 0; left: 0; width: 100%; height: 56px;
+      background: #000; color: #0f0;
+      font-family: "Courier New", monospace; font-size: 22px; line-height: 56px;
+      overflow: hidden; z-index: 10002; border-bottom: 2px solid #0f0; white-space: nowrap;
+    }
+    .ticker-track { display: flex; width: max-content; animation: ticker-scroll 14s linear infinite; }
+    .ticker-track span { display: inline-block; padding-right: 4rem; }
+    @keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background-color: var(--cream);
-            color: var(--dark);
-            line-height: 1.7;
-            font-size: 16px;
-            min-height: 100vh;
-        }
+    .led-border {
+      position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+      border: 3px solid var(--neon-cyan);
+      box-shadow: 0 0 18px var(--neon-cyan);
+      animation: pulse-border 4s ease-in-out infinite alternate;
+      opacity: 0.75;
+    }
+    @keyframes pulse-border {
+      0% { border-color: var(--neon-pink); box-shadow: 0 0 12px var(--neon-pink); }
+      25% { border-color: var(--neon-cyan); box-shadow: 0 0 12px var(--neon-cyan); }
+      50% { border-color: var(--neon-purple); box-shadow: 0 0 12px var(--neon-purple); }
+      75% { border-color: var(--neon-green); box-shadow: 0 0 12px var(--neon-green); }
+      100% { border-color: var(--neon-yellow); box-shadow: 0 0 12px var(--neon-yellow); }
+    }
 
-        /* Flame banner */
-        .flame-banner {
-            background: linear-gradient(90deg, #ff4500, #ff8c00, #ffd700, #ff4500, #ff0000);
-            background-size: 300% 100%;
-            animation: fire-move 4s linear infinite;
-            text-align: center;
-            padding: 1rem 5%;
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.2rem, 4vw, 1.8rem);
-            font-weight: 700;
-            color: #fff;
-            text-shadow:
-                0 0 10px #ff4500,
-                0 0 20px #ff8c00,
-                0 0 30px #ff0000,
-                2px 2px 4px #000;
-            letter-spacing: 2px;
-            position: relative;
-            overflow: hidden;
-            z-index: 100;
-        }
+    header {
+      background: color-mix(in oklab, var(--bg) 55%, transparent);
+      padding: 1.5rem 5%; text-align: center;
+      border-bottom: 1px solid color-mix(in oklab, var(--neon-cyan) 18%, transparent);
+      position: relative; z-index: 10;
+      backdrop-filter: blur(24px) saturate(1.4);
+    }
+    .logo {
+      font-family: Orbitron, system-ui, sans-serif;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 700;
+      background: linear-gradient(105deg, var(--neon-pink), var(--neon-cyan) 50%, var(--neon-purple));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      filter: drop-shadow(0 2px 8px rgb(0 0 0 / 0.5)) drop-shadow(0 0 24px color-mix(in oklab, var(--neon-pink) 35%, transparent));
+    }
+    .tagline {
+      margin-top: 0.4rem; font-size: 0.9rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--neon-cyan); opacity: 0.88;
+    }
 
-        .flame-banner::before {
-            content: "🔥 🔥 🔥";
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            transform: translateY(-50%);
-            font-size: 2rem;
-            opacity: 0.25;
-            pointer-events: none;
-            animation: flicker 1.5s ease-in-out infinite alternate;
-        }
+    .hero {
+      min-height: 72vh; display: grid; place-items: center; text-align: center;
+      background: linear-gradient(to bottom, color-mix(in oklab, var(--bg) 35%, transparent), var(--bg)),
+                  url(IMG_1681.jpg) center / cover no-repeat;
+      position: relative; isolation: isolate; z-index: 2;
+      perspective: 1200px;
+    }
+    .hero > div { position: relative; z-index: 2; transform: translateZ(30px); }
+    .hero h1 {
+      font-family: Orbitron, system-ui, sans-serif;
+      font-size: clamp(2.5rem, 8vw, 3.8rem);
+      font-weight: 700;
+      background: linear-gradient(100deg, var(--neon-cyan), var(--neon-pink));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      filter: drop-shadow(0 4px 16px rgb(0 0 0 / 0.7)) drop-shadow(0 0 40px color-mix(in oklab, var(--neon-cyan) 30%, transparent));
+    }
+    .hero p { font-size: 1.2rem; color: var(--neon-green); letter-spacing: 0.04em; }
 
-        @keyframes fire-move {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 300% 50%; }
-        }
+    .container { max-width: 1100px; margin: 0 auto; padding: 3rem 5%; position: relative; z-index: 5; }
+    .section-title {
+      font-family: Orbitron, system-ui, sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      text-align: center; margin-bottom: 2.5rem;
+      color: var(--neon-pink);
+      filter: drop-shadow(0 3px 12px rgb(0 0 0 / 0.5));
+    }
 
-        @keyframes flicker {
-            0% { opacity: 0.2; }
-            100% { opacity: 0.4; }
-        }
+    .posts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+      gap: 1.8rem;
+      perspective: 1400px;
+    }
+    .post-card {
+      background: linear-gradient(155deg, #16162a, #0c0c16);
+      border-radius: 18px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.55s ease;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.45), 0 20px 40px -8px rgba(0,0,0,0.55);
+    }
+    .post-card:hover {
+      transform: translateY(-14px) rotateX(5deg) rotateY(-4deg) scale(1.03);
+      box-shadow:
+        0 30px 60px -15px rgba(0,0,0,0.8),
+        0 0 40px color-mix(in oklab, var(--neon-cyan) 30%, transparent),
+        inset 0 1px 0 rgba(255,255,255,0.15);
+    }
+    .post-img { width: 100%; height: 240px; object-fit: cover; display: block; }
+    .post-content { padding: 1.5rem; }
+    .post-content h2 {
+      font-family: Orbitron, system-ui, sans-serif;
+      color: var(--neon-cyan);
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+    .meta { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.8rem; }
 
-        header {
-            background: var(--dark);
-            color: white;
-            padding: 1.5rem 5%;
-            text-align: center;
-        }
+    .about {
+      background: color-mix(in oklab, var(--bg) 80%, #12121f);
+      color: white; padding: 4rem 5%; text-align: center; margin: 3rem 0;
+      border-top: 1px solid color-mix(in oklab, var(--neon-purple) 20%, transparent);
+      border-bottom: 1px solid color-mix(in oklab, var(--neon-purple) 20%, transparent);
+    }
+    .about h2 {
+      font-family: Orbitron, system-ui, sans-serif;
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      margin-bottom: 1rem;
+      background: linear-gradient(105deg, var(--neon-pink), var(--neon-cyan));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .about p { max-width: 700px; margin: 0 auto; font-size: 1.1rem; color: var(--text-muted); }
 
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 6vw, 2.6rem);
-            color: var(--mustard);
-        }
+    footer {
+      background: #05050a; color: #888; text-align: center; padding: 3rem 5%; font-size: 0.95rem;
+    }
 
-        .tagline {
-            letter-spacing: 2px;
-            opacity: 0.9;
-            font-size: 1.05rem;
-            margin-top: 0.3rem;
-        }
-
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
-                        url('IMG_1681.jpg') center/cover no-repeat;
-            min-height: 70vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-            width: 100%;
-        }
-
-        .hero-content h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 8vw, 3.5rem);
-            margin-bottom: 0.8rem;
-        }
-
-        .hero-content p {
-            font-size: 1.2rem;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 3rem auto;
-            padding: 0 5%;
-        }
-
-        .section-title {
-            text-align: center;
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.8rem, 5vw, 2.4rem);
-            margin-bottom: 3rem;
-            color: var(--terracotta);
-        }
-
-        .posts {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.8rem;
-        }
-
-        .post-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .post-card:hover {
-            transform: translateY(-8px);
-        }
-
-        .post-img {
-            width: 100%;
-            height: 240px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .post-content {
-            padding: 1.5rem;
-        }
-
-        .post-content h2 {
-            font-family: 'Playfair Display', serif;
-            color: var(--terracotta);
-            font-size: 1.4rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .meta {
-            color: var(--olive);
-            font-size: 0.95rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .about {
-            background: var(--dark);
-            color: white;
-            padding: 4rem 5%;
-            text-align: center;
-            margin: 4rem 0;
-        }
-
-        .about h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
-            margin-bottom: 1rem;
-        }
-
-        .about p {
-            max-width: 700px;
-            margin: 0 auto;
-            font-size: 1.1rem;
-        }
-
-        footer {
-            background: var(--dark);
-            color: #aaa;
-            text-align: center;
-            padding: 3rem 5%;
-            font-size: 0.95rem;
-        }
-
-        footer p + p {
-            margin-top: 1rem;
-            opacity: 0.7;
-        }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .hero {
-                min-height: 100vh;
-            }
-
-            .posts {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .post-img {
-                height: 220px;
-            }
-
-            .container {
-                padding: 0 6%;
-            }
-        }
-    </style>
+    @media (max-width: 768px) {
+      .hero { min-height: 100vh; }
+      .posts { grid-template-columns: 1fr; }
+      .post-card:hover { transform: translateY(-8px); }
+    }
+  </style>
 </head>
 <body>
-    <div class="flame-banner">
-        FUCK YOU EGO-ALtER
+  <div class="flame-banner">FUCK YOU EGO-ALtER</div>
+
+  <div id="usd-ticker">
+    <div class="ticker-track">
+      <span>USD 1.00 = 1.00 USD • CAPTAIN STATUS: FLOOFY • SOUTH SIDE • LIVING HIS BEST LIFE • </span>
+      <span>USD 1.00 = 1.00 USD • CAPTAIN STATUS: FLOOFY • SOUTH SIDE • LIVING HIS BEST LIFE • </span>
     </div>
+  </div>
 
-    <header>
-        <div class="logo">Slommy & Cappy</div>
-        <p class="tagline">Piece of Shit Cat Life • EST. 2020</p>
-    </header>
+  <div class="led-border"></div>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Captain</h1>
-            <p>Living his best cat life</p>
+  <header>
+    <div class="logo">STARZ & CAPPY</div>
+    <p class="tagline">Cyber Cat Life • EST. 2020</p>
+  </header>
+
+  <section class="hero">
+    <div>
+      <h1>Captain</h1>
+      <p>Living his best cat life</p>
+    </div>
+  </section>
+
+  <div class="container">
+    <h2 class="section-title">Latest Purr-spectives</h2>
+    <div class="posts">
+      <div class="post-card">
+        <img src="IMG_0572.jpg" alt="Captain lounging" class="post-img">
+        <div class="post-content">
+          <div class="meta">July 2026 • Lounge Life</div>
+          <h2>Chair Kings</h2>
+          <p>Nothing beats claiming the best seat in the house.</p>
         </div>
-    </section>
-
-    <div class="container">
-        <h2 class="section-title">Latest Purr-spectives</h2>
-
-        <div class="posts">
-            <div class="post-card">
-                <img src="IMG_0572.jpg" alt="Captain lounging" class="post-img">
-                <div class="post-content">
-                    <div class="meta">July 2026 • Lounge Life</div>
-                    <h2>Chair Kings</h2>
-                    <p>Nothing beats claiming the best seat in the house.</p>
-                </div>
-            </div>
-
-            <div class="post-card">
-                <img src="IMG_0593.jpg" alt="Captain on lap" class="post-img">
-                <div class="post-content">
-                    <div class="meta">July 2026 • Night Vibes</div>
-                    <h2>Pink LED Supervisor</h2>
-                    <p>Overseeing all late-night activities from the lap throne.</p>
-                </div>
-            </div>
-
-            <div class="post-card">
-                <img src="IMG_0600.jpg" alt="Captain sleeping" class="post-img">
-                <div class="post-content">
-                    <div class="meta">July 2026 • Recovery Mode</div>
-                    <h2>Professional Napper</h2>
-                    <p>Expert level sleeping achieved.</p>
-                </div>
-            </div>
-
-            <div class="post-card">
-                <img src="IMG_3262.jpg" alt="Captain in box" class="post-img">
-                <div class="post-content">
-                    <div class="meta">July 2026 • Architecture</div>
-                    <h2>Cardboard Box Connoisseur</h2>
-                    <p>Only the finest Amazon packaging will do.</p>
-                </div>
-            </div>
+      </div>
+      <div class="post-card">
+        <img src="IMG_0593.jpg" alt="Captain on lap" class="post-img">
+        <div class="post-content">
+          <div class="meta">July 2026 • Night Vibes</div>
+          <h2>Pink LED Supervisor</h2>
+          <p>Overseeing all late-night activities from the lap throne.</p>
         </div>
+      </div>
+      <div class="post-card">
+        <img src="IMG_0600.jpg" alt="Captain sleeping" class="post-img">
+        <div class="post-content">
+          <div class="meta">July 2026 • Recovery Mode</div>
+          <h2>Professional Napper</h2>
+          <p>Expert level sleeping achieved.</p>
+        </div>
+      </div>
+      <div class="post-card">
+        <img src="IMG_3262.jpg" alt="Captain in box" class="post-img">
+        <div class="post-content">
+          <div class="meta">July 2026 • Architecture</div>
+          <h2>Cardboard Box Connoisseur</h2>
+          <p>Only the finest Amazon packaging will do.</p>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="about">
-        <h2>Meet Captain</h2>
-        <p>
-            A sophisticated floofy gentleman with impeccable taste in furniture, sunlight, and cardboard architecture.
-            Living his best life on the South Side.
-        </p>
-    </div>
+  <div class="about">
+    <h2>Meet Captain</h2>
+    <p>A sophisticated floofy gentleman with impeccable taste in furniture, sunlight, and cardboard architecture. Living his best life on the South Side.</p>
+  </div>
 
-    <footer>
-        <p>&copy; 2026 Cute & Floofy</p>
-        <p>Made with piss n' love (and cat puke)</p>
-    </footer>
+  <footer>
+    <p>&copy; 2026 Cute & Floofy</p>
+    <p style="margin-top:1rem; opacity:0.7;">Made with piss n' love (and cat puke)</p>
+  </footer>
 </body>
 </html>
