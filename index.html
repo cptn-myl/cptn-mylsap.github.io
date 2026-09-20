@@ -287,6 +287,63 @@
     }
     .about p { max-width: 700px; margin: 0 auto; font-size: 1.05rem; color: var(--text-muted); }
 
+    /* Support Section */
+    .support {
+      text-align: center;
+      padding: 3rem 5%;
+      margin: 1rem 0 2.5rem;
+    }
+    .support h2 {
+      font-family: Orbitron, system-ui, sans-serif;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      margin-bottom: 0.8rem;
+      background: linear-gradient(105deg, var(--neon-green), var(--neon-cyan));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .support p {
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto 1.8rem;
+      font-size: 1.05rem;
+    }
+    .support-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .support-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.85rem 1.6rem;
+      border-radius: 999px;
+      font-family: Orbitron, system-ui, sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: #fff;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      border: 1px solid transparent;
+    }
+    .support-btn:hover {
+      transform: translateY(-3px) scale(1.04);
+    }
+    .support-btn.cashapp {
+      background: linear-gradient(135deg, #00d632, #00b82c);
+      box-shadow: 0 4px 18px rgba(0, 214, 50, 0.35);
+    }
+    .support-btn.cashapp:hover {
+      box-shadow: 0 8px 25px rgba(0, 214, 50, 0.5);
+    }
+    .support-btn.paypal {
+      background: linear-gradient(135deg, #003087, #009cde);
+      box-shadow: 0 4px 18px rgba(0, 156, 222, 0.35);
+    }
+    .support-btn.paypal:hover {
+      box-shadow: 0 8px 25px rgba(0, 156, 222, 0.5);
+    }
+
     footer {
       background: #05050a; color: #777; text-align: center; padding: 2.5rem 5%; font-size: 0.93rem;
     }
@@ -392,6 +449,15 @@
   <div class="about">
     <h2>Meet Starz & Captain</h2>
     <p>Two sophisticated floofy legends with impeccable taste in furniture, sunlight, cardboard architecture, and late-night supervision. Living their best lives together on the South Side.</p>
+  </div>
+
+  <div class="support">
+    <h2>Support the Floofs</h2>
+    <p>Want to help keep the treats coming and the cardboard boxes stocked? Send a little something to the boys.</p>
+    <div class="support-buttons">
+      <a href="https://cash.app/$MYLSAP" target="_blank" rel="noopener" class="support-btn cashapp">Cash App $MYLSAP</a>
+      <a href="https://paypal.me/MYLsap" target="_blank" rel="noopener" class="support-btn paypal">PayPal @MYLsap</a>
+    </div>
   </div>
 
   <footer>
