@@ -5,11 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Starz & Cappy — Captain and Starz living their best cat life on the South Side">
   <meta name="theme-color" content="#07070d">
-  <meta name="color-scheme" content="dark">
   <title>Starz & Cappy — Cat Life</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
       --neon-pink: #ff2d95;
@@ -33,22 +32,56 @@
       position: relative;
       padding-top: 110px;
       background-image:
-        radial-gradient(ellipse 120% 90% at 50% -40%, color-mix(in oklab, var(--neon-purple) 28%, transparent), transparent 65%),
-        radial-gradient(ellipse 80% 60% at 90% 120%, color-mix(in oklab, var(--neon-cyan) 16%, transparent), transparent 55%),
-        linear-gradient(165deg, #05050a 0%, #0a0a14 35%, #080812 70%, #06060e 100%);
+        radial-gradient(ellipse 120% 90% at 50% -40%, color-mix(in oklab, var(--neon-purple) 30%, transparent), transparent 65%),
+        radial-gradient(ellipse 80% 60% at 90% 120%, color-mix(in oklab, var(--neon-cyan) 18%, transparent), transparent 55%),
+        linear-gradient(165deg, #05050a 0%, #0a0a14 40%, #080812 100%);
       background-attachment: fixed;
+      animation: bg-breathe 18s ease-in-out infinite alternate;
     }
+    @keyframes bg-breathe {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(15deg); }
+    }
+
+    /* Floating neon particles */
+    .particles {
+      position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--neon-cyan);
+      box-shadow: 0 0 8px var(--neon-cyan), 0 0 16px var(--neon-cyan);
+      animation: float-up linear infinite;
+      opacity: 0.6;
+    }
+    .particle:nth-child(1) { left: 10%; animation-duration: 12s; animation-delay: 0s; background: var(--neon-pink); box-shadow: 0 0 10px var(--neon-pink); }
+    .particle:nth-child(2) { left: 25%; animation-duration: 15s; animation-delay: 2s; }
+    .particle:nth-child(3) { left: 40%; animation-duration: 11s; animation-delay: 4s; background: var(--neon-purple); box-shadow: 0 0 10px var(--neon-purple); }
+    .particle:nth-child(4) { left: 55%; animation-duration: 14s; animation-delay: 1s; }
+    .particle:nth-child(5) { left: 70%; animation-duration: 13s; animation-delay: 3s; background: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
+    .particle:nth-child(6) { left: 85%; animation-duration: 16s; animation-delay: 5s; background: var(--neon-yellow); box-shadow: 0 0 10px var(--neon-yellow); }
+    .particle:nth-child(7) { left: 15%; animation-duration: 18s; animation-delay: 6s; }
+    .particle:nth-child(8) { left: 60%; animation-duration: 10s; animation-delay: 1.5s; background: var(--neon-pink); }
+    @keyframes float-up {
+      0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+      10% { opacity: 0.7; }
+      90% { opacity: 0.5; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
     .flame-banner {
       background: linear-gradient(90deg, #ff4500, #ff8c00, #ffd700, #ff4500, #ff0000);
-      background-size: 300% 100%;
-      animation: fire-move 4s linear infinite;
+      background-size: 400% 100%;
+      animation: fire-move 3.5s linear infinite;
       text-align: center;
       padding: 0.9rem 5%;
       font-family: Orbitron, system-ui, sans-serif;
-      font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+      font-size: clamp(1.15rem, 3.5vw, 1.55rem);
       font-weight: 700;
       color: #fff;
-      text-shadow: 0 0 10px #ff4500, 0 0 20px #ff8c00, 0 0 30px #ff0000, 2px 2px 4px #000;
+      text-shadow: 0 0 12px #ff4500, 0 0 25px #ff8c00, 0 0 40px #ff0000;
       letter-spacing: 2px;
       position: relative;
       overflow: hidden;
@@ -56,189 +89,224 @@
     }
     .flame-banner::before {
       content: "🔥 🔥 🔥";
-      position: absolute;
-      top: 50%; left: 0; width: 100%;
+      position: absolute; top: 50%; left: 0; width: 100%;
       transform: translateY(-50%);
-      font-size: 2rem;
-      opacity: 0.25;
-      pointer-events: none;
-      animation: flicker 1.5s ease-in-out infinite alternate;
+      font-size: 1.9rem; opacity: 0.3;
+      animation: flicker 1.2s ease-in-out infinite alternate;
     }
-    @keyframes fire-move { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }
-    @keyframes flicker { 0% { opacity: 0.2; } 100% { opacity: 0.4; } }
+    @keyframes fire-move { 0% { background-position: 0% 50%; } 100% { background-position: 400% 50%; } }
+    @keyframes flicker { 0% { opacity: 0.2; } 100% { opacity: 0.45; } }
 
     #usd-ticker {
       position: fixed; top: 0; left: 0; width: 100%; height: 56px;
       background: #000; color: #0f0;
-      font-family: "Courier New", monospace; font-size: 20px; line-height: 56px;
-      overflow: hidden; z-index: 10002; border-bottom: 2px solid #0f0; white-space: nowrap;
+      font-family: "Courier New", monospace; font-size: 19px; line-height: 56px;
+      overflow: hidden; z-index: 10002; border-bottom: 2px solid #0f0;
     }
-    .ticker-track { display: flex; width: max-content; animation: ticker-scroll 16s linear infinite; }
+    .ticker-track { display: flex; width: max-content; animation: ticker-scroll 15s linear infinite; }
     .ticker-track span { display: inline-block; padding-right: 4rem; }
     @keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
     .led-border {
       position: fixed; inset: 0; z-index: 9999; pointer-events: none;
       border: 3px solid var(--neon-cyan);
-      box-shadow: 0 0 18px var(--neon-cyan);
-      animation: pulse-border 4s ease-in-out infinite alternate;
-      opacity: 0.75;
+      box-shadow: 0 0 20px var(--neon-cyan), inset 0 0 30px rgba(0,247,255,0.08);
+      animation: pulse-border 3.5s ease-in-out infinite alternate;
     }
     @keyframes pulse-border {
-      0% { border-color: var(--neon-pink); box-shadow: 0 0 12px var(--neon-pink); }
-      25% { border-color: var(--neon-cyan); box-shadow: 0 0 12px var(--neon-cyan); }
-      50% { border-color: var(--neon-purple); box-shadow: 0 0 12px var(--neon-purple); }
-      75% { border-color: var(--neon-green); box-shadow: 0 0 12px var(--neon-green); }
-      100% { border-color: var(--neon-yellow); box-shadow: 0 0 12px var(--neon-yellow); }
+      0% { border-color: var(--neon-pink); box-shadow: 0 0 15px var(--neon-pink), inset 0 0 25px rgba(255,45,149,0.1); }
+      25% { border-color: var(--neon-cyan); box-shadow: 0 0 20px var(--neon-cyan), inset 0 0 30px rgba(0,247,255,0.12); }
+      50% { border-color: var(--neon-purple); box-shadow: 0 0 18px var(--neon-purple), inset 0 0 28px rgba(176,38,255,0.1); }
+      75% { border-color: var(--neon-green); box-shadow: 0 0 18px var(--neon-green); }
+      100% { border-color: var(--neon-yellow); box-shadow: 0 0 22px var(--neon-yellow); }
     }
 
     header {
       background: color-mix(in oklab, var(--bg) 55%, transparent);
-      padding: 1.5rem 5%; text-align: center;
-      border-bottom: 1px solid color-mix(in oklab, var(--neon-cyan) 18%, transparent);
+      padding: 1.4rem 5%; text-align: center;
+      border-bottom: 1px solid color-mix(in oklab, var(--neon-cyan) 20%, transparent);
       position: relative; z-index: 10;
-      backdrop-filter: blur(24px) saturate(1.4);
+      backdrop-filter: blur(20px) saturate(1.5);
     }
     .logo {
       font-family: Orbitron, system-ui, sans-serif;
-      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-size: clamp(1.7rem, 5vw, 2.7rem);
       font-weight: 700;
-      background: linear-gradient(105deg, var(--neon-pink), var(--neon-cyan) 50%, var(--neon-purple));
+      background: linear-gradient(105deg, var(--neon-pink), var(--neon-cyan) 45%, var(--neon-purple));
+      background-size: 200% auto;
       -webkit-background-clip: text; background-clip: text; color: transparent;
-      filter: drop-shadow(0 2px 8px rgb(0 0 0 / 0.5)) drop-shadow(0 0 24px color-mix(in oklab, var(--neon-pink) 35%, transparent));
+      animation: logo-shine 4s linear infinite;
+      filter: drop-shadow(0 0 18px color-mix(in oklab, var(--neon-pink) 40%, transparent));
+    }
+    @keyframes logo-shine {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
     }
     .tagline {
-      margin-top: 0.4rem; font-size: 0.9rem; letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--neon-cyan); opacity: 0.88;
+      margin-top: 0.35rem; font-size: 0.88rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--neon-cyan); opacity: 0.9;
+      animation: neon-flicker 5s infinite;
+    }
+    @keyframes neon-flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow: 0 0 6px var(--neon-cyan), 0 0 12px var(--neon-cyan);
+        opacity: 0.95;
+      }
+      20%, 24%, 55% { opacity: 0.6; text-shadow: none; }
     }
 
     .hero {
-      min-height: 65vh; display: grid; place-items: center; text-align: center;
-      background: linear-gradient(to bottom, color-mix(in oklab, var(--bg) 35%, transparent), var(--bg)),
+      min-height: 62vh; display: grid; place-items: center; text-align: center;
+      background: linear-gradient(to bottom, color-mix(in oklab, var(--bg) 30%, transparent), var(--bg)),
                   url(IMG_1681.jpg) center / cover no-repeat;
-      position: relative; isolation: isolate; z-index: 2;
+      position: relative; z-index: 2;
     }
-    .hero > div { position: relative; z-index: 2; }
     .hero h1 {
       font-family: Orbitron, system-ui, sans-serif;
-      font-size: clamp(2.2rem, 7vw, 3.4rem);
+      font-size: clamp(2.1rem, 7vw, 3.3rem);
       font-weight: 700;
-      background: linear-gradient(100deg, var(--neon-cyan), var(--neon-pink));
+      background: linear-gradient(100deg, var(--neon-cyan), var(--neon-pink), var(--neon-purple));
+      background-size: 200% auto;
       -webkit-background-clip: text; background-clip: text; color: transparent;
-      filter: drop-shadow(0 4px 16px rgb(0 0 0 / 0.7));
+      animation: logo-shine 5s linear infinite;
+      filter: drop-shadow(0 4px 20px rgba(0,0,0,0.8));
     }
-    .hero p { font-size: 1.15rem; color: var(--neon-green); letter-spacing: 0.04em; margin-top: 0.5rem; }
+    .hero p {
+      font-size: 1.12rem; color: var(--neon-green);
+      margin-top: 0.5rem;
+      text-shadow: 0 0 10px color-mix(in oklab, var(--neon-green) 50%, transparent);
+    }
 
-    .container { max-width: 1100px; margin: 0 auto; padding: 3rem 5%; position: relative; z-index: 5; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 2.8rem 5%; position: relative; z-index: 5; }
     .section-title {
       font-family: Orbitron, system-ui, sans-serif;
-      font-size: clamp(1.5rem, 4vw, 2.1rem);
-      text-align: center; margin-bottom: 2.2rem;
+      font-size: clamp(1.45rem, 4vw, 2rem);
+      text-align: center; margin-bottom: 2rem;
       color: var(--neon-pink);
-      filter: drop-shadow(0 3px 12px rgb(0 0 0 / 0.5));
+      text-shadow: 0 0 15px color-mix(in oklab, var(--neon-pink) 40%, transparent);
+      animation: title-pulse 3s ease-in-out infinite alternate;
+    }
+    @keyframes title-pulse {
+      0% { filter: brightness(1); }
+      100% { filter: brightness(1.25); text-shadow: 0 0 25px color-mix(in oklab, var(--neon-pink) 60%, transparent); }
     }
 
-    /* Dual Profiles */
     .profiles {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      margin-bottom: 3.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1.8rem;
+      margin-bottom: 3.2rem;
     }
     .profile-card {
-      background: linear-gradient(155deg, #16162a, #0c0c16);
+      background: linear-gradient(160deg, #16162a, #0c0c16);
       border-radius: 18px;
       overflow: hidden;
       border: 1px solid rgba(255,255,255,0.12);
       text-align: center;
-      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      transform-style: preserve-3d;
+      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.55s ease;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.55);
+      animation: card-enter 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .profile-card:nth-child(1) { animation-delay: 0.15s; }
+    .profile-card:nth-child(2) { animation-delay: 0.3s; }
+    @keyframes card-enter {
+      from { opacity: 0; transform: translateY(40px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
     .profile-card:hover {
-      transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 25px 50px rgba(0,0,0,0.7), 0 0 30px color-mix(in oklab, var(--neon-cyan) 25%, transparent);
+      transform: translateY(-14px) rotateX(6deg) rotateY(-5deg) scale(1.03);
+      box-shadow:
+        0 30px 60px rgba(0,0,0,0.75),
+        0 0 40px color-mix(in oklab, var(--neon-cyan) 30%, transparent),
+        inset 0 1px 0 rgba(255,255,255,0.15);
     }
-    .profile-img {
-      width: 100%;
-      height: 280px;
-      object-fit: cover;
-      display: block;
-    }
-    .profile-content { padding: 1.6rem 1.4rem 2rem; }
+    .profile-img { width: 100%; height: 270px; object-fit: cover; display: block; transition: transform 0.6s ease; }
+    .profile-card:hover .profile-img { transform: scale(1.06); }
+    .profile-content { padding: 1.5rem 1.3rem 1.9rem; }
     .profile-content h2 {
       font-family: Orbitron, system-ui, sans-serif;
-      font-size: 1.6rem;
-      margin-bottom: 0.4rem;
+      font-size: 1.55rem;
+      margin-bottom: 0.35rem;
       background: linear-gradient(105deg, var(--neon-cyan), var(--neon-pink));
       -webkit-background-clip: text; background-clip: text; color: transparent;
     }
     .profile-role {
       color: var(--neon-green);
-      font-size: 0.95rem;
-      letter-spacing: 0.08em;
+      font-size: 0.92rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      margin-bottom: 0.9rem;
+      margin-bottom: 0.85rem;
     }
-    .profile-content p {
-      color: var(--text-muted);
-      font-size: 1rem;
-      line-height: 1.6;
-    }
+    .profile-content p { color: var(--text-muted); font-size: 0.98rem; }
 
     .posts {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-      gap: 1.8rem;
+      grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr));
+      gap: 1.7rem;
     }
     .post-card {
-      background: linear-gradient(155deg, #16162a, #0c0c16);
-      border-radius: 18px; overflow: hidden;
+      background: linear-gradient(160deg, #16162a, #0c0c16);
+      border-radius: 16px; overflow: hidden;
       border: 1px solid rgba(255,255,255,0.1);
+      transform-style: preserve-3d;
       transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.5);
+      animation: card-enter 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
+    .post-card:nth-child(1) { animation-delay: 0.2s; }
+    .post-card:nth-child(2) { animation-delay: 0.35s; }
+    .post-card:nth-child(3) { animation-delay: 0.5s; }
+    .post-card:nth-child(4) { animation-delay: 0.65s; }
     .post-card:hover {
-      transform: translateY(-12px) scale(1.02);
-      box-shadow: 0 25px 50px rgba(0,0,0,0.7), 0 0 30px color-mix(in oklab, var(--neon-cyan) 20%, transparent);
+      transform: translateY(-13px) rotateX(5deg) scale(1.025);
+      box-shadow: 0 28px 55px rgba(0,0,0,0.75), 0 0 35px color-mix(in oklab, var(--neon-cyan) 25%, transparent);
     }
-    .post-img { width: 100%; height: 230px; object-fit: cover; display: block; }
-    .post-content { padding: 1.4rem; }
+    .post-img { width: 100%; height: 220px; object-fit: cover; display: block; transition: transform 0.55s ease; }
+    .post-card:hover .post-img { transform: scale(1.07); }
+    .post-content { padding: 1.35rem; }
     .post-content h2 {
       font-family: Orbitron, system-ui, sans-serif;
       color: var(--neon-cyan);
-      font-size: 1.25rem;
-      margin-bottom: 0.4rem;
+      font-size: 1.2rem;
+      margin-bottom: 0.35rem;
     }
-    .meta { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 0.7rem; }
+    .meta { color: var(--text-muted); font-size: 0.86rem; margin-bottom: 0.65rem; }
 
     .about {
-      background: color-mix(in oklab, var(--bg) 80%, #12121f);
-      color: white; padding: 3.5rem 5%; text-align: center; margin: 3rem 0;
-      border-top: 1px solid color-mix(in oklab, var(--neon-purple) 20%, transparent);
-      border-bottom: 1px solid color-mix(in oklab, var(--neon-purple) 20%, transparent);
+      background: color-mix(in oklab, var(--bg) 82%, #12121f);
+      padding: 3.2rem 5%; text-align: center; margin: 2.8rem 0;
+      border-top: 1px solid color-mix(in oklab, var(--neon-purple) 25%, transparent);
+      border-bottom: 1px solid color-mix(in oklab, var(--neon-purple) 25%, transparent);
     }
     .about h2 {
       font-family: Orbitron, system-ui, sans-serif;
-      font-size: clamp(1.7rem, 4.5vw, 2.3rem);
-      margin-bottom: 1rem;
+      font-size: clamp(1.6rem, 4.5vw, 2.2rem);
+      margin-bottom: 0.9rem;
       background: linear-gradient(105deg, var(--neon-pink), var(--neon-cyan));
       -webkit-background-clip: text; background-clip: text; color: transparent;
     }
-    .about p { max-width: 720px; margin: 0 auto; font-size: 1.08rem; color: var(--text-muted); }
+    .about p { max-width: 700px; margin: 0 auto; font-size: 1.05rem; color: var(--text-muted); }
 
     footer {
-      background: #05050a; color: #888; text-align: center; padding: 2.8rem 5%; font-size: 0.95rem;
+      background: #05050a; color: #777; text-align: center; padding: 2.5rem 5%; font-size: 0.93rem;
     }
 
     @media (max-width: 768px) {
-      .hero { min-height: 55vh; }
-      .profiles { grid-template-columns: 1fr; }
-      .posts { grid-template-columns: 1fr; }
-      .post-card:hover, .profile-card:hover { transform: translateY(-6px); }
+      .hero { min-height: 50vh; }
+      .profiles, .posts { grid-template-columns: 1fr; }
+      .profile-card:hover, .post-card:hover { transform: translateY(-8px); }
+      .particle { display: none; }
     }
   </style>
 </head>
 <body>
+  <div class="particles">
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+  </div>
+
   <div class="flame-banner">FUCK YOU EGO-ALtER</div>
 
   <div id="usd-ticker">
