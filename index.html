@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Starz & Cappy — Captain and Starz living their best cat life on the South Side">
+  <meta name="description" content="Starz & Cappy — Captain and Starz living their best cat life">
   <meta name="theme-color" content="#07070d">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Starz & Cappy — Cat Life</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,6 +20,9 @@
       --bg: #07070d;
       --text: #e8e8f5;
       --text-muted: #b8b8d0;
+      --ticker-bg: #0a0a0a;
+      --ticker-green: #00ff41;
+      --ticker-amber: #ffb000;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { color-scheme: dark; scroll-behavior: smooth; }
@@ -30,7 +34,7 @@
       min-height: 100dvh;
       overflow-x: hidden;
       position: relative;
-      padding-top: 110px;
+      padding-top: 52px;
       background-image:
         radial-gradient(ellipse 120% 90% at 50% -40%, color-mix(in oklab, var(--neon-purple) 30%, transparent), transparent 65%),
         radial-gradient(ellipse 80% 60% at 90% 120%, color-mix(in oklab, var(--neon-cyan) 18%, transparent), transparent 55%),
@@ -70,41 +74,55 @@
       100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
     }
 
-    .flame-banner {
-      background: linear-gradient(90deg, #ff4500, #ff8c00, #ffd700, #ff4500, #ff0000);
-      background-size: 400% 100%;
-      animation: fire-move 3.5s linear infinite;
-      text-align: center;
-      padding: 0.9rem 5%;
-      font-family: Orbitron, system-ui, sans-serif;
-      font-size: clamp(1.15rem, 3.5vw, 1.55rem);
-      font-weight: 700;
-      color: #fff;
-      text-shadow: 0 0 12px #ff4500, 0 0 25px #ff8c00, 0 0 40px #ff0000;
-      letter-spacing: 2px;
-      position: relative;
-      overflow: hidden;
-      z-index: 10003;
-    }
-    .flame-banner::before {
-      content: "🔥 🔥 🔥";
-      position: absolute; top: 50%; left: 0; width: 100%;
-      transform: translateY(-50%);
-      font-size: 1.9rem; opacity: 0.3;
-      animation: flicker 1.2s ease-in-out infinite alternate;
-    }
-    @keyframes fire-move { 0% { background-position: 0% 50%; } 100% { background-position: 400% 50%; } }
-    @keyframes flicker { 0% { opacity: 0.2; } 100% { opacity: 0.45; } }
-
+    /* NYSE-style ticker */
     #usd-ticker {
-      position: fixed; top: 0; left: 0; width: 100%; height: 56px;
-      background: #000; color: #0f0;
-      font-family: "Courier New", monospace; font-size: 19px; line-height: 56px;
-      overflow: hidden; z-index: 10002; border-bottom: 2px solid #0f0;
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      height: 48px;
+      background: var(--ticker-bg);
+      color: var(--ticker-green);
+      font-family: "Courier New", Courier, monospace;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 48px;
+      overflow: hidden;
+      z-index: 10002;
+      border-bottom: 2px solid #1a3a1a;
+      box-shadow: 0 2px 12px rgba(0, 255, 65, 0.08);
     }
-    .ticker-track { display: flex; width: max-content; animation: ticker-scroll 15s linear infinite; }
-    .ticker-track span { display: inline-block; padding-right: 4rem; }
-    @keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .ticker-inner {
+      display: flex;
+      width: max-content;
+      animation: ticker-scroll 42s linear infinite;
+    }
+    .ticker-segment {
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+      padding-right: 3.5rem;
+    }
+    .ticker-seg {
+      margin-right: 1.8rem;
+      letter-spacing: 0.04em;
+    }
+    .ticker-label {
+      color: #7a9a7a;
+      margin-right: 0.35rem;
+    }
+    .ticker-value {
+      color: var(--ticker-green);
+    }
+    .ticker-value.amber {
+      color: var(--ticker-amber);
+    }
+    .ticker-sep {
+      color: #2a4a2a;
+      margin: 0 1.2rem;
+    }
+    @keyframes ticker-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
 
     .led-border {
       position: fixed; inset: 0; z-index: 9999; pointer-events: none;
@@ -355,26 +373,26 @@
       .profiles, .posts { grid-template-columns: 1fr; }
       .profile-card:hover, .post-card:hover { transform: translateY(-8px); }
       .particle { display: none; }
+      #usd-ticker { font-size: 13px; height: 44px; line-height: 44px; }
+      body { padding-top: 48px; }
     }
   </style>
 </head>
 <body>
-  <div class="particles">
+  <div class="particles" aria-hidden="true">
     <div class="particle"></div><div class="particle"></div><div class="particle"></div>
     <div class="particle"></div><div class="particle"></div><div class="particle"></div>
     <div class="particle"></div><div class="particle"></div>
   </div>
 
-  <div class="flame-banner">FUCK YOU EGO-ALtER</div>
-
-  <div id="usd-ticker">
-    <div class="ticker-track">
-      <span>STARZ STATUS: FLOOFY • CAPTAIN STATUS: FLOOFY • SOUTH SIDE • LIVING THEIR BEST LIVES • </span>
-      <span>STARZ STATUS: FLOOFY • CAPTAIN STATUS: FLOOFY • SOUTH SIDE • LIVING THEIR BEST LIVES • </span>
+  <div id="usd-ticker" role="marquee" aria-live="polite">
+    <div class="ticker-inner" id="ticker-track">
+      <div class="ticker-segment" id="ticker-content-a">Loading ticker…</div>
+      <div class="ticker-segment" id="ticker-content-b" aria-hidden="true">Loading ticker…</div>
     </div>
   </div>
 
-  <div class="led-border"></div>
+  <div class="led-border" aria-hidden="true"></div>
 
   <header>
     <div class="logo">STARZ & CAPPY</div>
@@ -384,7 +402,7 @@
   <section class="hero">
     <div>
       <h1>Starz & Captain</h1>
-      <p>Living their best cat lives on the South Side</p>
+      <p>Living their best cat lives</p>
     </div>
   </section>
 
@@ -393,7 +411,7 @@
 
     <div class="profiles">
       <div class="profile-card">
-        <img src="IMG_0600.jpg" alt="Captain the white floppy cat" class="profile-img">
+        <img src="IMG_0600.jpg" alt="Captain the white floppy cat" class="profile-img" width="400" height="270" loading="lazy">
         <div class="profile-content">
           <h2>Captain</h2>
           <div class="profile-role">The White Floppy One</div>
@@ -402,7 +420,7 @@
       </div>
 
       <div class="profile-card">
-        <img src="IMG_0572.jpg" alt="Starz the cat" class="profile-img">
+        <img src="IMG_0572.jpg" alt="Starz the cat" class="profile-img" width="400" height="270" loading="lazy">
         <div class="profile-content">
           <h2>Starz</h2>
           <div class="profile-role">Chair & Box Expert</div>
@@ -414,7 +432,7 @@
     <h2 class="section-title">Latest Purr-spectives</h2>
     <div class="posts">
       <div class="post-card">
-        <img src="cat_back.jpg" alt="Starz belly up" class="post-img">
+        <img src="cat_back.jpg" alt="Starz belly up" class="post-img" width="400" height="220" loading="lazy">
         <div class="post-content">
           <div class="meta">September 2026 • Peak Comfort</div>
           <h2>Belly Up Mode</h2>
@@ -423,7 +441,7 @@
       </div>
 
       <div class="post-card">
-        <img src="cat_green.jpg" alt="Starz on green" class="post-img">
+        <img src="cat_green.jpg" alt="Starz on green" class="post-img" width="400" height="220" loading="lazy">
         <div class="post-content">
           <div class="meta">September 2026 • Soft Life</div>
           <h2>Green Throne</h2>
@@ -432,7 +450,7 @@
       </div>
 
       <div class="post-card">
-        <img src="cat_sleep.jpg" alt="Captain deep sleep" class="post-img">
+        <img src="cat_sleep.jpg" alt="Captain deep sleep" class="post-img" width="400" height="220" loading="lazy">
         <div class="post-content">
           <div class="meta">September 2026 • Recovery Mode</div>
           <h2>Deep Sleep Protocol</h2>
@@ -441,7 +459,7 @@
       </div>
 
       <div class="post-card">
-        <img src="IMG_0572.jpg" alt="Starz and friend on the chair" class="post-img">
+        <img src="IMG_0572.jpg" alt="Starz and friend on the chair" class="post-img" width="400" height="220" loading="lazy">
         <div class="post-content">
           <div class="meta">July 2026 • Lounge Life</div>
           <h2>Chair Kings</h2>
@@ -450,7 +468,7 @@
       </div>
 
       <div class="post-card">
-        <img src="IMG_0593.jpg" alt="Starz supervising" class="post-img">
+        <img src="IMG_0593.jpg" alt="Starz supervising" class="post-img" width="400" height="220" loading="lazy">
         <div class="post-content">
           <div class="meta">July 2026 • Night Vibes</div>
           <h2>Pink LED Supervisor</h2>
@@ -459,7 +477,7 @@
       </div>
 
       <div class="post-card">
-        <img src="IMG_0600.jpg" alt="Captain sleeping" class="post-img">
+        <img src="IMG_0600.jpg" alt="Captain sleeping" class="post-img" width="400" height="220" loading="lazy">
         <div class="post-content">
           <div class="meta">July 2026 • Recovery Mode</div>
           <h2>Professional Napper</h2>
@@ -468,7 +486,7 @@
       </div>
 
       <div class="post-card">
-        <img src="IMG_3262.jpg" alt="Starz in the box" class="post-img">
+        <img src="IMG_3262.jpg" alt="Starz in the box" class="post-img" width="400" height="220" loading="lazy">
         <div class="post-content">
           <div class="meta">July 2026 • Architecture</div>
           <h2>Cardboard Box Connoisseur</h2>
@@ -480,15 +498,15 @@
 
   <div class="about">
     <h2>Meet Starz & Captain</h2>
-    <p>Two sophisticated floofy legends with impeccable taste in furniture, sunlight, cardboard architecture, and late-night supervision. Living their best lives together on the South Side.</p>
+    <p>Two sophisticated floofy legends with impeccable taste in furniture, sunlight, cardboard architecture, and late-night supervision. Living their best lives together.</p>
   </div>
 
   <div class="support">
     <h2>Support the Floofs</h2>
     <p>Want to help keep the treats coming and the cardboard boxes stocked? Send a little something to the boys.</p>
     <div class="support-buttons">
-      <a href="https://cash.app/$MYLSAP" target="_blank" rel="noopener" class="support-btn cashapp">Cash App $MYLSAP</a>
-      <a href="https://paypal.me/MYLsap" target="_blank" rel="noopener" class="support-btn paypal">PayPal @MYLsap</a>
+      <a href="https://cash.app/$MYLSAP" target="_blank" rel="noopener noreferrer" class="support-btn cashapp">Cash App $MYLSAP</a>
+      <a href="https://paypal.me/MYLsap" target="_blank" rel="noopener noreferrer" class="support-btn paypal">PayPal @MYLsap</a>
     </div>
   </div>
 
@@ -496,5 +514,88 @@
     <p>&copy; 2026 Cute & Floofy</p>
     <p style="margin-top:1rem; opacity:0.7;">Made with piss n' love (and cat puke)</p>
   </footer>
+
+  <script>
+    (function () {
+      "use strict";
+
+      const STARZ_STATUS = [
+        "FLOOFY", "SUPERVISOR", "BOX KING", "CHAIR LORD",
+        "STRIPE BOSS", "TREAT HUNTER", "LOUNGE MODE", "NAP READY"
+      ];
+      const CAPPY_STATUS = [
+        "FLOPPY", "PRO NAPPER", "CREAM PUFF", "DEEP SLEEP",
+        "SUNBEAM SEEKER", "ROYAL FLOOF", "COZY MODE", "SILENT JUDGE"
+      ];
+
+      function daySeed() {
+        const d = new Date();
+        return d.getFullYear() * 1000 + d.getMonth() * 50 + d.getDate();
+      }
+
+      function pick(list, offset) {
+        const seed = daySeed() + offset;
+        return list[Math.abs(seed) % list.length];
+      }
+
+      function escapeHtml(str) {
+        const div = document.createElement("div");
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
+      function buildSegment(starz, cappy, wotdWord, wotdDef) {
+        const usd = "USD 1.00";
+        let html = "";
+        html += `<span class="ticker-seg"><span class="ticker-label">USD</span><span class="ticker-value">${usd}</span></span>`;
+        html += `<span class="ticker-sep">|</span>`;
+        html += `<span class="ticker-seg"><span class="ticker-label">STARZ</span><span class="ticker-value">${escapeHtml(starz)}</span></span>`;
+        html += `<span class="ticker-sep">|</span>`;
+        html += `<span class="ticker-seg"><span class="ticker-label">CAPPY</span><span class="ticker-value">${escapeHtml(cappy)}</span></span>`;
+        html += `<span class="ticker-sep">|</span>`;
+        if (wotdWord) {
+          html += `<span class="ticker-seg"><span class="ticker-label">WOTD</span><span class="ticker-value amber">${escapeHtml(wotdWord.toUpperCase())}</span>`;
+          if (wotdDef) {
+            html += ` <span class="ticker-label">— ${escapeHtml(wotdDef.slice(0, 60))}${wotdDef.length > 60 ? "…" : ""}</span>`;
+          }
+          html += `</span>`;
+        } else {
+          html += `<span class="ticker-seg"><span class="ticker-label">WOTD</span><span class="ticker-value amber">LOADING</span></span>`;
+        }
+        return html;
+      }
+
+      function renderTicker(starz, cappy, word, def) {
+        const content = buildSegment(starz, cappy, word, def);
+        const a = document.getElementById("ticker-content-a");
+        const b = document.getElementById("ticker-content-b");
+        if (a) a.innerHTML = content;
+        if (b) b.innerHTML = content;
+      }
+
+      const starzToday = pick(STARZ_STATUS, 0);
+      const cappyToday = pick(CAPPY_STATUS, 3); // offset so they rarely match
+
+      renderTicker(starzToday, cappyToday, null, null);
+
+      // Word of the Day from https://api.wotd.site
+      fetch("https://api.wotd.site/query", {
+        method: "GET",
+        headers: { "Accept": "application/json" }
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error("WOTD fetch failed");
+          return res.json();
+        })
+        .then(function (data) {
+          const word = (data && data.word) ? data.word : null;
+          const def = (data && data.definition) ? data.definition : "";
+          renderTicker(starzToday, cappyToday, word, def);
+        })
+        .catch(function () {
+          renderTicker(starzToday, cappyToday, "CURIOSITY", "The state of wanting to know more.");
+        });
+    })();
+  </script>
 </body>
 </html>
