@@ -93,13 +93,15 @@
     .ticker-inner {
       display: flex;
       width: max-content;
-      animation: ticker-scroll 42s linear infinite;
+      animation: ticker-scroll 21s linear infinite;
+      will-change: transform;
     }
     .ticker-segment {
       display: inline-flex;
       align-items: center;
       white-space: nowrap;
-      padding-right: 3.5rem;
+      padding-right: 4rem;
+      flex-shrink: 0;
     }
     .ticker-seg {
       margin-right: 1.8rem;
@@ -556,12 +558,15 @@
         if (wotdWord) {
           html += `<span class="ticker-seg"><span class="ticker-label">WOTD</span><span class="ticker-value amber">${escapeHtml(wotdWord.toUpperCase())}</span>`;
           if (wotdDef) {
-            html += ` <span class="ticker-label">— ${escapeHtml(wotdDef.slice(0, 60))}${wotdDef.length > 60 ? "…" : ""}</span>`;
+            const shortDef = wotdDef.length > 55 ? wotdDef.slice(0, 55) + "…" : wotdDef;
+            html += ` <span class="ticker-label">— ${escapeHtml(shortDef)}</span>`;
           }
           html += `</span>`;
         } else {
           html += `<span class="ticker-seg"><span class="ticker-label">WOTD</span><span class="ticker-value amber">LOADING</span></span>`;
         }
+        // Extra spacing so the loop feels continuous
+        html += `<span class="ticker-sep">•</span>`;
         return html;
       }
 
@@ -574,11 +579,10 @@
       }
 
       const starzToday = pick(STARZ_STATUS, 0);
-      const cappyToday = pick(CAPPY_STATUS, 3); // offset so they rarely match
+      const cappyToday = pick(CAPPY_STATUS, 3);
 
       renderTicker(starzToday, cappyToday, null, null);
 
-      // Word of the Day from https://api.wotd.site
       fetch("https://api.wotd.site/query", {
         method: "GET",
         headers: { "Accept": "application/json" }
