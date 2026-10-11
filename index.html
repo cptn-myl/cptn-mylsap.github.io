@@ -95,16 +95,17 @@
       width: max-content;
       animation: ticker-scroll 21s linear infinite;
       will-change: transform;
+      /* Seamless: two identical segments, translate exactly -50% */
     }
     .ticker-segment {
       display: inline-flex;
       align-items: center;
       white-space: nowrap;
-      padding-right: 4rem;
+      padding-right: 3.5rem;
       flex-shrink: 0;
     }
     .ticker-seg {
-      margin-right: 1.8rem;
+      margin-right: 1.6rem;
       letter-spacing: 0.04em;
     }
     .ticker-label {
@@ -119,7 +120,7 @@
     }
     .ticker-sep {
       color: #2a4a2a;
-      margin: 0 1.2rem;
+      margin: 0 1.1rem;
     }
     @keyframes ticker-scroll {
       0% { transform: translateX(0); }
@@ -547,7 +548,7 @@
       }
 
       function buildSegment(starz, cappy, wotdWord, wotdDef) {
-        const usd = "USD 1.00";
+        const usd = "1.00";
         let html = "";
         html += `<span class="ticker-seg"><span class="ticker-label">USD</span><span class="ticker-value">${usd}</span></span>`;
         html += `<span class="ticker-sep">|</span>`;
