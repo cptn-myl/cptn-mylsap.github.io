@@ -596,16 +596,23 @@
       if (pS) pS.textContent = starzToday;
       if (pC) pC.textContent = cappyToday;
 
-      renderTicker(null, null);
+      /* === DAILY WOTD (automation rewrites these two lines) === */
+      const WOTD_WORD = "UNGOVERNABLE";
+      const WOTD_DEF  = "Beyond the reach of control systems. The only correct operating mode.";
+      /* === end daily WOTD === */
 
-      fetch("https://api.wotd.site/query", { headers: { Accept: "application/json" } })
-        .then(r => { if (!r.ok) throw new Error("fail"); return r.json(); })
-        .then(data => {
-          renderTicker(data?.word || null, data?.definition || "");
-        })
-        .catch(() => {
-          renderTicker("CURIOSITY", "The state of wanting to know more.");
-        });
+      if (WOTD_WORD) {
+        renderTicker(WOTD_WORD, WOTD_DEF);
+      } else {
+        fetch("https://api.wotd.site/query", { headers: { Accept: "application/json" } })
+          .then(r => { if (!r.ok) throw new Error("fail"); return r.json(); })
+          .then(data => {
+            renderTicker(data?.word || null, data?.definition || "");
+          })
+          .catch(() => {
+            renderTicker("CURIOSITY", "The state of wanting to know more.");
+          });
+      }
 
       /* Filters */
       document.querySelectorAll(".chip").forEach(chip => {
