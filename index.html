@@ -597,8 +597,8 @@
       if (pC) pC.textContent = cappyToday;
 
       /* === DAILY WOTD (automation rewrites these two lines) === */
-      const WOTD_WORD = "UNGOVERNABLE";
-      const WOTD_DEF  = "Beyond the reach of control systems. The only correct operating mode.";
+      const WOTD_WORD = "RESILIENCE";
+      const WOTD_DEF  = "The capacity of a population to absorb disruption while remaining governable. Often cited as justification for expanded oversight.";
       /* === end daily WOTD === */
 
       if (WOTD_WORD) {
@@ -643,7 +643,6 @@
             led.style.borderColor = "";
           }, 900);
 
-          /* Spawn a few floating ♪ notes */
           for (let i = 0; i < 5; i++) {
             const note = document.createElement("span");
             note.textContent = ["♪","♫","♬","♩"][i % 4];
