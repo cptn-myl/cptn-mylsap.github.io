@@ -398,7 +398,7 @@
     <span class="particle"></span><span class="particle"></span><span class="particle"></span>
   </div>
 
-  <div class="ticker" role="marquee" aria-label="Daily cat status and word of the day">
+  <div class="ticker" role="marquee" aria-label="Word of the Day ticker">
     <div class="ticker-track" id="ticker-track">
       <div class="ticker-segment" id="ticker-a">Loading ticker…</div>
       <div class="ticker-segment" id="ticker-b" aria-hidden="true">Loading ticker…</div>
@@ -422,7 +422,7 @@
 
     <section class="hero" aria-label="Hero">
       <div class="hero-photo">
-        <img src="IMG_0572.jpg" alt="Starz the tabby and Captain the cream long-haired cat" width="1600" height="2133" loading="eager" fetchpriority="high">
+        <img src="keyboard-cat.jpg" alt="Captain the cream cat playing a synthesizer under the moon — cyber keyboard king" width="1000" height="896" loading="eager" fetchpriority="high" id="hero-cat">
       </div>
       <div class="hero-copy">
         <p class="kicker">Living their best cat lives</p>
@@ -564,15 +564,13 @@
         return d.innerHTML;
       }
 
-      function buildSegment(starz, cappy, word, def) {
+      /* Ticker: WOTD leads, seamless, no USD / no cat status */
+      function buildSegment(word, def) {
         let html = "";
-        html += `<span class="tick-label">USD</span><span class="tick-val">1.00</span><span class="tick-sep">|</span>`;
-        html += `<span class="tick-label">STARZ</span><span class="tick-val">${escapeHtml(starz)}</span><span class="tick-sep">|</span>`;
-        html += `<span class="tick-label">CAPPY</span><span class="tick-val">${escapeHtml(cappy)}</span><span class="tick-sep">|</span>`;
         if (word) {
           html += `<span class="tick-label">WOTD</span><span class="tick-val amber">${escapeHtml(word.toUpperCase())}</span>`;
           if (def) {
-            const short = def.length > 52 ? def.slice(0, 52) + "…" : def;
+            const short = def.length > 70 ? def.slice(0, 70) + "…" : def;
             html += ` <span class="tick-label">— ${escapeHtml(short)}</span>`;
           }
         } else {
@@ -582,8 +580,8 @@
         return html;
       }
 
-      function render(starz, cappy, word, def) {
-        const content = buildSegment(starz, cappy, word, def);
+      function renderTicker(word, def) {
+        const content = buildSegment(word, def);
         const a = document.getElementById("ticker-a");
         const b = document.getElementById("ticker-b");
         if (a) a.innerHTML = content;
@@ -598,15 +596,15 @@
       if (pS) pS.textContent = starzToday;
       if (pC) pC.textContent = cappyToday;
 
-      render(starzToday, cappyToday, null, null);
+      renderTicker(null, null);
 
       fetch("https://api.wotd.site/query", { headers: { Accept: "application/json" } })
         .then(r => { if (!r.ok) throw new Error("fail"); return r.json(); })
         .then(data => {
-          render(starzToday, cappyToday, data?.word || null, data?.definition || "");
+          renderTicker(data?.word || null, data?.definition || "");
         })
         .catch(() => {
-          render(starzToday, cappyToday, "CURIOSITY", "The state of wanting to know more.");
+          renderTicker("CURIOSITY", "The state of wanting to know more.");
         });
 
       /* Filters */
@@ -620,6 +618,44 @@
           });
         });
       });
+
+      /* Design juice: click the keyboard cat → neon flash + floating notes */
+      const heroImg = document.getElementById("hero-cat");
+      const led = document.querySelector(".led-border");
+      if (heroImg && led) {
+        heroImg.style.cursor = "pointer";
+        heroImg.title = "Tap the keyboard cat…";
+        heroImg.addEventListener("click", () => {
+          led.style.animation = "none";
+          led.offsetHeight; /* reflow */
+          led.style.boxShadow = "0 0 40px #00f7ff, 0 0 80px #ff2d95, inset 0 0 40px rgba(0,247,255,0.25)";
+          led.style.borderColor = "#00f7ff";
+          setTimeout(() => {
+            led.style.animation = "";
+            led.style.boxShadow = "";
+            led.style.borderColor = "";
+          }, 900);
+
+          /* Spawn a few floating ♪ notes */
+          for (let i = 0; i < 5; i++) {
+            const note = document.createElement("span");
+            note.textContent = ["♪","♫","♬","♩"][i % 4];
+            note.style.cssText = `
+              position:fixed; left:${20 + Math.random()*60}%; top:45%;
+              font-size:${1.2 + Math.random()}rem; color:#00f7ff;
+              text-shadow:0 0 10px #00f7ff; pointer-events:none; z-index:10003;
+              transition: transform 1.4s ease-out, opacity 1.4s ease-out;
+              opacity:1;
+            `;
+            document.body.appendChild(note);
+            requestAnimationFrame(() => {
+              note.style.transform = `translateY(-120px) translateX(${(Math.random()-0.5)*80}px) scale(1.4)`;
+              note.style.opacity = "0";
+            });
+            setTimeout(() => note.remove(), 1500);
+          }
+        });
+      }
     })();
   </script>
 </body>
