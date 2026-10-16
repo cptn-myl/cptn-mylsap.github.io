@@ -424,9 +424,91 @@
       .nav { gap: 0.85rem; }
       .grid-floor { opacity: 0.35; }
     }
+
+    /* --- TOUCH: liquid morph + glitch smear --- */
+    .morph-lens {
+      position: fixed;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9995;
+      left: 0; top: 0;
+      transform: translate(-50%, -50%) scale(0);
+      background: radial-gradient(
+        circle,
+        rgba(0,240,255,0.18) 0%,
+        rgba(255,43,214,0.12) 35%,
+        transparent 70%
+      );
+      mix-blend-mode: screen;
+      opacity: 0;
+      transition: opacity 0.25s ease, transform 0.15s ease-out;
+      will-change: transform, opacity;
+    }
+    .morph-lens.active {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    body.is-touching .grid-floor {
+      animation: none;
+      transition: transform 0.12s ease-out, filter 0.12s;
+      filter: hue-rotate(25deg) brightness(1.15);
+    }
+    body.is-touching .rave-bg {
+      filter: saturate(1.4) contrast(1.08);
+      transition: filter 0.12s;
+    }
+    body.is-touching .scanlines {
+      opacity: 0.85;
+      animation: smear-scan 0.08s steps(2) infinite;
+    }
+    @keyframes smear-scan {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(-3px); }
+      100% { transform: translateX(2px); }
+    }
+    body.is-touching .led-border {
+      animation: none !important;
+      border-color: var(--acid) !important;
+      box-shadow:
+        0 0 30px var(--cyan),
+        0 0 60px var(--pink),
+        inset 0 0 40px rgba(200,255,0,0.2) !important;
+    }
+    body.is-touching .vhs {
+      opacity: 0.55;
+    }
+    body.glitch-smear {
+      filter: url(#touch-glitch);
+    }
+    body.glitch-smear .shell {
+      text-shadow:
+        2px 0 rgba(255,43,214,0.45),
+        -2px 0 rgba(0,240,255,0.45);
+    }
+    body.glitch-smear .hero-photo img {
+      filter: contrast(1.3) saturate(1.6) hue-rotate(20deg) !important;
+      transform: scale(1.03) !important;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .morph-lens, body.is-touching .scanlines { animation: none !important; }
+      body.glitch-smear .shell { text-shadow: none; }
+    }
   </style>
 </head>
 <body>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+    <filter id="touch-glitch">
+      <feOffset in="SourceGraphic" dx="2" dy="0" result="r"/>
+      <feOffset in="SourceGraphic" dx="-2" dy="0" result="b"/>
+      <feColorMatrix in="r" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r2"/>
+      <feColorMatrix in="b" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="b2"/>
+      <feBlend in="r2" in2="SourceGraphic" mode="screen" result="rb"/>
+      <feBlend in="b2" in2="rb" mode="screen"/>
+    </filter>
+  </svg>
+  <div class="morph-lens" id="morph-lens" aria-hidden="true"></div>
+
   <div class="rave-bg" aria-hidden="true"></div>
   <div class="grid-floor" aria-hidden="true"></div>
   <div class="scanlines" aria-hidden="true"></div>
@@ -552,7 +634,7 @@
     </section>
 
     <footer>
-      <p>&copy; 2026 Cute & Floofy · RAVE FREQUENCY</p>
+      <p>&copy; 2026 Cute &amp; Floofy · RAVE FREQUENCY</p>
       <p>Made with piss n' love (and cat puke)</p>
     </footer>
   </div>
@@ -672,6 +754,74 @@
           }
         });
       }
+
+      /* --- Touch: liquid morph + glitch smear --- */
+      (function touchFX() {
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (reduced) return;
+
+        const lens = document.getElementById("morph-lens");
+        const body = document.body;
+        let smearTimer = null;
+
+        function setLens(x, y, on) {
+          if (!lens) return;
+          lens.style.left = x + "px";
+          lens.style.top = y + "px";
+          lens.classList.toggle("active", on);
+        }
+
+        function startTouch(x, y) {
+          body.classList.add("is-touching", "glitch-smear");
+          setLens(x, y, true);
+          const gx = (x / window.innerWidth - 0.5) * 12;
+          const gy = (y / window.innerHeight - 0.5) * 8;
+          const grid = document.querySelector(".grid-floor");
+          if (grid) {
+            grid.style.transform = `perspective(400px) rotateX(68deg) translate(${gx}px, ${gy}px) scale(1.04)`;
+          }
+          clearTimeout(smearTimer);
+        }
+
+        function moveTouch(x, y) {
+          setLens(x, y, true);
+          const gx = (x / window.innerWidth - 0.5) * 14;
+          const gy = (y / window.innerHeight - 0.5) * 10;
+          const grid = document.querySelector(".grid-floor");
+          if (grid) {
+            grid.style.transform = `perspective(400px) rotateX(68deg) translate(${gx}px, ${gy}px) scale(1.05)`;
+          }
+          body.classList.add("glitch-smear");
+          clearTimeout(smearTimer);
+          smearTimer = setTimeout(() => body.classList.remove("glitch-smear"), 90);
+        }
+
+        function endTouch() {
+          body.classList.remove("is-touching", "glitch-smear");
+          setLens(0, 0, false);
+          const grid = document.querySelector(".grid-floor");
+          if (grid) {
+            grid.style.transform = "";
+          }
+        }
+
+        document.addEventListener("touchstart", (e) => {
+          const t = e.touches[0];
+          if (t) startTouch(t.clientX, t.clientY);
+        }, { passive: true });
+        document.addEventListener("touchmove", (e) => {
+          const t = e.touches[0];
+          if (t) moveTouch(t.clientX, t.clientY);
+        }, { passive: true });
+        document.addEventListener("touchend", endTouch, { passive: true });
+        document.addEventListener("touchcancel", endTouch, { passive: true });
+
+        document.addEventListener("mousedown", (e) => startTouch(e.clientX, e.clientY));
+        document.addEventListener("mousemove", (e) => {
+          if (e.buttons === 1) moveTouch(e.clientX, e.clientY);
+        });
+        document.addEventListener("mouseup", endTouch);
+      })();
     })();
   </script>
 </body>
