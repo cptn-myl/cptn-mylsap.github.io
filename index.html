@@ -31,7 +31,6 @@
       --ticker-h: 2.6rem;
       --radius: 12px;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { color-scheme: dark; scroll-behavior: smooth; }
     @media (prefers-reduced-motion: reduce) {
@@ -42,7 +41,6 @@
         transition-duration: 0.01ms !important;
       }
     }
-
     body {
       font-family: var(--font-body);
       background: var(--bg);
@@ -52,7 +50,6 @@
       line-height: 1.55;
       position: relative;
     }
-
     .rave-bg {
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background:
@@ -61,7 +58,6 @@
         radial-gradient(ellipse 50% 30% at 50% 50%, rgba(255,43,214,0.15), transparent 60%),
         linear-gradient(180deg, #050010 0%, #0c0018 40%, #120028 100%);
     }
-
     .grid-floor {
       position: fixed; left: -20%; right: -20%; bottom: -10%; height: 55%;
       z-index: 1; pointer-events: none;
@@ -78,15 +74,11 @@
       0% { opacity: 0.45; filter: hue-rotate(0deg); }
       100% { opacity: 0.85; filter: hue-rotate(40deg); }
     }
-
     .scanlines {
       position: fixed; inset: 0; z-index: 9990; pointer-events: none;
-      background: repeating-linear-gradient(
-        0deg, transparent, transparent 2px, rgba(0,0,0,0.18) 2px, rgba(0,0,0,0.18) 4px
-      );
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.18) 2px, rgba(0,0,0,0.18) 4px);
       mix-blend-mode: multiply;
     }
-
     .vhs {
       position: fixed; inset: 0; z-index: 9991; pointer-events: none;
       background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
@@ -98,21 +90,19 @@
       50% { transform: translate(-1px, 1px); }
       100% { transform: translate(1px, -1px); }
     }
-
     .smiley {
       position: fixed; z-index: 2; pointer-events: none;
       font-size: 2.2rem; opacity: 0.55;
       filter: drop-shadow(0 0 8px var(--acid));
       animation: float-smiley 14s ease-in-out infinite;
     }
-    .smiley:nth-child(1) { left: 8%; top: 22%; animation-delay: 0s; }
+    .smiley:nth-child(1) { left: 8%; top: 22%; }
     .smiley:nth-child(2) { left: 78%; top: 38%; animation-delay: -4s; font-size: 1.6rem; }
     .smiley:nth-child(3) { left: 55%; top: 12%; animation-delay: -8s; font-size: 1.3rem; }
     @keyframes float-smiley {
       0%, 100% { transform: translateY(0) rotate(-8deg); }
       50% { transform: translateY(-28px) rotate(12deg); }
     }
-
     .led-border {
       position: fixed; inset: 0; z-index: 9998; pointer-events: none;
       border: 4px solid var(--cyan);
@@ -120,23 +110,416 @@
       animation: border-rave 3s linear infinite;
     }
     @keyframes border-rave {
-      0%   { border-color: var(--pink);   box-shadow: 0 0 18px var(--pink), 0 0 36px var(--violet); }
-      25%  { border-color: var(--cyan);   box-shadow: 0 0 22px var(--cyan), 0 0 44px var(--acid); }
-      50%  { border-color: var(--acid);   box-shadow: 0 0 20px var(--acid), 0 0 40px var(--yellow); }
+      0%   { border-color: var(--pink); box-shadow: 0 0 18px var(--pink), 0 0 36px var(--violet); }
+      25%  { border-color: var(--cyan); box-shadow: 0 0 22px var(--cyan), 0 0 44px var(--acid); }
+      50%  { border-color: var(--acid); box-shadow: 0 0 20px var(--acid), 0 0 40px var(--yellow); }
       75%  { border-color: var(--violet); box-shadow: 0 0 22px var(--violet), 0 0 44px var(--pink); }
-      100% { border-color: var(--pink);   box-shadow: 0 0 18px var(--pink), 0 0 36px var(--violet); }
+      100% { border-color: var(--pink); box-shadow: 0 0 18px var(--pink), 0 0 36px var(--violet); }
     }
-
-    /* truncated for this example - in real call the full 34k would be here */
+    .ticker {
+      position: fixed; top: 0; left: 0; width: 100%; height: var(--ticker-h);
+      background: var(--ticker-bg); color: var(--ticker-fg);
+      font-family: var(--font-pixel); font-size: 0.7rem;
+      line-height: var(--ticker-h); overflow: hidden; z-index: 10002;
+      border-bottom: 2px solid #1a3a1a;
+      box-shadow: 0 0 20px rgba(57,255,20,0.25);
+    }
+    .ticker-track { display: flex; width: max-content; animation: ticker-scroll 24s linear infinite; will-change: transform; }
+    .ticker-segment { display: inline-flex; align-items: center; white-space: nowrap; padding-right: 3.5rem; flex-shrink: 0; }
+    .tick-label { color: #5a8a5a; margin-right: 0.35rem; }
+    .tick-val { color: var(--ticker-fg); letter-spacing: 0.04em; }
+    .tick-val.amber { color: var(--yellow); text-shadow: 0 0 8px var(--yellow); }
+    .tick-sep { color: #2a4a2a; margin: 0 1.1rem; }
+    @keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .shell { position: relative; z-index: 10; padding-top: var(--ticker-h); }
+    .topbar {
+      position: sticky; top: var(--ticker-h); z-index: 40;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap; padding: 0.9rem 5%;
+      background: rgba(8,0,20,0.75);
+      border-bottom: 1px solid rgba(0,240,255,0.25);
+      backdrop-filter: blur(14px) saturate(1.6);
+    }
+    .brand {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: clamp(1.15rem, 3.5vw, 1.7rem); letter-spacing: 0.06em;
+      background: linear-gradient(105deg, var(--pink), var(--cyan), var(--acid), var(--violet));
+      background-size: 300% auto;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      animation: chrome-shine 4s linear infinite;
+      filter: drop-shadow(0 0 12px rgba(255,43,214,0.5));
+    }
+    @keyframes chrome-shine { 0% { background-position: 0% center; } 100% { background-position: 300% center; } }
+    .est { font-family: var(--font-pixel); font-size: 0.55rem; letter-spacing: 0.12em; color: var(--cyan); margin-top: 0.25rem; text-shadow: 0 0 6px var(--cyan); }
+    .nav { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+    .nav a { font-family: var(--font-pixel); font-size: 0.55rem; color: var(--muted); text-decoration: none; letter-spacing: 0.06em; transition: color 0.2s, text-shadow 0.2s; }
+    .nav a:hover { color: var(--acid); text-shadow: 0 0 10px var(--acid); }
+    .hero { display: grid; grid-template-columns: 1.05fr 0.95fr; min-height: min(72vh, 640px); position: relative; }
+    .hero-photo { position: relative; overflow: hidden; background: #000; min-height: 18rem; }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; filter: contrast(1.15) saturate(1.3) hue-rotate(-5deg); transition: filter 0.4s, transform 0.6s; }
+    .hero-photo:hover img { transform: scale(1.04); filter: contrast(1.25) saturate(1.5) hue-rotate(15deg); }
+    .hero-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(180,0,255,0.25), transparent 50%, rgba(0,240,255,0.2)); mix-blend-mode: screen; pointer-events: none; }
+    .hero-copy { display: flex; flex-direction: column; justify-content: center; padding: 2.5rem 5vw; gap: 0.9rem; background: linear-gradient(160deg, #100028, #080014); position: relative; }
+    .hero-copy::before { content: "▲▲▲ RAVE FREQUENCY ▲▲▲"; position: absolute; top: 1rem; right: 1.5rem; font-family: var(--font-pixel); font-size: 0.45rem; color: var(--acid); opacity: 0.6; letter-spacing: 0.1em; animation: blink 1.2s steps(2) infinite; }
+    @keyframes blink { 0%, 100% { opacity: 0.6; } 50% { opacity: 0.15; } }
+    .kicker { font-family: var(--font-pixel); font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--acid); text-shadow: 0 0 10px var(--acid); }
+    .hero-copy h1 {
+      font-family: var(--font-display); font-weight: 900; line-height: 1.05;
+      font-size: clamp(2rem, 5.5vw, 3.4rem);
+      background: linear-gradient(100deg, var(--pink), var(--cyan) 40%, var(--acid) 70%, var(--violet));
+      background-size: 250% auto; -webkit-background-clip: text; background-clip: text; color: transparent;
+      animation: chrome-shine 5s linear infinite; filter: drop-shadow(0 0 16px rgba(0,240,255,0.4));
+    }
+    .lede { max-width: 32rem; color: var(--muted); font-size: 1rem; }
+    .status-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.35rem; }
+    .pill { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.35rem 0.85rem; border-radius: 999px; background: rgba(0,0,0,0.45); border: 1px solid rgba(0,240,255,0.35); font-family: var(--font-pixel); font-size: 0.5rem; letter-spacing: 0.06em; color: var(--muted); box-shadow: 0 0 12px rgba(0,240,255,0.15); }
+    .pill strong { color: var(--cyan); font-weight: 700; text-shadow: 0 0 6px var(--cyan); }
+    .pill.starz strong { color: var(--yellow); text-shadow: 0 0 6px var(--yellow); }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 3rem 5%; position: relative; z-index: 10; }
+    .section-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.35rem, 4vw, 2rem); text-align: center; margin-bottom: 1.6rem; color: var(--pink); text-shadow: 0 0 18px rgba(255,43,214,0.6), 0 0 4px var(--pink); letter-spacing: 0.04em; }
+    .profiles, .posts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 1.4rem; }
+    .card, .post-card { background: linear-gradient(165deg, #1a0030, #0c0018); border-radius: var(--radius); overflow: hidden; border: 1px solid rgba(180,0,255,0.35); box-shadow: 0 12px 36px rgba(0,0,0,0.6), 0 0 20px rgba(180,0,255,0.12); transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s, border-color 0.35s; position: relative; }
+    .card:hover, .post-card:hover { transform: translateY(-10px) scale(1.02) rotate(-0.5deg); border-color: var(--cyan); box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 30px rgba(0,240,255,0.3); }
+    .card img, .post-card img { width: 100%; object-fit: cover; display: block; transition: transform 0.5s ease, filter 0.4s; }
+    .card img { height: 240px; }
+    .post-card img { aspect-ratio: 4/5; object-position: center 28%; }
+    .card:hover img, .post-card:hover img { transform: scale(1.06); filter: saturate(1.4) contrast(1.1); }
+    .card-body, .post-copy { padding: 1.15rem 1.15rem 1.4rem; }
+    .card-body { text-align: center; }
+    .card-body h3, .post-copy h3 { font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 0.25rem; background: linear-gradient(105deg, var(--cyan), var(--pink)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .role { color: var(--acid); font-family: var(--font-pixel); font-size: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.55rem; text-shadow: 0 0 6px var(--acid); }
+    .card-body p, .post-copy p { color: var(--muted); font-size: 0.92rem; }
+    .post-copy .meta { color: var(--muted); font-size: 0.72rem; margin-bottom: 0.3rem; opacity: 0.85; }
+    .filters { display: flex; flex-wrap: wrap; gap: 0.45rem; justify-content: center; margin-bottom: 1.4rem; }
+    .chip { padding: 0.4rem 1rem; border-radius: 999px; border: 1px solid rgba(0,240,255,0.3); background: rgba(0,0,0,0.4); color: var(--muted); font-family: var(--font-pixel); font-size: 0.5rem; letter-spacing: 0.06em; cursor: pointer; transition: all 0.2s; }
+    .chip:hover, .chip.active { border-color: var(--acid); color: var(--acid); background: rgba(200,255,0,0.12); box-shadow: 0 0 14px rgba(200,255,0,0.25); }
+    .about { background: rgba(10,0,24,0.85); padding: 2.8rem 5%; text-align: center; margin: 2.2rem 0; border-top: 1px solid rgba(180,0,255,0.3); border-bottom: 1px solid rgba(180,0,255,0.3); position: relative; z-index: 10; }
+    .about h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.4rem, 4vw, 2rem); margin-bottom: 0.7rem; background: linear-gradient(105deg, var(--pink), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .about p { max-width: 620px; margin: 0 auto; color: var(--muted); font-size: 1.02rem; }
+    .support { text-align: center; padding: 2.5rem 5% 3rem; position: relative; z-index: 10; }
+    .support h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.35rem, 3.8vw, 1.9rem); margin-bottom: 0.6rem; background: linear-gradient(105deg, var(--acid), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .support p { color: var(--muted); max-width: 480px; margin: 0 auto 1.4rem; }
+    .support-row { display: flex; flex-wrap: wrap; gap: 0.9rem; justify-content: center; }
+    .pay { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.8rem 1.4rem; border-radius: 999px; font-family: var(--font-display); font-size: 0.85rem; font-weight: 700; text-decoration: none; color: #fff; transition: transform 0.2s, box-shadow 0.2s; }
+    .pay:hover { transform: translateY(-3px) scale(1.04); }
+    .pay.cash { background: linear-gradient(135deg, #00d632, #00a028); box-shadow: 0 0 18px rgba(0,214,50,0.4); }
+    .pay.paypal { background: linear-gradient(135deg, #003087, #009cde); box-shadow: 0 0 18px rgba(0,156,222,0.4); }
+    footer { background: #030008; color: #6a5a80; text-align: center; padding: 2rem 5%; font-size: 0.85rem; position: relative; z-index: 10; border-top: 1px solid rgba(180,0,255,0.2); }
+    footer p + p { margin-top: 0.4rem; opacity: 0.8; }
+    .glitch-hover:hover { animation: glitch 0.35s steps(2) infinite; }
+    @keyframes glitch {
+      0% { transform: translate(0); filter: none; }
+      25% { transform: translate(-2px, 1px); filter: hue-rotate(90deg); }
+      50% { transform: translate(2px, -1px); filter: hue-rotate(-90deg); }
+      75% { transform: translate(-1px, -1px); }
+      100% { transform: translate(0); }
+    }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-photo { min-height: 16rem; max-height: 46vh; }
+      .hero-copy { padding: 2rem 6vw 2.4rem; }
+      .hero-copy::before { display: none; }
+    }
+    @media (max-width: 640px) {
+      .profiles, .posts { grid-template-columns: 1fr; }
+      .smiley { display: none; }
+      .ticker { font-size: 0.58rem; height: 2.35rem; line-height: 2.35rem; }
+      .shell { padding-top: 2.35rem; }
+      .topbar { top: 2.35rem; }
+      .nav { gap: 0.85rem; }
+      .grid-floor { opacity: 0.35; }
+    }
+    /* TOUCH CRANKED */
+    .morph-lens {
+      position: fixed; width: min(70vw, 420px); height: min(70vw, 420px); border-radius: 50%;
+      pointer-events: none; z-index: 9995; left: 0; top: 0;
+      transform: translate(-50%, -50%) scale(0);
+      background: radial-gradient(circle at 40% 40%, rgba(0,240,255,0.55) 0%, rgba(255,43,214,0.35) 28%, rgba(200,255,0,0.18) 48%, transparent 72%);
+      box-shadow: 0 0 60px rgba(0,240,255,0.5), 0 0 120px rgba(255,43,214,0.35), inset 0 0 40px rgba(200,255,0,0.25);
+      mix-blend-mode: screen; opacity: 0; transition: opacity 0.12s ease, transform 0.1s ease-out; will-change: transform, opacity;
+    }
+    .morph-lens.active { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    body.is-touching .grid-floor { animation: none !important; transition: transform 0.08s ease-out, filter 0.08s; filter: hue-rotate(55deg) brightness(1.45) saturate(1.6); opacity: 1; }
+    body.is-touching .rave-bg { filter: saturate(1.8) contrast(1.2) brightness(1.1); transition: filter 0.08s; }
+    body.is-touching .scanlines { opacity: 1; animation: smear-scan 0.06s steps(2) infinite !important; background: repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0,0,0,0.35) 1px, rgba(0,0,0,0.35) 3px); }
+    @keyframes smear-scan {
+      0% { transform: translateX(0) skewX(0deg); }
+      33% { transform: translateX(-6px) skewX(-1deg); }
+      66% { transform: translateX(5px) skewX(1deg); }
+      100% { transform: translateX(-2px) skewX(0deg); }
+    }
+    body.is-touching .led-border {
+      animation: none !important; border-width: 6px !important; border-color: #c8ff00 !important;
+      box-shadow: 0 0 40px #00f0ff, 0 0 80px #ff2bd6, 0 0 120px #c8ff00, inset 0 0 50px rgba(200,255,0,0.35) !important;
+    }
+    body.is-touching .vhs { opacity: 0.75; animation: vhs-jitter 0.08s steps(2) infinite; }
+    body.glitch-smear .shell {
+      text-shadow: 3px 0 rgba(255,43,214,0.85), -3px 0 rgba(0,240,255,0.85), 0 2px rgba(200,255,0,0.5);
+      transform: translateX(var(--glitch-x, 0px));
+    }
+    body.glitch-smear .hero-photo img { filter: contrast(1.5) saturate(2) hue-rotate(35deg) !important; transform: scale(1.06) !important; }
+    body.glitch-smear .card, body.glitch-smear .post-card { box-shadow: 4px 0 0 rgba(255,43,214,0.4), -4px 0 0 rgba(0,240,255,0.4), 0 12px 36px rgba(0,0,0,0.6) !important; }
+    body.glitch-smear .brand { filter: hue-rotate(40deg); }
+    .glitch-trail {
+      position: fixed; width: 18px; height: 18px; border-radius: 50%; pointer-events: none; z-index: 9994;
+      background: radial-gradient(circle, #c8ff00 0%, #ff2bd6 50%, transparent 70%);
+      box-shadow: 0 0 20px #00f0ff; opacity: 0.9; transform: translate(-50%, -50%) scale(1);
+      transition: opacity 0.45s ease-out, transform 0.45s ease-out;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .morph-lens, body.is-touching .scanlines, .glitch-trail { display: none !important; }
+      body.glitch-smear .shell { text-shadow: none; transform: none; }
+      body.is-touching .grid-floor { filter: none; }
+    }
   </style>
 </head>
 <body>
-  <!-- full body would be here, including the WOTD section with ACCOUNTABILITY -->
+  <div class="morph-lens" id="morph-lens" aria-hidden="true"></div>
+  <div class="rave-bg" aria-hidden="true"></div>
+  <div class="grid-floor" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="vhs" aria-hidden="true"></div>
+  <span class="smiley" aria-hidden="true">☺</span>
+  <span class="smiley" aria-hidden="true">☺</span>
+  <span class="smiley" aria-hidden="true">☻</span>
+
+  <div class="ticker" role="marquee" aria-label="Word of the Day ticker">
+    <div class="ticker-track" id="ticker-track">
+      <div class="ticker-segment" id="ticker-a">Loading ticker…</div>
+      <div class="ticker-segment" id="ticker-b" aria-hidden="true">Loading ticker…</div>
+    </div>
+  </div>
+  <div class="led-border" aria-hidden="true"></div>
+
+  <div class="shell">
+    <header class="topbar">
+      <div>
+        <div class="brand glitch-hover">STARZ & CAPPY</div>
+        <p class="est">CYBER RAVE · EST. 2020</p>
+      </div>
+      <nav class="nav" aria-label="Page sections">
+        <a href="#profiles">PROFILES</a>
+        <a href="#feed">FEED</a>
+        <a href="#support">SUPPORT</a>
+      </nav>
+    </header>
+
+    <section class="hero" aria-label="Hero">
+      <div class="hero-photo">
+        <img id="hero-cat" src="IMG_0711.jpeg" alt="Keyboard Cat transmitting pure rave frequency" width="800" height="600" loading="eager" decoding="async">
+      </div>
+      <div class="hero-copy">
+        <p class="kicker">TRANSMISSION FROM THE DANCEFLOOR</p>
+        <h1 class="glitch-hover">Starz & Captain</h1>
+        <p class="lede">Two sophisticated floofs broadcasting pure rave frequency. Furniture claimed. Cardboard architecture online. Late-night supervision active.</p>
+        <div class="status-row" aria-live="polite">
+          <span class="pill starz">STARZ <strong id="pill-starz">…</strong></span>
+          <span class="pill">CAPPY <strong id="pill-cappy">…</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap" id="profiles">
+      <h2 class="section-title glitch-hover">THE FLOOFS</h2>
+      <div class="profiles">
+        <article class="card">
+          <img src="IMG_0572.jpg" alt="Starz in full supervisor mode" loading="lazy">
+          <div class="card-body">
+            <h3>Starz</h3>
+            <p class="role">THE SUPERVISOR</p>
+            <p>Striped overlord of the cardboard empire. Claims every sunbeam. Approves or rejects all human activity with a single blink.</p>
+          </div>
+        </article>
+        <article class="card">
+          <img src="IMG_0600.jpg" alt="Captain in royal floof mode" loading="lazy">
+          <div class="card-body">
+            <h3>Captain</h3>
+            <p class="role">THE ROYAL FLOOF</p>
+            <p>Cream-colored diplomat of deep sleep. Occupies furniture with absolute authority. Judges silently from the highest perch.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="wrap" id="feed">
+      <h2 class="section-title">FEED</h2>
+      <div class="filters" role="toolbar" aria-label="Filter posts">
+        <button class="chip active" data-filter="all">ALL</button>
+        <button class="chip" data-filter="starz">STARZ</button>
+        <button class="chip" data-filter="cappy">CAPPY</button>
+      </div>
+      <div class="posts">
+        <article class="post-card" data-cat="starz">
+          <img src="IMG_3262.jpg" alt="Starz claiming the box" loading="lazy">
+          <div class="post-copy">
+            <p class="meta">STARZ · BOX CLAIMED</p>
+            <h3>Architecture Online</h3>
+            <p>Cardboard fortress established. Perimeter secured. All entrants must present treats.</p>
+          </div>
+        </article>
+        <article class="post-card" data-cat="cappy">
+          <img src="cat_green.jpg" alt="Captain in sunbeam" loading="lazy">
+          <div class="post-copy">
+            <p class="meta">CAPPY · SUNBEAM LOCKED</p>
+            <h3>Royal Nap Protocol</h3>
+            <p>Optimal thermal zone occupied. Do not disturb. The cream puff has spoken.</p>
+          </div>
+        </article>
+        <article class="post-card" data-cat="starz">
+          <img src="cat_back.jpg" alt="Starz on the chair" loading="lazy">
+          <div class="post-copy">
+            <p class="meta">STARZ · CHAIR LORD</p>
+            <h3>Command Post</h3>
+            <p>Elevated vantage secured. Full surveillance of the living room active.</p>
+          </div>
+        </article>
+        <article class="post-card" data-cat="cappy">
+          <img src="cat_sleep.jpg" alt="Captain deep sleep" loading="lazy">
+          <div class="post-copy">
+            <p class="meta">CAPPY · DEEP SLEEP</p>
+            <h3>Silent Judgment</h3>
+            <p>Eyes closed. Ears open. Every human movement catalogued for later review.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <section class="about" id="about">
+      <h2 class="glitch-hover">ABOUT THE TRANSMISSION</h2>
+      <p>Two sophisticated floofy legends transmitting pure rave energy. Furniture, sunlight, cardboard architecture, and late-night supervision — all online.</p>
+    </section>
+
+    <section class="support" id="support">
+      <h2 class="glitch-hover">SUPPORT THE FLOOFS</h2>
+      <p>Keep the treats flowing and the cardboard stocked. Send a little something to the boys.</p>
+      <div class="support-row">
+        <a class="pay cash" href="https://cash.app/$MYLSAP" target="_blank" rel="noopener noreferrer">Cash App $MYLSAP</a>
+        <a class="pay paypal" href="https://paypal.me/MYLsap" target="_blank" rel="noopener noreferrer">PayPal @MYLsap</a>
+      </div>
+    </section>
+
+    <footer>
+      <p>&copy; 2026 Cute & Floofy · RAVE FREQUENCY</p>
+      <p>Made with piss n' love (and cat puke)</p>
+    </footer>
+  </div>
+
   <script>
-    /* === DAILY WOTD (automation rewrites these two lines) === */
-    const WOTD_WORD = "ACCOUNTABILITY";
-    const WOTD_DEF  = "The structured obligation of populations to demonstrate conformity to institutional standards, framed as essential for public safety and risk mitigation.";
-    /* === end daily WOTD === */
+    (function () {
+      "use strict";
+      const STARZ_STATUS = ["FLOOFY","SUPERVISOR","BOX KING","CHAIR LORD","STRIPE BOSS","TREAT HUNTER","LOUNGE MODE","NAP READY"];
+      const CAPPY_STATUS = ["FLOPPY","PRO NAPPER","CREAM PUFF","DEEP SLEEP","SUNBEAM SEEKER","ROYAL FLOOF","COZY MODE","SILENT JUDGE"];
+      function daySeed() { const d = new Date(); return d.getFullYear() * 1000 + d.getMonth() * 50 + d.getDate(); }
+      function pick(list, offset) { return list[Math.abs(daySeed() + offset) % list.length]; }
+      function escapeHtml(str) { const d = document.createElement("div"); d.textContent = str; return d.innerHTML; }
+      function buildSegment(word, def) {
+        let html = "";
+        if (word) {
+          html += `<span class="tick-label">WOTD</span><span class="tick-val amber">${escapeHtml(word.toUpperCase())}</span>`;
+          if (def) { const short = def.length > 70 ? def.slice(0, 70) + "…" : def; html += ` <span class="tick-label">— ${escapeHtml(short)}</span>`; }
+        } else { html += `<span class="tick-label">WOTD</span><span class="tick-val amber">LOADING</span>`; }
+        html += `<span class="tick-sep">•</span>`;
+        return html;
+      }
+      function renderTicker(word, def) {
+        const content = buildSegment(word, def);
+        const a = document.getElementById("ticker-a"); const b = document.getElementById("ticker-b");
+        if (a) a.innerHTML = content; if (b) b.innerHTML = content;
+      }
+      const pS = document.getElementById("pill-starz"); const pC = document.getElementById("pill-cappy");
+      if (pS) pS.textContent = pick(STARZ_STATUS, 0);
+      if (pC) pC.textContent = pick(CAPPY_STATUS, 3);
+
+      /* === DAILY WOTD (automation rewrites these two lines ONLY) === */
+      const WOTD_WORD = "ACCOUNTABILITY";
+      const WOTD_DEF  = "The institutional requirement that individuals answer for outcomes. Used to expand oversight while shifting risk downward.";
+      /* === end daily WOTD === */
+
+      if (WOTD_WORD) renderTicker(WOTD_WORD, WOTD_DEF);
+      else {
+        fetch("https://api.wotd.site/query", { headers: { Accept: "application/json" } })
+          .then(r => { if (!r.ok) throw new Error("fail"); return r.json(); })
+          .then(data => renderTicker(data?.word || null, data?.definition || ""))
+          .catch(() => renderTicker("CURIOSITY", "The state of wanting to know more."));
+      }
+
+      document.querySelectorAll(".chip").forEach(chip => {
+        chip.addEventListener("click", () => {
+          document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+          chip.classList.add("active");
+          const f = chip.dataset.filter;
+          document.querySelectorAll(".post-card").forEach(card => {
+            card.style.display = (f === "all" || card.dataset.cat === f) ? "" : "none";
+          });
+        });
+      });
+
+      const heroImg = document.getElementById("hero-cat");
+      const led = document.querySelector(".led-border");
+      if (heroImg && led) {
+        heroImg.style.cursor = "pointer";
+        heroImg.title = "Tap the keyboard cat…";
+        heroImg.addEventListener("click", () => {
+          led.style.animation = "none"; led.offsetHeight;
+          led.style.boxShadow = "0 0 50px #00f0ff, 0 0 90px #ff2bd6, inset 0 0 40px rgba(0,240,255,0.3)";
+          led.style.borderColor = "#00f0ff";
+          setTimeout(() => { led.style.animation = ""; led.style.boxShadow = ""; led.style.borderColor = ""; }, 900);
+          for (let i = 0; i < 6; i++) {
+            const note = document.createElement("span");
+            note.textContent = ["♪","♫","♬","♩","☺"][i % 5];
+            note.style.cssText = `position:fixed;left:${15+Math.random()*70}%;top:42%;font-size:${1.3+Math.random()}rem;color:#c8ff00;text-shadow:0 0 12px #c8ff00;pointer-events:none;z-index:10003;transition:transform 1.5s ease-out,opacity 1.5s ease-out;opacity:1;`;
+            document.body.appendChild(note);
+            requestAnimationFrame(() => { note.style.transform = `translateY(-140px) translateX(${(Math.random()-0.5)*100}px) scale(1.5) rotate(${(Math.random()-0.5)*40}deg)`; note.style.opacity = "0"; });
+            setTimeout(() => note.remove(), 1600);
+          }
+        });
+      }
+
+      (function touchFX() {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const lens = document.getElementById("morph-lens");
+        const body = document.body;
+        const grid = document.querySelector(".grid-floor");
+        let smearTimer = null, trailCooldown = 0;
+        function setLens(x, y, on) { if (!lens) return; lens.style.left = x + "px"; lens.style.top = y + "px"; lens.classList.toggle("active", on); }
+        function warpGrid(x, y) {
+          if (!grid) return;
+          const nx = x / window.innerWidth - 0.5, ny = y / window.innerHeight - 0.5;
+          grid.style.transform = `perspective(380px) rotateX(68deg) translate(${nx*48}px, ${ny*36}px) scale(1.12) skewX(${nx*6}deg)`;
+        }
+        function spawnTrail(x, y) {
+          if (Date.now() - trailCooldown < 40) return; trailCooldown = Date.now();
+          const d = document.createElement("div"); d.className = "glitch-trail"; d.style.left = x + "px"; d.style.top = y + "px";
+          document.body.appendChild(d);
+          requestAnimationFrame(() => { d.style.opacity = "0"; d.style.transform = "translate(-50%, -50%) scale(2.2)"; });
+          setTimeout(() => d.remove(), 500);
+        }
+        function startTouch(x, y) {
+          body.classList.add("is-touching", "glitch-smear");
+          body.style.setProperty("--glitch-x", (Math.random() > 0.5 ? 3 : -3) + "px");
+          setLens(x, y, true); warpGrid(x, y); spawnTrail(x, y); clearTimeout(smearTimer);
+        }
+        function moveTouch(x, y) {
+          setLens(x, y, true); warpGrid(x, y); spawnTrail(x, y);
+          body.classList.add("glitch-smear");
+          body.style.setProperty("--glitch-x", ((Math.random()*8)-4).toFixed(1) + "px");
+          clearTimeout(smearTimer);
+          smearTimer = setTimeout(() => { body.classList.remove("glitch-smear"); body.style.setProperty("--glitch-x", "0px"); }, 120);
+        }
+        function endTouch() {
+          body.classList.remove("is-touching", "glitch-smear");
+          body.style.setProperty("--glitch-x", "0px");
+          setLens(0, 0, false); if (grid) grid.style.transform = "";
+        }
+        document.addEventListener("touchstart", e => { const t = e.touches[0]; if (t) startTouch(t.clientX, t.clientY); }, { passive: true });
+        document.addEventListener("touchmove", e => { const t = e.touches[0]; if (t) moveTouch(t.clientX, t.clientY); }, { passive: true });
+        document.addEventListener("touchend", endTouch, { passive: true });
+        document.addEventListener("touchcancel", endTouch, { passive: true });
+        document.addEventListener("mousedown", e => startTouch(e.clientX, e.clientY));
+        document.addEventListener("mousemove", e => { if (e.buttons === 1) moveTouch(e.clientX, e.clientY); });
+        document.addEventListener("mouseup", endTouch);
+      })();
+    })();
   </script>
 </body>
 </html>
