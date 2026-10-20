@@ -229,51 +229,85 @@
       .nav { gap: 0.85rem; }
       .grid-floor { opacity: 0.35; }
     }
-    .morph-lens {
-      position: fixed; width: min(70vw, 420px); height: min(70vw, 420px); border-radius: 50%;
-      pointer-events: none; z-index: 9995; left: 0; top: 0;
-      transform: translate(-50%, -50%) scale(0);
-      background: radial-gradient(circle at 40% 40%, rgba(0,240,255,0.55) 0%, rgba(255,43,214,0.35) 28%, rgba(200,255,0,0.18) 48%, transparent 72%);
-      box-shadow: 0 0 60px rgba(0,240,255,0.5), 0 0 120px rgba(255,43,214,0.35), inset 0 0 40px rgba(200,255,0,0.25);
-      mix-blend-mode: screen; opacity: 0; transition: opacity 0.12s ease, transform 0.1s ease-out; will-change: transform, opacity;
+
+    .signal-meter {
+      position: fixed; right: 0.75rem; bottom: 1.1rem; z-index: 10001;
+      display: flex; flex-direction: column-reverse; gap: 3px;
+      padding: 0.45rem 0.4rem; background: rgba(0,0,0,0.55);
+      border: 1px solid rgba(0,240,255,0.35); border-radius: 6px;
+      pointer-events: none; box-shadow: 0 0 12px rgba(0,240,255,0.15);
     }
-    .morph-lens.active { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    body.is-touching .grid-floor { animation: none !important; transition: transform 0.08s ease-out, filter 0.08s; filter: hue-rotate(55deg) brightness(1.45) saturate(1.6); opacity: 1; }
-    body.is-touching .rave-bg { filter: saturate(1.8) contrast(1.2) brightness(1.1); transition: filter 0.08s; }
-    body.is-touching .scanlines { opacity: 1; animation: smear-scan 0.06s steps(2) infinite !important; background: repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0,0,0,0.35) 1px, rgba(0,0,0,0.35) 3px); }
-    @keyframes smear-scan {
-      0% { transform: translateX(0) skewX(0deg); }
-      33% { transform: translateX(-6px) skewX(-1deg); }
-      66% { transform: translateX(5px) skewX(1deg); }
-      100% { transform: translateX(-2px) skewX(0deg); }
+    .signal-meter .bar {
+      width: 14px; border-radius: 2px; background: #1a3a2a;
+      transition: background 0.15s ease, box-shadow 0.15s ease;
     }
-    body.is-touching .led-border {
-      animation: none !important; border-width: 6px !important; border-color: #c8ff00 !important;
-      box-shadow: 0 0 40px #00f0ff, 0 0 80px #ff2bd6, 0 0 120px #c8ff00, inset 0 0 50px rgba(200,255,0,0.35) !important;
+    .signal-meter .bar:nth-child(1) { height: 6px; }
+    .signal-meter .bar:nth-child(2) { height: 10px; }
+    .signal-meter .bar:nth-child(3) { height: 14px; }
+    .signal-meter .bar:nth-child(4) { height: 18px; }
+    .signal-meter .bar:nth-child(5) { height: 22px; }
+    .signal-meter .bar.on { background: var(--ticker-fg); box-shadow: 0 0 6px var(--ticker-fg); }
+    .signal-meter .bar.on.hot { background: var(--acid); box-shadow: 0 0 10px var(--acid); }
+    .signal-label {
+      position: fixed; right: 0.75rem; bottom: 7.2rem; z-index: 10001;
+      font-family: var(--font-pixel); font-size: 0.42rem; letter-spacing: 0.08em;
+      color: #5a8a5a; pointer-events: none;
     }
-    body.is-touching .vhs { opacity: 0.75; animation: vhs-jitter 0.08s steps(2) infinite; }
-    body.glitch-smear .shell {
-      text-shadow: 3px 0 rgba(255,43,214,0.85), -3px 0 rgba(0,240,255,0.85), 0 2px rgba(200,255,0,0.5);
-      transform: translateX(var(--glitch-x, 0px));
+    .phosphor {
+      text-shadow: 0 0 4px rgba(57,255,20,0.35), 0 0 12px rgba(0,240,255,0.2);
+      transition: text-shadow 0.35s ease;
     }
-    body.glitch-smear .hero-photo img { filter: contrast(1.5) saturate(2) hue-rotate(35deg) !important; transform: scale(1.06) !important; }
-    body.glitch-smear .card, body.glitch-smear .post-card { box-shadow: 4px 0 0 rgba(255,43,214,0.4), -4px 0 0 rgba(0,240,255,0.4), 0 12px 36px rgba(0,0,0,0.6) !important; }
-    body.glitch-smear .brand { filter: hue-rotate(40deg); }
-    .glitch-trail {
-      position: fixed; width: 18px; height: 18px; border-radius: 50%; pointer-events: none; z-index: 9994;
-      background: radial-gradient(circle, #c8ff00 0%, #ff2bd6 50%, transparent 70%);
-      box-shadow: 0 0 20px #00f0ff; opacity: 0.9; transform: translate(-50%, -50%) scale(1);
-      transition: opacity 0.45s ease-out, transform 0.45s ease-out;
+    .phosphor.bloom {
+      text-shadow: 0 0 6px rgba(57,255,20,0.55), 0 0 18px rgba(0,240,255,0.4), 0 0 28px rgba(255,43,214,0.2);
+    }
+    .boot-overlay {
+      position: fixed; inset: 0; z-index: 10010; background: rgba(0,0,0,0.82);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s ease; padding: 1.5rem;
+    }
+    .boot-overlay.open { opacity: 1; pointer-events: auto; }
+    .boot-panel {
+      width: min(420px, 92vw); background: #050010;
+      border: 1px solid rgba(0,240,255,0.45);
+      box-shadow: 0 0 30px rgba(0,240,255,0.2), inset 0 0 40px rgba(180,0,255,0.08);
+      border-radius: 10px; padding: 1.25rem 1.35rem 1.5rem;
+      font-family: var(--font-pixel); font-size: 0.55rem; line-height: 1.7;
+      color: var(--ticker-fg); letter-spacing: 0.04em;
+    }
+    .boot-panel .boot-title { color: var(--acid); margin-bottom: 0.75rem; text-shadow: 0 0 8px var(--acid); font-size: 0.6rem; }
+    .boot-panel .boot-line { opacity: 0; transform: translateY(4px); animation: boot-in 0.35s ease forwards; }
+    .boot-panel .boot-line:nth-child(2) { animation-delay: 0.12s; }
+    .boot-panel .boot-line:nth-child(3) { animation-delay: 0.24s; }
+    .boot-panel .boot-line:nth-child(4) { animation-delay: 0.36s; }
+    .boot-panel .boot-line:nth-child(5) { animation-delay: 0.48s; }
+    .boot-panel .boot-line:nth-child(6) { animation-delay: 0.6s; }
+    .boot-panel .boot-close {
+      margin-top: 1rem; display: inline-block; color: var(--muted); font-size: 0.45rem;
+      cursor: pointer; border: 1px solid rgba(160,144,192,0.35); padding: 0.35rem 0.7rem; border-radius: 999px;
+    }
+    .boot-panel .boot-close:hover { color: var(--cyan); border-color: var(--cyan); }
+    @keyframes boot-in { to { opacity: 1; transform: translateY(0); } }
+    .card.holding, .post-card.holding {
+      border-color: var(--acid) !important;
+      box-shadow: 0 0 24px rgba(200,255,0,0.35), 0 12px 36px rgba(0,0,0,0.6) !important;
+      transform: scale(0.98);
     }
     @media (prefers-reduced-motion: reduce) {
-      .morph-lens, body.is-touching .scanlines, .glitch-trail { display: none !important; }
-      body.glitch-smear .shell { text-shadow: none; transform: none; }
-      body.is-touching .grid-floor { filter: none; }
+      .signal-meter, .signal-label { display: none !important; }
+      .phosphor { text-shadow: none !important; }
+      .boot-panel .boot-line { animation: none; opacity: 1; transform: none; }
     }
   </style>
 </head>
 <body>
-  <div class="morph-lens" id="morph-lens" aria-hidden="true"></div>
+  <div class="signal-label" aria-hidden="true">SIG</div>
+  <div class="signal-meter" id="signal-meter" aria-hidden="true">
+    <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+  </div>
+  <div class="boot-overlay" id="boot-overlay" role="dialog" aria-modal="true" aria-label="Transmission log">
+    <div class="boot-panel" id="boot-panel"></div>
+  </div>
+
   <div class="rave-bg" aria-hidden="true"></div>
   <div class="grid-floor" aria-hidden="true"></div>
   <div class="scanlines" aria-hidden="true"></div>
@@ -293,7 +327,7 @@
   <div class="shell">
     <header class="topbar">
       <div>
-        <div class="brand glitch-hover">STARZ & CAPPY</div>
+        <div class="brand glitch-hover phosphor">STARZ & CAPPY</div>
         <p class="est">CYBER RAVE · EST. 2020</p>
       </div>
       <nav class="nav" aria-label="Page sections">
@@ -309,7 +343,7 @@
       </div>
       <div class="hero-copy">
         <p class="kicker">TRANSMISSION FROM THE DANCEFLOOR</p>
-        <h1 class="glitch-hover">Starz & Captain</h1>
+        <h1 class="glitch-hover phosphor">Starz & Captain</h1>
         <p class="lede">Two sophisticated floofs broadcasting pure rave frequency. Furniture claimed. Cardboard architecture online. Late-night supervision active.</p>
         <div class="status-row" aria-live="polite">
           <span class="pill starz">STARZ <strong id="pill-starz">…</strong></span>
@@ -319,7 +353,7 @@
     </section>
 
     <div class="wrap" id="profiles">
-      <h2 class="section-title glitch-hover">THE FLOOFS</h2>
+      <h2 class="section-title glitch-hover phosphor">THE FLOOFS</h2>
       <div class="profiles">
         <article class="card">
           <img src="IMG_0572.jpg" alt="Starz in full supervisor mode" loading="lazy">
@@ -341,7 +375,7 @@
     </div>
 
     <div class="wrap" id="feed">
-      <h2 class="section-title">FEED</h2>
+      <h2 class="section-title phosphor">FEED</h2>
       <div class="filters" role="toolbar" aria-label="Filter posts">
         <button class="chip active" data-filter="all">ALL</button>
         <button class="chip" data-filter="starz">STARZ</button>
@@ -384,12 +418,12 @@
     </div>
 
     <section class="about" id="about">
-      <h2 class="glitch-hover">ABOUT THE TRANSMISSION</h2>
+      <h2 class="glitch-hover phosphor">ABOUT THE TRANSMISSION</h2>
       <p>Two sophisticated floofy legends transmitting pure rave energy. Furniture, sunlight, cardboard architecture, and late-night supervision — all online.</p>
     </section>
 
     <section class="support" id="support">
-      <h2 class="glitch-hover">SUPPORT THE FLOOFS</h2>
+      <h2 class="glitch-hover phosphor">SUPPORT THE FLOOFS</h2>
       <p>Keep the treats flowing and the cardboard stocked. Send a little something to the boys.</p>
       <div class="support-row">
         <a class="pay cash" href="https://cash.app/$MYLSAP" target="_blank" rel="noopener noreferrer">Cash App $MYLSAP</a>
@@ -398,7 +432,7 @@
     </section>
 
     <footer>
-      <p>&copy; 2026 Cute & Floofy · RAVE FREQUENCY</p>
+      <p>&copy; 2026 Cute &amp; Floofy · RAVE FREQUENCY</p>
       <p>Made with piss n' love (and cat puke)</p>
     </footer>
   </div>
@@ -429,10 +463,8 @@
       if (pS) pS.textContent = pick(STARZ_STATUS, 0);
       if (pC) pC.textContent = pick(CAPPY_STATUS, 3);
 
-      /* === DAILY WOTD (manual for now — no automation) === */
       const WOTD_WORD = "ACCOUNTABILITY";
       const WOTD_DEF  = "The institutional requirement that individuals answer for outcomes. Used to expand oversight while shifting risk downward.";
-      /* === end daily WOTD === */
 
       if (WOTD_WORD) renderTicker(WOTD_WORD, WOTD_DEF);
       else {
@@ -474,49 +506,115 @@
         });
       }
 
-      (function touchFX() {
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-        const lens = document.getElementById("morph-lens");
-        const body = document.body;
-        const grid = document.querySelector(".grid-floor");
-        let smearTimer = null, trailCooldown = 0;
-        function setLens(x, y, on) { if (!lens) return; lens.style.left = x + "px"; lens.style.top = y + "px"; lens.classList.toggle("active", on); }
-        function warpGrid(x, y) {
-          if (!grid) return;
-          const nx = x / window.innerWidth - 0.5, ny = y / window.innerHeight - 0.5;
-          grid.style.transform = `perspective(380px) rotateX(68deg) translate(${nx*48}px, ${ny*36}px) scale(1.12) skewX(${nx*6}deg)`;
+      (function signalAndHold() {
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const bars = document.querySelectorAll("#signal-meter .bar");
+        let level = 2;
+        let decayTimer = null;
+
+        function paintSignal(n) {
+          level = Math.max(0, Math.min(5, Math.round(n)));
+          bars.forEach((b, i) => {
+            b.classList.toggle("on", i < level);
+            b.classList.toggle("hot", i < level && level >= 4);
+          });
         }
-        function spawnTrail(x, y) {
-          if (Date.now() - trailCooldown < 40) return; trailCooldown = Date.now();
-          const d = document.createElement("div"); d.className = "glitch-trail"; d.style.left = x + "px"; d.style.top = y + "px";
-          document.body.appendChild(d);
-          requestAnimationFrame(() => { d.style.opacity = "0"; d.style.transform = "translate(-50%, -50%) scale(2.2)"; });
-          setTimeout(() => d.remove(), 500);
+        paintSignal(level);
+
+        function bumpSignal(amount) {
+          if (reduced) return;
+          paintSignal(level + amount);
+          clearTimeout(decayTimer);
+          decayTimer = setTimeout(() => {
+            const step = () => {
+              if (level > 2) { paintSignal(level - 1); decayTimer = setTimeout(step, 280); }
+              else if (level < 2) { paintSignal(level + 1); decayTimer = setTimeout(step, 280); }
+            };
+            step();
+          }, 400);
         }
-        function startTouch(x, y) {
-          body.classList.add("is-touching", "glitch-smear");
-          body.style.setProperty("--glitch-x", (Math.random() > 0.5 ? 3 : -3) + "px");
-          setLens(x, y, true); warpGrid(x, y); spawnTrail(x, y); clearTimeout(smearTimer);
+
+        let lastScrollY = window.scrollY, lastScrollT = performance.now();
+        window.addEventListener("scroll", () => {
+          const now = performance.now();
+          const dy = Math.abs(window.scrollY - lastScrollY);
+          const dt = Math.max(16, now - lastScrollT);
+          const velocity = dy / dt;
+          lastScrollY = window.scrollY; lastScrollT = now;
+          if (velocity > 0.35) bumpSignal(1);
+          if (velocity > 0.9) bumpSignal(1);
+        }, { passive: true });
+
+        let lastTouchY = null;
+        document.addEventListener("touchmove", (e) => {
+          const t = e.touches[0]; if (!t) return;
+          if (lastTouchY != null) {
+            const dy = Math.abs(t.clientY - lastTouchY);
+            if (dy > 12) bumpSignal(1);
+            if (dy > 28) bumpSignal(1);
+          }
+          lastTouchY = t.clientY;
+        }, { passive: true });
+        document.addEventListener("touchend", () => { lastTouchY = null; }, { passive: true });
+
+        const phosphors = document.querySelectorAll(".phosphor");
+        let bloomTimer = null;
+        function bloom() {
+          if (reduced) return;
+          phosphors.forEach(el => el.classList.add("bloom"));
+          clearTimeout(bloomTimer);
+          bloomTimer = setTimeout(() => phosphors.forEach(el => el.classList.remove("bloom")), 450);
         }
-        function moveTouch(x, y) {
-          setLens(x, y, true); warpGrid(x, y); spawnTrail(x, y);
-          body.classList.add("glitch-smear");
-          body.style.setProperty("--glitch-x", ((Math.random()*8)-4).toFixed(1) + "px");
-          clearTimeout(smearTimer);
-          smearTimer = setTimeout(() => { body.classList.remove("glitch-smear"); body.style.setProperty("--glitch-x", "0px"); }, 120);
+        window.addEventListener("scroll", () => bloom(), { passive: true });
+
+        const overlay = document.getElementById("boot-overlay");
+        const panel = document.getElementById("boot-panel");
+        const HOLD_MS = 520;
+        const BOOT = {
+          starz: ["STARZ // SUPERVISOR NODE","> AUTH: STRIPE PROTOCOL","> BOX PERIMETER: SECURE","> SUNBEAM CLAIM: ACTIVE","> HUMAN STATUS: UNDER REVIEW","> SIGNAL: STABLE"],
+          cappy: ["CAPTAIN // ROYAL FLOOF","> AUTH: CREAM DIPLOMAT","> NAP CORE: ONLINE","> FURNITURE LOCK: ENGAGED","> JUDGMENT: SILENT / ONGOING","> SIGNAL: WARM"],
+          default: ["UNKNOWN NODE","> SCANNING…","> CAT PRESENT","> TREAT BUFFER: LOW","> SIGNAL: MEDIUM"]
+        };
+
+        function openBoot(key) {
+          if (!overlay || !panel) return;
+          const lines = BOOT[key] || BOOT.default;
+          panel.innerHTML = `<div class="boot-title">▲ TRANSMISSION LOG ▲</div>` +
+            lines.map(l => `<div class="boot-line">${l}</div>`).join("") +
+            `<span class="boot-close" id="boot-close">TAP TO CLOSE</span>`;
+          overlay.classList.add("open");
+          bumpSignal(2);
+          const closer = document.getElementById("boot-close");
+          const close = () => overlay.classList.remove("open");
+          if (closer) closer.addEventListener("click", close);
+          overlay.addEventListener("click", (e) => { if (e.target === overlay) close(); }, { once: true });
         }
-        function endTouch() {
-          body.classList.remove("is-touching", "glitch-smear");
-          body.style.setProperty("--glitch-x", "0px");
-          setLens(0, 0, false); if (grid) grid.style.transform = "";
+
+        function bindHold(el, key) {
+          let timer = null;
+          const start = () => {
+            el.classList.add("holding");
+            timer = setTimeout(() => { timer = null; el.classList.remove("holding"); openBoot(key); }, HOLD_MS);
+          };
+          const cancel = () => { el.classList.remove("holding"); if (timer) { clearTimeout(timer); timer = null; } };
+          el.addEventListener("touchstart", start, { passive: true });
+          el.addEventListener("touchend", cancel, { passive: true });
+          el.addEventListener("touchmove", cancel, { passive: true });
+          el.addEventListener("touchcancel", cancel, { passive: true });
+          el.addEventListener("mousedown", start);
+          el.addEventListener("mouseup", cancel);
+          el.addEventListener("mouseleave", cancel);
         }
-        document.addEventListener("touchstart", e => { const t = e.touches[0]; if (t) startTouch(t.clientX, t.clientY); }, { passive: true });
-        document.addEventListener("touchmove", e => { const t = e.touches[0]; if (t) moveTouch(t.clientX, t.clientY); }, { passive: true });
-        document.addEventListener("touchend", endTouch, { passive: true });
-        document.addEventListener("touchcancel", endTouch, { passive: true });
-        document.addEventListener("mousedown", e => startTouch(e.clientX, e.clientY));
-        document.addEventListener("mousemove", e => { if (e.buttons === 1) moveTouch(e.clientX, e.clientY); });
-        document.addEventListener("mouseup", endTouch);
+
+        document.querySelectorAll(".card, .post-card").forEach(card => {
+          const cat = card.dataset.cat || "";
+          if (!cat) {
+            const h = (card.querySelector("h3") || {}).textContent || "";
+            bindHold(card, h.toLowerCase().includes("starz") ? "starz" : h.toLowerCase().includes("captain") ? "cappy" : "default");
+          } else {
+            bindHold(card, cat.includes("starz") ? "starz" : cat.includes("cappy") ? "cappy" : "default");
+          }
+        });
       })();
     })();
   </script>
