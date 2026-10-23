@@ -150,8 +150,8 @@
     .card, .post-card { background: linear-gradient(165deg, #1a0030, #0c0018); border-radius: var(--radius); overflow: hidden; border: 1px solid rgba(180,0,255,0.35); box-shadow: 0 12px 36px rgba(0,0,0,0.6), 0 0 20px rgba(180,0,255,0.12); transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s, border-color 0.35s; position: relative; content-visibility: auto; contain-intrinsic-size: 320px 420px; }
     .card:hover, .post-card:hover { transform: translateY(-10px) scale(1.02) rotate(-0.5deg); border-color: var(--cyan); box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 30px rgba(0,240,255,0.3); }
     .card img, .post-card img { width: 100%; object-fit: cover; display: block; transition: transform 0.5s ease, filter 0.4s; }
-    .card img { height: 240px; }
-    .post-card img { aspect-ratio: 4/5; object-position: center 28%; }
+    .card img { height: 240px; object-position: center center; }
+    .post-card img { aspect-ratio: 4/5; object-position: center 30%; }
     .card:hover img, .post-card:hover img { transform: scale(1.06); filter: saturate(1.4) contrast(1.1); }
     .card-body, .post-copy { padding: 1.15rem 1.15rem 1.4rem; }
     .card-body { text-align: center; }
@@ -179,6 +179,18 @@
     @keyframes glitch { 0% { transform: translate(0); } 25% { transform: translate(-2px,1px); filter: hue-rotate(90deg); } 50% { transform: translate(2px,-1px); filter: hue-rotate(-90deg); } 75% { transform: translate(-1px,-1px); } 100% { transform: translate(0); } }
     a:focus-visible, button:focus-visible, .chip:focus-visible, .pay:focus-visible, .boot-close:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
     .rave-bg, .grid-floor, .scanlines, .vhs, .led-border, .signal-meter, .signal-label { contain: layout style paint; }
+
+    /* CRT static finger tracker */
+    #crt-static {
+      position: fixed; inset: 0; z-index: 9985; pointer-events: none;
+      width: 100%; height: 100%; opacity: 0.55;
+      mix-blend-mode: screen;
+      contain: strict;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #crt-static { display: none !important; }
+    }
+
     @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; min-height: auto; }
       .hero-photo { min-height: 16rem; max-height: 46vh; }
@@ -211,29 +223,40 @@
     .signal-meter .bar.on.hot { background: var(--acid); box-shadow: 0 0 10px var(--acid); }
     .signal-label { position: fixed; right: 0.75rem; bottom: 7.2rem; z-index: 10001; font-family: var(--font-pixel); font-size: 0.42rem; letter-spacing: 0.08em; color: #5a8a5a; pointer-events: none; }
     .tilt-arm {
-      position: fixed; left: 50%; bottom: 5.5rem; transform: translateX(-50%);
-      z-index: 10001; font-family: var(--font-pixel); font-size: 0.42rem; letter-spacing: 0.08em;
-      color: var(--cyan); background: rgba(0,0,0,0.55); border: 1px solid rgba(0,240,255,0.35);
-      padding: 0.4rem 0.75rem; border-radius: 999px; cursor: pointer;
-      box-shadow: 0 0 12px rgba(0,240,255,0.2); display: none;
+      position: fixed; left: 0.75rem; bottom: 1.1rem; z-index: 10001; display: none;
+      padding: 0.45rem 0.7rem; font-family: var(--font-pixel); font-size: 0.42rem; letter-spacing: 0.06em;
+      color: var(--cyan); background: rgba(0,0,0,0.6); border: 1px solid rgba(0,240,255,0.4); border-radius: 6px;
+      cursor: pointer; box-shadow: 0 0 12px rgba(0,240,255,0.2);
     }
     .tilt-arm.show { display: block; }
     .tilt-arm:active { color: var(--acid); border-color: var(--acid); }
     .phosphor { text-shadow: 0 0 4px rgba(57,255,20,0.35), 0 0 12px rgba(0,240,255,0.2); transition: text-shadow 0.35s ease; }
     .phosphor.bloom { text-shadow: 0 0 6px rgba(57,255,20,0.55), 0 0 18px rgba(0,240,255,0.4), 0 0 28px rgba(255,43,214,0.2); }
-    .boot-overlay { position: fixed; inset: 0; z-index: 10010; background: rgba(0,0,0,0.82); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; padding: 1.5rem; }
-    .boot-overlay.open { opacity: 1; pointer-events: auto; }
-    .boot-panel { width: min(420px, 92vw); background: #050010; border: 1px solid rgba(0,240,255,0.45); box-shadow: 0 0 30px rgba(0,240,255,0.2), inset 0 0 40px rgba(180,0,255,0.08); border-radius: 10px; padding: 1.25rem 1.35rem 1.5rem; font-family: var(--font-pixel); font-size: 0.55rem; line-height: 1.7; color: var(--ticker-fg); letter-spacing: 0.04em; }
-    .boot-panel .boot-title { color: var(--acid); margin-bottom: 0.75rem; text-shadow: 0 0 8px var(--acid); font-size: 0.6rem; }
-    .boot-panel .boot-line { opacity: 0; transform: translateY(4px); animation: boot-in 0.35s ease forwards; }
-    .boot-panel .boot-line:nth-child(2) { animation-delay: 0.12s; }
-    .boot-panel .boot-line:nth-child(3) { animation-delay: 0.24s; }
-    .boot-panel .boot-line:nth-child(4) { animation-delay: 0.36s; }
-    .boot-panel .boot-line:nth-child(5) { animation-delay: 0.48s; }
-    .boot-panel .boot-line:nth-child(6) { animation-delay: 0.6s; }
-    .boot-panel .boot-close { margin-top: 1rem; display: inline-block; color: var(--muted); font-size: 0.45rem; cursor: pointer; border: 1px solid rgba(160,144,192,0.35); padding: 0.35rem 0.7rem; border-radius: 999px; background: transparent; font-family: inherit; }
-    .boot-panel .boot-close:hover { color: var(--cyan); border-color: var(--cyan); }
-    @keyframes boot-in { to { opacity: 1; transform: translateY(0); } }
+    .boot-overlay {
+      position: fixed; inset: 0; z-index: 10010; background: rgba(0,0,0,0.82); display: none;
+      align-items: center; justify-content: center; padding: 1.5rem;
+    }
+    .boot-overlay.open { display: flex; }
+    .boot-panel {
+      max-width: 420px; width: 100%; background: #050010; border: 2px solid var(--ticker-fg);
+      box-shadow: 0 0 30px rgba(57,255,20,0.35), inset 0 0 40px rgba(0,0,0,0.8);
+      padding: 1.2rem 1.3rem 1rem; font-family: var(--font-pixel); font-size: 0.55rem; color: var(--ticker-fg);
+      line-height: 1.7; letter-spacing: 0.04em;
+    }
+    .boot-title { color: var(--acid); margin-bottom: 0.7rem; text-align: center; letter-spacing: 0.12em; }
+    .boot-line { opacity: 0; transform: translateY(4px); animation: boot-line-in 0.35s ease forwards; }
+    .boot-line:nth-child(2) { animation-delay: 0.08s; }
+    .boot-line:nth-child(3) { animation-delay: 0.16s; }
+    .boot-line:nth-child(4) { animation-delay: 0.24s; }
+    .boot-line:nth-child(5) { animation-delay: 0.32s; }
+    .boot-line:nth-child(6) { animation-delay: 0.4s; }
+    @keyframes boot-line-in { to { opacity: 1; transform: none; } }
+    .boot-close {
+      display: block; width: 100%; margin-top: 1rem; padding: 0.55rem; font-family: var(--font-pixel);
+      font-size: 0.5rem; letter-spacing: 0.1em; color: #050010; background: var(--ticker-fg);
+      border: none; cursor: pointer; text-align: center;
+    }
+    .boot-close:hover { background: var(--acid); }
     .card.holding, .post-card.holding { border-color: var(--acid) !important; box-shadow: 0 0 24px rgba(200,255,0,0.35), 0 12px 36px rgba(0,0,0,0.6) !important; transform: scale(0.98); }
     @media (prefers-reduced-motion: reduce) {
       .signal-meter, .signal-label { display: none !important; }
@@ -255,6 +278,7 @@
   <div class="grid-floor" aria-hidden="true"></div>
   <div class="scanlines" aria-hidden="true"></div>
   <div class="vhs" aria-hidden="true"></div>
+  <canvas id="crt-static" aria-hidden="true"></canvas>
   <span class="smiley" aria-hidden="true">☺</span>
   <span class="smiley" aria-hidden="true">☺</span>
   <span class="smiley" aria-hidden="true">☻</span>
@@ -285,31 +309,31 @@
         <p class="kicker">TRANSMISSION FROM THE DANCEFLOOR</p>
         <h1 class="glitch-hover phosphor">Starz & Captain</h1>
         <p class="lede">Two sophisticated floofs broadcasting pure rave frequency. Furniture claimed. Cardboard architecture online. Late-night supervision active.</p>
-        <div class="status-row" aria-live="polite">
-          <span class="pill starz">STARZ <strong id="pill-starz">…</strong></span>
-          <span class="pill">CAPPY <strong id="pill-cappy">…</strong></span>
+        <div class="status-row">
+          <span class="pill starz">STARZ · <strong id="pill-starz">…</strong></span>
+          <span class="pill">CAPPY · <strong id="pill-cappy">…</strong></span>
         </div>
       </div>
     </section>
-    <div class="wrap" id="profiles">
-      <h2 class="section-title glitch-hover phosphor">THE FLOOFS</h2>
+    <section class="wrap" id="profiles" aria-labelledby="profiles-title">
+      <h2 class="section-title" id="profiles-title">THE FLOOFS</h2>
       <div class="profiles">
-        <article class="card">
+        <article class="card" data-cat="starz">
           <img src="IMG_0698.jpeg" alt="Starz in full supervisor mode" width="800" height="600" loading="lazy" decoding="async">
           <div class="card-body"><h3>Starz</h3><p class="role">THE SUPERVISOR</p><p>Striped overlord of the cardboard empire. Claims every sunbeam. Approves or rejects all human activity with a single blink.</p></div>
         </article>
-        <article class="card">
+        <article class="card" data-cat="cappy">
           <img src="IMG_0724.jpeg" alt="Captain in royal floof mode" width="800" height="600" loading="lazy" decoding="async">
           <div class="card-body"><h3>Captain</h3><p class="role">THE ROYAL FLOOF</p><p>Cream-colored diplomat of deep sleep. Occupies furniture with absolute authority. Judges silently from the highest perch.</p></div>
         </article>
       </div>
-    </div>
-    <div class="wrap" id="feed">
-      <h2 class="section-title phosphor">FEED</h2>
-      <div class="filters" role="toolbar" aria-label="Filter posts">
-        <button class="chip active" data-filter="all" type="button">ALL</button>
-        <button class="chip" data-filter="starz" type="button">STARZ</button>
-        <button class="chip" data-filter="cappy" type="button">CAPPY</button>
+    </section>
+    <section class="wrap" id="feed" aria-labelledby="feed-title">
+      <h2 class="section-title" id="feed-title">FEED</h2>
+      <div class="filters" role="group" aria-label="Filter posts">
+        <button type="button" class="chip active" data-filter="all">ALL</button>
+        <button type="button" class="chip" data-filter="starz">STARZ</button>
+        <button type="button" class="chip" data-filter="cappy">CAPPY</button>
       </div>
       <div class="posts">
         <article class="post-card" data-cat="starz">
@@ -337,22 +361,22 @@
           <div class="post-copy"><p class="meta">STARZ · CHAIR LORD</p><h3>Surveillance Mode</h3><p>Elevated vantage secured. Full living-room coverage active.</p></div>
         </article>
       </div>
-    </div>
-    <section class="about" id="about">
-      <h2 class="glitch-hover phosphor">ABOUT THE TRANSMISSION</h2>
+    </section>
+    <section class="about" aria-labelledby="about-title">
+      <h2 id="about-title">ABOUT THE TRANSMISSION</h2>
       <p>Two sophisticated floofy legends transmitting pure rave energy. Furniture, sunlight, cardboard architecture, and late-night supervision — all online.</p>
     </section>
-    <section class="support" id="support">
-      <h2 class="glitch-hover phosphor">SUPPORT THE FLOOFS</h2>
+    <section class="support" id="support" aria-labelledby="support-title">
+      <h2 id="support-title">SUPPORT THE FLOOFS</h2>
       <p>Keep the treats flowing and the cardboard stocked. Send a little something to the boys.</p>
       <div class="support-row">
-        <a class="pay cash" href="https://cash.app/$MYLSAP" target="_blank" rel="noopener noreferrer">Cash App $MYLSAP</a>
-        <a class="pay paypal" href="https://paypal.me/MYLsap" target="_blank" rel="noopener noreferrer">PayPal @MYLsap</a>
+        <a class="pay cash" href="https://cash.app/$mylsap" target="_blank" rel="noopener noreferrer">Cash App</a>
+        <a class="pay paypal" href="https://paypal.me/mylsap" target="_blank" rel="noopener noreferrer">PayPal</a>
       </div>
     </section>
     <footer>
-      <p>&copy; 2026 Cute & Floofy · RAVE FREQUENCY</p>
-      <p>Made with piss n' love (and cat puke)</p>
+      <p>STARZ & CAPPY // RAVE FREQUENCY // EST. 2020</p>
+      <p>Transmission continuous. Treats optional. Cardboard mandatory.</p>
     </footer>
   </div>
   <script>
@@ -405,81 +429,74 @@
         heroImg.style.cursor = "pointer";
         heroImg.title = "Tap the keyboard cat…";
         heroImg.addEventListener("click", () => {
-          led.style.animation = "none"; led.offsetHeight;
+          led.style.animation = "none";
+          led.offsetHeight;
           led.style.boxShadow = "0 0 50px #00f0ff, 0 0 90px #ff2bd6, inset 0 0 40px rgba(0,240,255,0.3)";
           led.style.borderColor = "#00f0ff";
-          setTimeout(() => { led.style.animation = ""; led.style.boxShadow = ""; led.style.borderColor = ""; }, 900);
+          setTimeout(() => {
+            led.style.animation = "";
+            led.style.boxShadow = "";
+            led.style.borderColor = "";
+          }, 900);
           for (let i = 0; i < 6; i++) {
             const note = document.createElement("span");
             note.textContent = ["♪","♫","♬","♩","☺"][i % 5];
-            note.setAttribute("aria-hidden", "true");
             note.style.cssText = `position:fixed;left:${15+Math.random()*70}%;top:42%;font-size:${1.3+Math.random()}rem;color:#c8ff00;text-shadow:0 0 12px #c8ff00;pointer-events:none;z-index:10003;transition:transform 1.5s ease-out,opacity 1.5s ease-out;opacity:1;`;
             document.body.appendChild(note);
-            requestAnimationFrame(() => { note.style.transform = `translateY(-140px) translateX(${(Math.random()-0.5)*100}px) scale(1.5) rotate(${(Math.random()-0.5)*40}deg)`; note.style.opacity = "0"; });
+            requestAnimationFrame(() => {
+              note.style.transform = `translateY(-140px) translateX(${(Math.random()-0.5)*100}px) scale(1.5) rotate(${(Math.random()-0.5)*40}deg)`;
+              note.style.opacity = "0";
+            });
             setTimeout(() => note.remove(), 1600);
           }
         });
       }
       (function signalAndHold() {
-        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         const bars = document.querySelectorAll("#signal-meter .bar");
-        let level = 2, decayTimer = null;
-        function paintSignal(n) {
-          level = Math.max(0, Math.min(5, Math.round(n)));
-          bars.forEach((b, i) => { b.classList.toggle("on", i < level); b.classList.toggle("hot", i < level && level >= 4); });
+        let level = 2;
+        function setBars(n) {
+          bars.forEach((b, i) => {
+            b.classList.toggle("on", i < n);
+            b.classList.toggle("hot", i < n && n >= 4);
+          });
         }
-        paintSignal(level);
-        function bumpSignal(amount) {
-          if (reduced) return;
-          paintSignal(level + amount);
-          clearTimeout(decayTimer);
-          decayTimer = setTimeout(function step() {
-            if (level > 2) { paintSignal(level - 1); decayTimer = setTimeout(step, 280); }
-            else if (level < 2) { paintSignal(level + 1); decayTimer = setTimeout(step, 280); }
-          }, 400);
+        setBars(level);
+        function bumpSignal(delta) {
+          level = Math.max(0, Math.min(5, level + delta));
+          setBars(level);
         }
         const phosphors = document.querySelectorAll(".phosphor");
         let bloomTimer = null;
         function bloom() {
-          if (reduced) return;
           phosphors.forEach(el => el.classList.add("bloom"));
           clearTimeout(bloomTimer);
           bloomTimer = setTimeout(() => phosphors.forEach(el => el.classList.remove("bloom")), 450);
         }
-        let lastScrollY = window.scrollY, lastScrollT = performance.now(), scrollRaf = 0;
-        window.addEventListener("scroll", () => {
-          if (scrollRaf) return;
-          scrollRaf = requestAnimationFrame(() => {
-            scrollRaf = 0;
-            const now = performance.now();
-            const dy = Math.abs(window.scrollY - lastScrollY);
-            const dt = Math.max(16, now - lastScrollT);
-            const velocity = dy / dt;
-            lastScrollY = window.scrollY; lastScrollT = now;
-            if (velocity > 0.35) bumpSignal(1);
-            if (velocity > 0.9) bumpSignal(1);
-            bloom();
-          });
-        }, { passive: true });
         let lastTouchY = null;
         document.addEventListener("touchmove", (e) => {
           const t = e.touches[0]; if (!t) return;
           if (lastTouchY != null) {
             const dy = Math.abs(t.clientY - lastTouchY);
-            if (dy > 12) bumpSignal(1);
-            if (dy > 28) bumpSignal(1);
+            if (dy > 8) bumpSignal(1);
           }
           lastTouchY = t.clientY;
         }, { passive: true });
         document.addEventListener("touchend", () => { lastTouchY = null; }, { passive: true });
+        document.addEventListener("scroll", () => bumpSignal(1), { passive: true });
+        setInterval(() => {
+          if (Math.random() < 0.35) {
+            bumpSignal(Math.random() < 0.5 ? 1 : -1);
+            if (Math.random() < 0.25) bloom();
+          }
+        }, 2200);
+        const HOLD_MS = 650;
+        const BOOT = {
+          starz: ["▲ SUPERVISOR LINK ESTABLISHED", "BOX PERIMETER: SECURE", "SUNBEAM CLAIM: ACTIVE", "TREAT PROTOCOL: ARMED", "STATUS: FLOOFY OVERLORD"],
+          cappy: ["▲ ROYAL CHANNEL OPEN", "NAP DEPTH: CRITICAL", "FURNITURE: CLAIMED", "JUDGMENT: SILENT", "STATUS: CREAM DIPLOMAT"],
+          default: ["▲ GENERAL TRANSMISSION", "SIGNAL: STABLE", "RAVE FREQUENCY: LOCKED", "CARDBOARD: ONLINE"]
+        };
         const overlay = document.getElementById("boot-overlay");
         const panel = document.getElementById("boot-panel");
-        const HOLD_MS = 520;
-        const BOOT = {
-          starz: ["STARZ // SUPERVISOR NODE","> AUTH: STRIPE PROTOCOL","> BOX PERIMETER: SECURE","> SUNBEAM CLAIM: ACTIVE","> HUMAN STATUS: UNDER REVIEW","> SIGNAL: STABLE"],
-          cappy: ["CAPTAIN // ROYAL FLOOF","> AUTH: CREAM DIPLOMAT","> NAP CORE: ONLINE","> FURNITURE LOCK: ENGAGED","> JUDGMENT: SILENT / ONGOING","> SIGNAL: WARM"],
-          default: ["UNKNOWN NODE","> SCANNING…","> CAT PRESENT","> TREAT BUFFER: LOW","> SIGNAL: MEDIUM"]
-        };
         function openBoot(key) {
           if (!overlay || !panel) return;
           const lines = BOOT[key] || BOOT.default;
@@ -562,6 +579,137 @@
           startListening();
         }
       })();
+
+      (function crtStaticFinger() {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const canvas = document.getElementById("crt-static");
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d", { alpha: true });
+        if (!ctx) return;
+
+        let w = 0, h = 0, dpr = 1;
+        let px = -9999, py = -9999, active = false;
+        let raf = 0;
+        const noiseCache = document.createElement("canvas");
+        const nctx = noiseCache.getContext("2d");
+        const NOISE_SIZE = 128;
+
+        function buildNoise() {
+          noiseCache.width = NOISE_SIZE;
+          noiseCache.height = NOISE_SIZE;
+          const img = nctx.createImageData(NOISE_SIZE, NOISE_SIZE);
+          const d = img.data;
+          for (let i = 0; i < d.length; i += 4) {
+            const v = (Math.random() * 255) | 0;
+            d[i] = (v * 0.55) | 0;
+            d[i + 1] = (v * 0.95) | 0;
+            d[i + 2] = (v * 0.65) | 0;
+            d[i + 3] = 255;
+          }
+          nctx.putImageData(img, 0, 0);
+        }
+        buildNoise();
+
+        function resize() {
+          dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+          w = window.innerWidth;
+          h = window.innerHeight;
+          canvas.width = (w * dpr) | 0;
+          canvas.height = (h * dpr) | 0;
+          canvas.style.width = w + "px";
+          canvas.style.height = h + "px";
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        resize();
+        window.addEventListener("resize", resize, { passive: true });
+
+        function draw() {
+          raf = 0;
+          ctx.clearRect(0, 0, w, h);
+          if (!active && px < -100) return;
+
+          const radius = active ? 150 : 95;
+          const g = ctx.createRadialGradient(px, py, 0, px, py, radius);
+          g.addColorStop(0, "rgba(180,255,200,0.6)");
+          g.addColorStop(0.3, "rgba(100,220,140,0.3)");
+          g.addColorStop(0.65, "rgba(40,120,80,0.12)");
+          g.addColorStop(1, "rgba(0,0,0,0)");
+
+          ctx.save();
+          ctx.globalCompositeOperation = "source-over";
+          ctx.fillStyle = g;
+          ctx.fillRect(px - radius, py - radius, radius * 2, radius * 2);
+
+          ctx.globalCompositeOperation = "source-atop";
+          ctx.globalAlpha = 0.9;
+          const ox = (Math.random() * NOISE_SIZE) | 0;
+          const oy = (Math.random() * NOISE_SIZE) | 0;
+          const pattern = ctx.createPattern(noiseCache, "repeat");
+          if (pattern) {
+            ctx.translate(-ox, -oy);
+            ctx.fillStyle = pattern;
+            ctx.fillRect(px - radius + ox, py - radius + oy, radius * 2, radius * 2);
+            ctx.translate(ox, oy);
+          }
+
+          ctx.globalCompositeOperation = "lighter";
+          ctx.globalAlpha = 0.2 + Math.random() * 0.15;
+          for (let i = 0; i < 6; i++) {
+            const by = py + (Math.random() - 0.5) * radius * 1.8;
+            const bh = 1 + ((Math.random() * 3) | 0);
+            ctx.fillStyle = Math.random() > 0.45 ? "rgba(200,255,220,0.95)" : "rgba(15,35,25,0.75)";
+            ctx.fillRect(0, by, w, bh);
+          }
+
+          if (Math.random() < 0.1) {
+            ctx.globalAlpha = 0.14 + Math.random() * 0.1;
+            ctx.fillStyle = "rgba(180,255,200,0.85)";
+            ctx.fillRect(0, py - 10 + Math.random() * 20, w, 2 + Math.random() * 5);
+          }
+
+          ctx.restore();
+        }
+
+        function schedule() {
+          if (!raf) raf = requestAnimationFrame(draw);
+        }
+
+        function setPos(x, y, isActive) {
+          px = x;
+          py = y;
+          active = !!isActive;
+          schedule();
+        }
+
+        window.addEventListener("pointermove", (e) => {
+          setPos(e.clientX, e.clientY, true);
+        }, { passive: true });
+        window.addEventListener("pointerdown", (e) => setPos(e.clientX, e.clientY, true), { passive: true });
+        window.addEventListener("pointerup", () => { active = false; schedule(); }, { passive: true });
+        window.addEventListener("pointerleave", () => { active = false; px = -9999; schedule(); }, { passive: true });
+
+        window.addEventListener("touchmove", (e) => {
+          const t = e.touches[0];
+          if (t) setPos(t.clientX, t.clientY, true);
+        }, { passive: true });
+        window.addEventListener("touchend", () => { active = false; schedule(); }, { passive: true });
+
+        function idlePulse() {
+          if (!active) {
+            if (Math.random() < 0.12) {
+              px = Math.random() * w;
+              py = Math.random() * h;
+              schedule();
+              setTimeout(function () {
+                if (!active) { px = -9999; schedule(); }
+              }, 200);
+            }
+          }
+          setTimeout(idlePulse, 350 + Math.random() * 450);
+        }
+        idlePulse();
+      })();
+
     })();
   </script>
 </body>
