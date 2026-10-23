@@ -6,19 +6,17 @@
   <meta name="description" content="Starz & Cappy — neon rave cyber cat transmission EST. 2020">
   <meta name="theme-color" content="#0a0014">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta name="permissions-policy" content="camera=(), microphone=(), geolocation=(), payment=(), accelerometer=(self), gyroscope=(self)">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self' https://api.wotd.site; base-uri 'self'; form-action 'self'; frame-ancestors 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; base-uri 'self'; form-action 'self'">
   <title>STARZ & CAPPY // RAVE FREQUENCY</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23070012'/%3E%3Cpath d='M16 4l3.5 8.2 8.5.8-6.4 5.8 1.9 8.7L16 23l-7.5 4.5 1.9-8.7L4 13l8.5-.8z' fill='%23ff2bd6' stroke='%2300f0ff' stroke-width='1.5'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Press+Start+2P&family=Inter:wght@400;600&display=swap" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Press+Start+2P&family=Inter:wght@400;600&display=swap"></noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Press+Start+2P&family=Inter:wght@400&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Press+Start+2P&family=Inter:wght@400&display=swap"></noscript>
   <style>
     :root {
       --pink: #ff2bd6; --cyan: #00f0ff; --acid: #c8ff00; --violet: #b400ff;
-      --yellow: #ffe600; --orange: #ff6b00; --bg: #070012; --bg2: #0e0020;
-      --surface: #140028; --text: #f0e8ff; --muted: #a090c0;
+      --yellow: #ffe600; --bg: #070012; --text: #f0e8ff; --muted: #a090c0;
       --ticker-bg: #000; --ticker-fg: #39ff14;
       --font-display: "Orbitron", system-ui, sans-serif;
       --font-pixel: "Press Start 2P", monospace;
@@ -28,20 +26,9 @@
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { color-scheme: dark; scroll-behavior: smooth; }
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-      .ticker-track, .brand, .hero-copy h1, .led-border, .grid-floor { animation: none !important; }
-      .grid-floor, .rave-bg, .shell { transform: none !important; }
-      .tilt-arm { display: none !important; }
-    }
     body {
       font-family: var(--font-body); background: var(--bg); color: var(--text);
-      min-height: 100dvh; overflow-x: hidden; line-height: 1.55; position: relative;
+      min-height: 100vh; min-height: 100dvh; overflow-x: hidden; line-height: 1.55; position: relative;
     }
     .rave-bg {
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
@@ -58,6 +45,7 @@
       background-size: 48px 48px;
       transform: perspective(400px) rotateX(calc(68deg + var(--tilt-x))) rotateY(var(--tilt-y)) translate3d(var(--tilt-tx), var(--tilt-ty), 0);
       transform-origin: center bottom;
+      -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.7), transparent 85%);
       mask-image: linear-gradient(to top, rgba(0,0,0,0.7), transparent 85%);
       animation: grid-pulse 6s ease-in-out infinite alternate;
       will-change: transform;
@@ -100,7 +88,7 @@
     .ticker-track { display: flex; width: max-content; animation: ticker-scroll 24s linear infinite; will-change: transform; }
     .ticker-segment { display: inline-flex; align-items: center; white-space: nowrap; padding-right: 3.5rem; flex-shrink: 0; }
     .tick-label { color: #5a8a5a; margin-right: 0.35rem; }
-    .tick-val { color: var(--ticker-fg); letter-spacing: 0.04em; }
+    .tick-val { color: var(--ticker-fg); letter-spacing: 0.04em; margin-right: 0.6rem; }
     .tick-val.amber { color: var(--yellow); text-shadow: 0 0 8px var(--yellow); }
     .tick-sep { color: #2a4a2a; margin: 0 1.1rem; }
     @keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
@@ -111,7 +99,7 @@
     .topbar {
       position: sticky; top: var(--ticker-h); z-index: 40; display: flex; align-items: center; justify-content: space-between;
       gap: 1rem; flex-wrap: wrap; padding: 0.9rem 5%; background: rgba(8,0,20,0.75);
-      border-bottom: 1px solid rgba(0,240,255,0.25); backdrop-filter: blur(14px) saturate(1.6);
+      border-bottom: 1px solid rgba(0,240,255,0.25); -webkit-backdrop-filter: blur(14px) saturate(1.6); backdrop-filter: blur(14px) saturate(1.6);
     }
     .brand {
       font-family: var(--font-display); font-weight: 900; font-size: clamp(1.15rem, 3.5vw, 1.7rem); letter-spacing: 0.06em;
@@ -126,7 +114,7 @@
     .nav a:hover { color: var(--acid); text-shadow: 0 0 10px var(--acid); }
     .hero { display: grid; grid-template-columns: 1.05fr 0.95fr; min-height: min(72vh, 640px); position: relative; }
     .hero-photo { position: relative; overflow: hidden; background: #000; min-height: 18rem; }
-    .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; filter: contrast(1.15) saturate(1.3) hue-rotate(-5deg); transition: filter 0.4s, transform 0.6s; }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; cursor: pointer; filter: contrast(1.15) saturate(1.3) hue-rotate(-5deg); transition: filter 0.4s, transform 0.6s; }
     .hero-photo:hover img { transform: scale(1.04); filter: contrast(1.25) saturate(1.5) hue-rotate(15deg); }
     .hero-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(180,0,255,0.25), transparent 50%, rgba(0,240,255,0.2)); mix-blend-mode: screen; pointer-events: none; }
     .hero-copy { display: flex; flex-direction: column; justify-content: center; padding: 2.5rem 5vw; gap: 0.9rem; background: linear-gradient(160deg, #100028, #080014); position: relative; }
@@ -177,7 +165,7 @@
     footer p + p { margin-top: 0.4rem; opacity: 0.8; }
     .glitch-hover:hover { animation: glitch 0.35s steps(2) infinite; }
     @keyframes glitch { 0% { transform: translate(0); } 25% { transform: translate(-2px,1px); filter: hue-rotate(90deg); } 50% { transform: translate(2px,-1px); filter: hue-rotate(-90deg); } 75% { transform: translate(-1px,-1px); } 100% { transform: translate(0); } }
-    a:focus-visible, button:focus-visible, .chip:focus-visible, .pay:focus-visible, .boot-close:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
     .rave-bg, .grid-floor, .scanlines, .vhs, .led-border, .signal-meter, .signal-label { contain: layout style paint; }
 
     /* CRT static finger tracker */
@@ -189,8 +177,10 @@
     }
     @media (prefers-reduced-motion: reduce) {
       #crt-static { display: none !important; }
+      .grid-floor, .vhs, .led-border, .ticker-track, .brand, .hero-copy h1 { animation: none !important; }
+      .grid-floor, .rave-bg, .shell { transform: none !important; }
+      .tilt-arm { display: none !important; }
     }
-
     @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; min-height: auto; }
       .hero-photo { min-height: 16rem; max-height: 46vh; }
@@ -258,11 +248,6 @@
     }
     .boot-close:hover { background: var(--acid); }
     .card.holding, .post-card.holding { border-color: var(--acid) !important; box-shadow: 0 0 24px rgba(200,255,0,0.35), 0 12px 36px rgba(0,0,0,0.6) !important; transform: scale(0.98); }
-    @media (prefers-reduced-motion: reduce) {
-      .signal-meter, .signal-label { display: none !important; }
-      .phosphor { text-shadow: none !important; }
-      .boot-panel .boot-line { animation: none; opacity: 1; transform: none; }
-    }
   </style>
 </head>
 <body>
@@ -284,8 +269,11 @@
   <span class="smiley" aria-hidden="true">☻</span>
   <div class="ticker" role="marquee" aria-label="Word of the Day ticker">
     <div class="ticker-track" id="ticker-track">
-      <div class="ticker-segment" id="ticker-a">Loading ticker…</div>
-      <div class="ticker-segment" id="ticker-b" aria-hidden="true">Loading ticker…</div>
+      <div class="ticker-segment">
+        <span class="tick-label">WOTD</span><span class="tick-val amber">ACCOUNTABILITY</span>
+        <span class="tick-label">— The institutional requirement that individuals answer for outcomes. Used to expand oversight while shifting risk downward.</span>
+        <span class="tick-sep">•</span>
+      </div>
     </div>
   </div>
   <div class="led-border" aria-hidden="true"></div>
@@ -323,7 +311,7 @@
           <div class="card-body"><h3>Starz</h3><p class="role">THE SUPERVISOR</p><p>Striped overlord of the cardboard empire. Claims every sunbeam. Approves or rejects all human activity with a single blink.</p></div>
         </article>
         <article class="card" data-cat="cappy">
-          <img src="IMG_0724.jpeg" alt="Captain in royal floof mode" width="800" height="600" loading="lazy" decoding="async">
+          <img src="IMG_0600.jpg" alt="Captain in royal floof mode" width="600" height="800" loading="lazy" decoding="async" style="object-position:center 42%">
           <div class="card-body"><h3>Captain</h3><p class="role">THE ROYAL FLOOF</p><p>Cream-colored diplomat of deep sleep. Occupies furniture with absolute authority. Judges silently from the highest perch.</p></div>
         </article>
       </div>
@@ -331,9 +319,9 @@
     <section class="wrap" id="feed" aria-labelledby="feed-title">
       <h2 class="section-title" id="feed-title">FEED</h2>
       <div class="filters" role="group" aria-label="Filter posts">
-        <button type="button" class="chip active" data-filter="all">ALL</button>
-        <button type="button" class="chip" data-filter="starz">STARZ</button>
-        <button type="button" class="chip" data-filter="cappy">CAPPY</button>
+        <button type="button" class="chip active" data-filter="all" aria-pressed="true">ALL</button>
+        <button type="button" class="chip" data-filter="starz" aria-pressed="false">STARZ</button>
+        <button type="button" class="chip" data-filter="cappy" aria-pressed="false">CAPPY</button>
       </div>
       <div class="posts">
         <article class="post-card" data-cat="starz">
@@ -386,51 +374,52 @@
       const CAPPY_STATUS = ["FLOPPY","PRO NAPPER","CREAM PUFF","DEEP SLEEP","SUNBEAM SEEKER","ROYAL FLOOF","COZY MODE","SILENT JUDGE"];
       function daySeed() { const d = new Date(); return d.getFullYear() * 1000 + d.getMonth() * 50 + d.getDate(); }
       function pick(list, offset) { return list[Math.abs(daySeed() + offset) % list.length]; }
-      function escapeHtml(str) { const d = document.createElement("div"); d.textContent = str; return d.innerHTML; }
-      function buildSegment(word, def) {
-        let html = "";
-        if (word) {
-          html += `<span class="tick-label">WOTD</span><span class="tick-val amber">${escapeHtml(String(word).toUpperCase())}</span>`;
-          if (def) { const short = String(def).length > 70 ? String(def).slice(0, 70) + "…" : String(def); html += ` <span class="tick-label">— ${escapeHtml(short)}</span>`; }
-        } else { html += `<span class="tick-label">WOTD</span><span class="tick-val amber">LOADING</span>`; }
-        html += `<span class="tick-sep">•</span>`;
-        return html;
-      }
-      function renderTicker(word, def) {
-        const content = buildSegment(word, def);
-        const a = document.getElementById("ticker-a"); const b = document.getElementById("ticker-b");
-        if (a) a.innerHTML = content; if (b) b.innerHTML = content;
-      }
-      const pS = document.getElementById("pill-starz"); const pC = document.getElementById("pill-cappy");
-      if (pS) pS.textContent = pick(STARZ_STATUS, 0);
-      if (pC) pC.textContent = pick(CAPPY_STATUS, 3);
-      const WOTD_WORD = "ACCOUNTABILITY";
-      const WOTD_DEF = "The institutional requirement that individuals answer for outcomes. Used to expand oversight while shifting risk downward.";
-      if (WOTD_WORD) renderTicker(WOTD_WORD, WOTD_DEF);
-      else {
-        fetch("https://api.wotd.site/query", { headers: { Accept: "application/json" } })
-          .then(r => { if (!r.ok) throw new Error("fail"); return r.json(); })
-          .then(data => renderTicker(data && data.word ? data.word : null, data && data.definition ? data.definition : ""))
-          .catch(() => renderTicker("CURIOSITY", "The state of wanting to know more."));
-      }
-      document.querySelectorAll(".chip").forEach(chip => {
+      document.getElementById("pill-starz").textContent = pick(STARZ_STATUS, 0);
+      document.getElementById("pill-cappy").textContent = pick(CAPPY_STATUS, 3);
+
+      // Ticker: repeat the segment so each half of the track is at least one screen wide (no blank gap on wide screens).
+      (function ticker() {
+        const track = document.getElementById("ticker-track");
+        const original = track.firstElementChild;
+        const BASE_SECONDS = 24;
+        function fill() {
+          while (track.children.length > 1) track.lastElementChild.remove();
+          const width = original.getBoundingClientRect().width;
+          if (!width) return;
+          const half = Math.max(1, Math.ceil(window.innerWidth / width));
+          for (let i = 1; i < half * 2; i++) {
+            const copy = original.cloneNode(true);
+            copy.setAttribute("aria-hidden", "true");
+            track.appendChild(copy);
+          }
+          track.style.animationDuration = BASE_SECONDS * half + "s";
+        }
+        let pending = 0;
+        function refill() { cancelAnimationFrame(pending); pending = requestAnimationFrame(fill); }
+        fill();
+        window.addEventListener("load", refill);
+        window.addEventListener("resize", refill, { passive: true });
+        if (document.fonts) document.fonts.addEventListener("loadingdone", refill);
+      })();
+      const chips = document.querySelectorAll(".chip");
+      const postCards = document.querySelectorAll(".post-card");
+      chips.forEach(chip => {
         chip.addEventListener("click", () => {
-          document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
-          chip.classList.add("active");
-          const f = chip.dataset.filter;
-          document.querySelectorAll(".post-card").forEach(card => {
-            card.style.display = (f === "all" || card.dataset.cat === f) ? "" : "none";
+          chips.forEach(c => {
+            const on = c === chip;
+            c.classList.toggle("active", on);
+            c.setAttribute("aria-pressed", String(on));
           });
+          const f = chip.dataset.filter;
+          postCards.forEach(card => { card.hidden = !(f === "all" || card.dataset.cat === f); });
         });
       });
       const heroImg = document.getElementById("hero-cat");
       const led = document.querySelector(".led-border");
+      const calm = window.matchMedia("(prefers-reduced-motion: reduce)");
       if (heroImg && led) {
-        heroImg.style.cursor = "pointer";
-        heroImg.title = "Tap the keyboard cat…";
         heroImg.addEventListener("click", () => {
           led.style.animation = "none";
-          led.offsetHeight;
           led.style.boxShadow = "0 0 50px #00f0ff, 0 0 90px #ff2bd6, inset 0 0 40px rgba(0,240,255,0.3)";
           led.style.borderColor = "#00f0ff";
           setTimeout(() => {
@@ -438,16 +427,16 @@
             led.style.boxShadow = "";
             led.style.borderColor = "";
           }, 900);
+          if (calm.matches) return;
           for (let i = 0; i < 6; i++) {
             const note = document.createElement("span");
-            note.textContent = ["♪","♫","♬","♩","☺"][i % 5];
-            note.style.cssText = `position:fixed;left:${15+Math.random()*70}%;top:42%;font-size:${1.3+Math.random()}rem;color:#c8ff00;text-shadow:0 0 12px #c8ff00;pointer-events:none;z-index:10003;transition:transform 1.5s ease-out,opacity 1.5s ease-out;opacity:1;`;
+            note.textContent = "♪♫♬♩☺"[i % 5];
+            note.style.cssText = `position:fixed;left:${15 + Math.random() * 70}%;top:42%;font-size:${1.3 + Math.random()}rem;color:#c8ff00;text-shadow:0 0 12px #c8ff00;pointer-events:none;z-index:10003;`;
             document.body.appendChild(note);
-            requestAnimationFrame(() => {
-              note.style.transform = `translateY(-140px) translateX(${(Math.random()-0.5)*100}px) scale(1.5) rotate(${(Math.random()-0.5)*40}deg)`;
-              note.style.opacity = "0";
-            });
-            setTimeout(() => note.remove(), 1600);
+            note.animate([
+              { transform: "none", opacity: 1 },
+              { transform: `translate(${(Math.random() - 0.5) * 100}px, -140px) scale(1.5) rotate(${(Math.random() - 0.5) * 40}deg)`, opacity: 0 }
+            ], { duration: 1500, easing: "ease-out", fill: "forwards" }).onfinish = () => note.remove();
           }
         });
       }
@@ -497,18 +486,40 @@
         };
         const overlay = document.getElementById("boot-overlay");
         const panel = document.getElementById("boot-panel");
-        function openBoot(key) {
-          if (!overlay || !panel) return;
-          const lines = BOOT[key] || BOOT.default;
-          while (panel.firstChild) panel.removeChild(panel.firstChild);
-          const title = document.createElement("div"); title.className = "boot-title"; title.textContent = "▲ TRANSMISSION LOG ▲"; panel.appendChild(title);
-          lines.forEach(l => { const row = document.createElement("div"); row.className = "boot-line"; row.textContent = l; panel.appendChild(row); });
-          const closer = document.createElement("button"); closer.type = "button"; closer.className = "boot-close"; closer.textContent = "TAP TO CLOSE"; panel.appendChild(closer);
-          overlay.classList.add("open"); bumpSignal(2);
-          const close = () => overlay.classList.remove("open");
-          closer.addEventListener("click", close);
-          overlay.addEventListener("click", (e) => { if (e.target === overlay) close(); }, { once: true });
+        let lastFocus = null, openedAt = 0;
+        function closeBoot() {
+          if (!overlay.classList.contains("open")) return;
+          overlay.classList.remove("open");
+          if (lastFocus && lastFocus.focus) lastFocus.focus();
         }
+        function openBoot(key) {
+          const lines = BOOT[key] || BOOT.default;
+          panel.replaceChildren();
+          const title = document.createElement("div");
+          title.className = "boot-title";
+          title.textContent = "▲ TRANSMISSION LOG ▲";
+          panel.appendChild(title);
+          lines.forEach(l => {
+            const row = document.createElement("div");
+            row.className = "boot-line";
+            row.textContent = l;
+            panel.appendChild(row);
+          });
+          const closer = document.createElement("button");
+          closer.type = "button";
+          closer.className = "boot-close";
+          closer.textContent = "TAP TO CLOSE";
+          closer.addEventListener("click", closeBoot);
+          panel.appendChild(closer);
+          lastFocus = document.activeElement;
+          openedAt = performance.now();
+          overlay.classList.add("open");
+          closer.focus();
+          bumpSignal(2);
+        }
+        // Ignore the release of the long-press that opened the log, then close on backdrop tap or Escape.
+        overlay.addEventListener("click", (e) => { if (e.target === overlay && performance.now() - openedAt > 400) closeBoot(); });
+        document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeBoot(); });
         function bindHold(el, key) {
           let timer = null;
           const start = () => { el.classList.add("holding"); timer = setTimeout(() => { timer = null; el.classList.remove("holding"); openBoot(key); }, HOLD_MS); };
@@ -521,15 +532,7 @@
           el.addEventListener("mouseup", cancel);
           el.addEventListener("mouseleave", cancel);
         }
-        document.querySelectorAll(".card, .post-card").forEach(card => {
-          const cat = card.dataset.cat || "";
-          if (!cat) {
-            const h = (card.querySelector("h3") || {}).textContent || "";
-            bindHold(card, h.toLowerCase().includes("starz") ? "starz" : h.toLowerCase().includes("captain") ? "cappy" : "default");
-          } else {
-            bindHold(card, cat.includes("starz") ? "starz" : cat.includes("cappy") ? "cappy" : "default");
-          }
-        });
+        document.querySelectorAll(".card, .post-card").forEach(card => bindHold(card, card.dataset.cat));
       })();
       (function tiltCam() {
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -686,7 +689,7 @@
         }, { passive: true });
         window.addEventListener("pointerdown", (e) => setPos(e.clientX, e.clientY, true), { passive: true });
         window.addEventListener("pointerup", () => { active = false; schedule(); }, { passive: true });
-        window.addEventListener("pointerleave", () => { active = false; px = -9999; schedule(); }, { passive: true });
+        document.documentElement.addEventListener("pointerleave", () => { active = false; px = -9999; schedule(); }, { passive: true });
 
         window.addEventListener("touchmove", (e) => {
           const t = e.touches[0];
